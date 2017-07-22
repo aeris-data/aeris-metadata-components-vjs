@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Vue Example</title>
+	<script type="text/javascript" component="aeris-data/aeris-commons-components-vjs@latest" src="https://rawgit.com/aeris-data/aeris-component-loader/master/aerisComponentLoader.js" ></script> 
+	
+	<style>
+	body {
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        height: 100%;
+      }
+	
+	</style>
+  </head>
+  <body>
+  
+ <style type="text/css">.metadata-container {
+    margin: 0 auto;
+    max-width: 1000px;
+  }
+  
+  .metadata-container .column {
+    width: 50%;
+}
+
+ .small-column {
+ 	witdh: 20%;
+ 	background-color: #d3d3d3;
+ 	padding:20px
+ }
+ 
+ .large-column {
+ 	width: 80%;
+ 	overflow-y: scroll;
+    padding: 2em;
+    flex: 2;
+ }
+
+.component-container {
+	margin:5px;
+}
+
+.sample-container {
+    display: flex;
+    height: 100vh;
+}
+
+.metadata-container.md-template-collection {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+}
+</style>
+
+<div class="sample-container">
+<div class="small-column">
+<h2>Langage</h2>
+<form action="">
+  <input type="radio" name="lang" value="en"> English   <input type="radio" name="lang" value="female"> French 
+</form>
+<h2>Dataset</h2>
+<form action="">
+  <input type="radio" name="dataset"  value="cc9e1df3-f292-496d-a754-6681d5260d54" onclick="document.querySelector('aeris-metadata').setAttribute('identifier', value)"> IASI   <input type="radio" name="dataset" checked="true" value="575882c0-64ce-4648-bb19-00030d5d63af" onclick="document.querySelector('aeris-metadata').setAttribute('identifier', value)"> IAGOS 
+</form>
+<h2>Theme</h2>
+<form action="">
+  <input type="radio" name="theme" checked="false" onclick="document.querySelector('#theme2').setAttribute('active', 'false');document.querySelector('#theme1').setAttribute('active', 'true');"> Blue <input checked="true" type="radio" name="theme" onclick="document.querySelector('#theme1').setAttribute('active', 'false');document.querySelector('#theme2').setAttribute('active', 'true');"> Red 
+</form>
+</div>
+
+<div class="large-column">
+
+<aeris-theme id="theme1" active="false" primary="#4765a0" emphasis="#f39c12"></aeris-theme>
+<aeris-theme id="theme2" active="true" primary="#F1684E" emphasis="#1B1B1B"></aeris-theme>
+<aeris-spinner></aeris-spinner>
+<aeris-metadata identifier="575882c0-64ce-4648-bb19-00030d5d63af" lang="fr" service="https://tomcat.francoisandre.info/catalogue/rest/metadatarecette/id/">
+<div class="metadata-container md-template-collection">
+<div class="column style-scope md-template-collection">
+<aeris-metadata-description markdown=""></aeris-metadata-description> 
+<aeris-metadata-contacts></aeris-metadata-contacts> 
+<aeris-metadata-temporal-extents></aeris-metadata-temporal-extents> 
+<aeris-metadata-information-links></aeris-metadata-information-links> 
+<aeris-metadata-data-links></aeris-metadata-data-links>
+<aeris-metadata-information></aeris-metadata-information>
+</div>
+<div class="column style-scope md-template-collection">
+ <aeris-metadata-doi></aeris-metadata-doi><aeris-metadata-quicklook-gallery></aeris-metadata-quicklook-gallery><aeris-metadata-disponibility-calendar calendar-type="quarter"></aeris-metadata-disponibility-calendar> <aeris-metadata-platforms></aeris-metadata-platforms> <aeris-metadata-formats></aeris-metadata-formats> <aeris-metadata-parameters></aeris-metadata-parameters> <aeris-metadata-publications></aeris-metadata-publications> <aeris-metadata-quicklook-gallery></aeris-metadata-quicklook-gallery></div>
+</div>
+</aeris-metadata>
+</div>
+</div>
+<script src="dist/build.js"></script>
+
+  </body>
+</html>
