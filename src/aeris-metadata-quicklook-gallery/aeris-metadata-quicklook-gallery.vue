@@ -16,7 +16,7 @@
         <h3><i class="fa fa-picture-o"></i> {{ $t('quicklook_gallery') }}</h3>
       </header>
       <main>
-   		   
+   		   A coder...
       </main>
     </div>
 </span>
