@@ -54,8 +54,8 @@ ljs.load('dep', function() {
 	Vue.customElement('aeris-metadata-contact', AerisMetadataContact);
 	window.registredAerisElements.push('aeris-metadata-contact')
 	
-	Vue.customElement('aeris-metadata-contact', AerisMetadataContact);
-	window.registredAerisElements.push('aeris-metadata-contact')
+	Vue.customElement('aeris-metadata-contacts', AerisMetadataContacts);
+	window.registredAerisElements.push('aeris-metadata-contacts')
 	
 	Vue.customElement('aeris-metadata-temporal-extent', AerisMetadataTemporalExtent);
 	window.registredAerisElements.push('aeris-metadata-temporal-extent')
