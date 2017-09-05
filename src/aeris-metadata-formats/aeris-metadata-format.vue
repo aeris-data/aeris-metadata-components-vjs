@@ -14,11 +14,11 @@
 </i18n>
 
 <template>
-<span class="aeris-metadata-format-host" v-if="visible">
+<span class="aeris-metadata-format-host" v-show="visible">
 
  <div class="metadata-format-container" v-bind:class="{ showBody: deployed }">
-      <header>
-        <span><h5>{{value.name}}</h5><span v-if="value.version" class="metadata-format-header"> (v.{{value.version}})</span></span>
+      <header class="format-header">
+        <span><h5 class="format-name">{{value.name}}</h5><span v-if="value.version" class="metadata-format-header"> (v.{{value.version}})</span></span>
         <i class="fa fa-chevron-down" v-on:click="deployed = !deployed" v-if="hasMore"></i>
       </header>
      <article  v-if="hasMore">
@@ -122,12 +122,12 @@ export default {
   	
   	ensureTheme: function() {
   	if (this.theme) {
-  	var elems = this.$el.querySelectorAll('article h5');
-	    var index = 0, length = elems.length;
-    	for ( ; index < length; index++) {
-        	elems[index].style.color=this.theme.primary
-    	}
-    }
+//  	var elems = this.$el.querySelectorAll('article h5');
+//	    var index = 0, length = elems.length;
+//    	for ( ; index < length; index++) {
+//        	elems[index].style.color=this.theme.primary
+//    	}
+      }
   	}
   }
 }
@@ -142,6 +142,11 @@ export default {
     .aeris-metadata-international-field {
         width: 100%
     }
+    
+    .aeris-metadata-format-host .format-header {
+    	background-color: white;
+    }
+    
     .metadata-format-container {
         border: 1px solid #bbb;
         overflow: hidden
@@ -153,7 +158,7 @@ export default {
         flex-flow: nowrap row;
         padding: 10px
     }
-    .metadata-format-container header h5 {
+    .metadata-format-container header h5.format-name {
         display: inline;
         margin: 0;
          color: #475053

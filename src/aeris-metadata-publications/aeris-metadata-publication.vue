@@ -167,8 +167,12 @@ export default {
       	background-color:white;
      }
       
-       header h5.aeris-publication-header{
+      .aeris-publication-container header h5.aeris-publication-header{
       	color:#475053;
+      }
+      
+      .aeris-metadata-publication-host header.aeris-publication-header {
+    	  background: white
       }
 		
      .aeris-metadata-publication-host {
