@@ -41,75 +41,40 @@ ljs.addAliases({
 })
 ljs.load('dep', function() {
 	
-	if (!window.registredAerisElements) {
-		window.registredAerisElements = [];
+	function registerElement(name, component) {
+		if (!window.registredAerisElements) {
+			window.registredAerisElements = [];
+		}
+		if (window.registredAerisElements.indexOf(name) < 0) {
+			Vue.customElement(name, component);
+			window.registredAerisElements.push(name)
+		}
 	}
 	
 	console.info("Début registration des custom elements metadata")
 	console.info("Registred elements at this time: "+window.registredAerisElements)
 	
-	Vue.customElement('aeris-metadata-international-field', AerisMetadataInternationalField);
-	window.registredAerisElements.push('aeris-metadata-international-field')
-	
-	Vue.customElement('aeris-metadata-contact', AerisMetadataContact);
-	window.registredAerisElements.push('aeris-metadata-contact')
-	
-	Vue.customElement('aeris-metadata-contacts', AerisMetadataContacts);
-	window.registredAerisElements.push('aeris-metadata-contacts')
-	
-	Vue.customElement('aeris-metadata-temporal-extent', AerisMetadataTemporalExtent);
-	window.registredAerisElements.push('aeris-metadata-temporal-extent')
-
-	Vue.customElement('aeris-metadata-temporal-extents', AerisMetadataTemporalExtents);
-	window.registredAerisElements.push('aeris-metadata-temporal-extents')
-	
-	Vue.customElement('aeris-metadata-formats', AerisMetadataFormats);
-	window.registredAerisElements.push('aeris-metadata-formats')
-	
-	Vue.customElement('aeris-metadata-format', AerisMetadataFormat);
-	window.registredAerisElements.push('aeris-metadata-format')
-	
-	Vue.customElement('aeris-metadata-description', AerisMetadataDescription);
-	window.registredAerisElements.push('aeris-metadata-description')
-	
-	Vue.customElement('aeris-metadata', AerisMetadata);
-	window.registredAerisElements.push('aeris-metadata')
-	
-	Vue.customElement('aeris-metadata-information-link',AerisMetadataInformationLink);
-	window.registredAerisElements.push('aeris-metadata-information-link')
-	
-	Vue.customElement('aeris-metadata-information-links',AerisMetadataInformationLinks);
-	window.registredAerisElements.push('aeris-metadata-information-links')
-	
-	Vue.customElement('aeris-metadata-data-links',AerisMetadataDataLinks);
-	window.registredAerisElements.push('aeris-metadata-data-links')
-	
-	Vue.customElement('aeris-metadata-information',AerisMetadataInformation);
-	window.registredAerisElements.push('aeris-metadata-information')
-	
-	Vue.customElement('aeris-metadata-publications',AerisMetadataPublications);
-	window.registredAerisElements.push('aeris-metadata-publications')
-	
-	Vue.customElement('aeris-metadata-publication',AerisMetadataPublication);
-	window.registredAerisElements.push('aeris-metadata-publication')
-	
-	Vue.customElement('aeris-metadata-parameters',AerisMetadataParameters);
-	window.registredAerisElements.push('aeris-metadata-parameters')
-	
-	Vue.customElement('aeris-metadata-parameter',AerisMetadataParameter);
-	window.registredAerisElements.push('aeris-metadata-parameter')
-	
-	Vue.customElement('aeris-metadata-platforms',AerisMetadataPlatforms);
-	window.registredAerisElements.push('aeris-metadata-platforms')
-	
-	Vue.customElement('aeris-metadata-platform',AerisMetadataPlatform);
-	window.registredAerisElements.push('aeris-metadata-platform')
-	
-	Vue.customElement('aeris-metadata-quicklook-gallery',AerisMetadataQuicklookGallery);
-	window.registredAerisElements.push('aeris-metadata-quicklook-gallery')
-	
-	Vue.customElement('aeris-metadata-doi', AerisMetadataDoi);
-	window.registredAerisElements.push('aeris-metadata-doi')
+	registerElement('aeris-metadata-international-field', AerisMetadataInternationalField);
+	registerElement('aeris-metadata-contact', AerisMetadataContact);
+	registerElement('aeris-metadata-contacts', AerisMetadataContacts);
+	registerElement('aeris-metadata-temporal-extent', AerisMetadataTemporalExtent);
+	registerElement('aeris-metadata-temporal-extents', AerisMetadataTemporalExtents);
+	registerElement('aeris-metadata-formats', AerisMetadataFormats);
+	registerElement('aeris-metadata-format', AerisMetadataFormat);
+	registerElement('aeris-metadata-description', AerisMetadataDescription);
+	registerElement('aeris-metadata', AerisMetadata);
+	registerElement('aeris-metadata-information-link',AerisMetadataInformationLink);
+	registerElement('aeris-metadata-information-links',AerisMetadataInformationLinks);
+	registerElement('aeris-metadata-data-links',AerisMetadataDataLinks);
+	registerElement('aeris-metadata-information',AerisMetadataInformation);
+	registerElement('aeris-metadata-publications',AerisMetadataPublications);
+	registerElement('aeris-metadata-publication',AerisMetadataPublication);
+	registerElement('aeris-metadata-parameters',AerisMetadataParameters);
+	registerElement('aeris-metadata-parameter',AerisMetadataParameter);
+	registerElement('aeris-metadata-platforms',AerisMetadataPlatforms);
+	registerElement('aeris-metadata-platform',AerisMetadataPlatform);
+	registerElement('aeris-metadata-quicklook-gallery',AerisMetadataQuicklookGallery);
+	registerElement('aeris-metadata-doi', AerisMetadataDoi);
 	
 	window.registredAerisElements.push('aeris-metadata-components-vjs')
 })
