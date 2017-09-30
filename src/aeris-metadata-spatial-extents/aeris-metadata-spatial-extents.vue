@@ -1,0 +1,224 @@
+/*
+ dependances: 
+
+metadata-shared-styles.html
+metadata-format.html
+
+*/
+<i18n>
+{
+  "en": {
+    "spatialextents": "Spatial extents"
+  },
+  "fr": {
+    "spatialextents": "Extension spatiale"
+  }
+}
+</i18n>
+
+<template>
+<span class="aeris-metadata-spatial-extent-host" v-if="visible">
+<div class="component-container">
+      <header>
+        <h3><i class="fa fa-globe"></i> {{ $t('spatialextents') }}</h3>
+        <div class="aeris-icon-group"></div>
+      </header>
+      <main>
+      <div>
+      <!-- app map -->
+      <vl-map class="map" ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" :controls='controls'>
+        <!-- map view aka ol.View -->
+        <vl-view ref="view" :center="center" :zoom.sync="zoom" :rotation.sync="rotation"/>
+       
+        <vl-layer-tile id="mapbox">
+          <vl-source-mapbox mapId="mapbox.streets-satellite" url="https://api.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={accessToken}" attributions="" accessToken="pk.eyJ1IjoiZnJhbmNvaXNhbmRyZSIsImEiOiJjaXVlMGE5b3QwMDBoMm9tZGQ1M2xubzVhIn0.FK8gRVJb4ADNnrO6cNlWUw"/>
+        </vl-layer-tile>
+      
+        <vl-layer-vector v-if="onlyPoints">
+          <vl-source-cluster :distance="40">
+          <vl-source-vector>
+          <vl-feature v-for="(extent, index) in spatialExtents" :id="computeFeatureId(extent, index)" :key="computeFeatureId(extent, index)">
+          <vl-geom-point :coordinates="[extent.area.longitude, extent.area.latitude]" v-if="isPoint(extent)" />
+          <!--
+          <vl-style-box v-if="isPoint(extent)">
+          <vl-style-text font="16px FontAwesome" :text="markerIcon">
+          <vl-style-fill color="#E04006" />
+          <vl-style-stroke color="white" />
+        </vl-style-text>
+          </vl-style-box>
+          -->
+        </vl-feature>
+          </vl-source-vector>
+          
+          <vl-style-func :factory="clusterStyleFunc">
+          </vl-style-func>
+          
+          </vl-source-cluster>
+        </vl-layer-vector>
+          
+      
+      
+      
+      
+      
+      </vl-map>
+      </div>
+      </main>
+    </div>
+</span>
+</template>
+
+<script>
+import olcontrol from 'ol/control'
+import { core as vlCore } from 'vuelayers'
+export default {
+  props: {
+  	lang:  {
+      type: String,
+      default: 'en'
+    }
+  },
+  
+  watch: {
+    lang (value) {
+	      this.$i18n.locale = value
+    }
+  },
+  
+  destroyed: function() {
+  	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+  	this.aerisMetadataListener = null;
+    document.removeEventListener('aerisTheme', this.aerisThemeListener);
+  	this.aerisThemeListener = null;
+  },
+  
+  created: function () {
+   console.log("Aeris Metadata Spatial extents - Creating");
+   this.$i18n.locale = this.lang
+   this.aerisMetadataListener = this.handleRefresh.bind(this)
+   document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+   this.aerisThemeListener = this.handleTheme.bind(this) 
+   document.addEventListener('aerisTheme', this.aerisThemeListener);
+  },
+
+  mounted: function() {
+    	var event = new CustomEvent('aerisThemeRequest', {});
+  	document.dispatchEvent(event);
+  },
+  
+  computed: {
+	  controls : function() {
+		  var aux = olcontrol.defaults({attribution: false})
+		  console.log(aux.getArray())
+		  return aux
+	  },
+  
+  markerIcon : function() {
+		return '\uf041'
+	}
+  },
+   data () {
+    return {
+    	spatialExtents: [],
+    	visible: true,
+    	aerisThemeListener: null,
+    	aerisMetadataListener: null,
+    	center: [0, 0],
+        zoom: 2,
+        rotation: 0,
+        clickCoordinate: undefined,
+        selectedFeatures: [],
+        deviceCoordinate: undefined
+    }
+  },
+  methods: {
+	  
+    handleRefresh: function(data) {
+  		console.log("Aeris Metadata Spatial extents - Refreshing"); 
+    	this.visible = false
+    	if ((! data) || (! data.detail))  {
+    	 return
+    	}
+  		this.spatialExtents = [];
+  		this.lang = data.lang || this.lang
+  		if (data.detail.spatialExtents) {
+  		  this.visible = true;
+  		  console.log(data.detail.spatialExtents)
+          this.spatialExtents = data.detail.spatialExtents;
+       }
+       else {
+       	this.visible = false;
+       }
+  	},
+  	
+  	handleTheme: function(event) {
+  		this.$el.querySelector("header").style.background=event.detail.primary
+  	},
+  	
+  	onlyPoints: function() {
+  		for (var i = 0; i < this.spatialExtents.length; i++) {
+  		    if (this.isPoint(this.spatialExtents[i]) == false) {
+  		    	return false;
+  		    }
+  		}
+  		return true;
+  	},
+  	
+  	isPoint: function(extent) {
+  		if (extent.area.type=='POINT_AREA') {
+  			return true;
+  		}
+  	},
+  	
+  	computeFeatureId: function(extent, id) {
+  		return "Feature_"+extent.area.type+"_"+id;
+  	},
+  	
+  	clusterStyleFunc () {
+  	    const cache = {}
+
+  	    return function __clusterStyleFunc (feature) {
+  	      const size = feature.get('features').length
+  	      let style = cache[size]
+
+  	      if (!style) {
+  	    	if (size > 1) {
+  	        style = vlCore.styleHelper.style({
+  	          imageRadius: 10,
+  	          strokeColor: '#fff',
+  	          fillColor: '#E04006',
+  	          text: size.toString(),
+  	          textFillColor: '#fff',
+  	          textFont:  "13px Arial"
+  	        })
+  	    	}
+  	    	else {
+  	    		 style = vlCore.styleHelper.style({
+  	   	          strokeColor: '#fff',
+  	   	          fillColor: '#E04006',
+  	   	          textFont:  "30px FontAwesome",
+  	   	          text: '\uf041'
+  	   	          //textFillColor: '#fff',
+  	   	        })
+  	   	        
+  	    	}
+  	        cache[size] = style
+  	      }
+  	      return [style]
+  	    }
+  	  }
+  	
+  	
+  	
+  	
+  }
+}
+</script>
+
+<style>
+
+.ol-attribution.ol-control {
+    display: none;
+}
+
+ </style>

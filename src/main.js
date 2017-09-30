@@ -11,12 +11,18 @@ Vue.use(VueI18n);
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
 
+import VueLayers from 'vuelayers'
+
+Vue.use(VueLayers)
+
+console.log("UUUU")
 
 import AerisMetadataInternationalField from './aeris-metadata-international-field/aeris-metadata-international-field.vue'
 import AerisMetadataContact from './aeris-metadata-contacts/aeris-metadata-contact.vue'
 import AerisMetadataContacts from './aeris-metadata-contacts/aeris-metadata-contacts.vue'
 import AerisMetadataTemporalExtent from './aeris-metadata-temporal-extents/aeris-metadata-temporal-extent.vue'
 import AerisMetadataTemporalExtents from './aeris-metadata-temporal-extents/aeris-metadata-temporal-extents.vue'
+import AerisMetadataSpatialExtents from './aeris-metadata-spatial-extents/aeris-metadata-spatial-extents.vue'
 import AerisMetadata from './aeris-metadata/aeris-metadata.vue'
 import AerisMetadataFormats from './aeris-metadata-formats/aeris-metadata-formats.vue'
 import AerisMetadataFormat from './aeris-metadata-formats/aeris-metadata-format.vue'
@@ -37,7 +43,7 @@ import AerisMetadataDoi from './aeris-metadata-doi/aeris-metadata-doi.vue'
 
 ljs.addAliases({
 	photobox: ['https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js', 'https://rawgit.com/aeris-data/Photobox/master/dist/css/photobox.min.css', 'https://rawgit.com/aeris-data/Photobox/master/dist/js/photobox.min.js'],
-	dep: ['photobox', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', 'https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.4.1/document-register-element.js', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js']
+	dep: ['photobox', 'https://unpkg.com/vuelayers/lib/style.css', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', 'https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.4.1/document-register-element.js', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js']
 })
 ljs.load('dep', function() {
 	
@@ -59,6 +65,7 @@ ljs.load('dep', function() {
 	registerElement('aeris-metadata-contacts', AerisMetadataContacts);
 	registerElement('aeris-metadata-temporal-extent', AerisMetadataTemporalExtent);
 	registerElement('aeris-metadata-temporal-extents', AerisMetadataTemporalExtents);
+	registerElement('aeris-metadata-spatial-extents', AerisMetadataSpatialExtents);
 	registerElement('aeris-metadata-formats', AerisMetadataFormats);
 	registerElement('aeris-metadata-format', AerisMetadataFormat);
 	registerElement('aeris-metadata-description', AerisMetadataDescription);
