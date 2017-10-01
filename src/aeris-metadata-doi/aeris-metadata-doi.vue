@@ -137,7 +137,7 @@ export default {
   	},
   	
   	ensureTheme: function() {
-  	if (this.theme) {
+  	if ((this.theme) && (this.$el.querySelectorAll)) {
   	var elems = this.$el.querySelectorAll('article h5');
 	    var index = 0, length = elems.length;
     	for ( ; index < length; index++) {

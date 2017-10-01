@@ -96,7 +96,7 @@ export default {
   	},
   	
 	ensureTheme: function() {
-	if (this.theme) {
+	if ((this.theme) && (this.$el.querySelector)) {
 		this.$el.querySelector("header").style.background=this.theme.primary
 	}
 	

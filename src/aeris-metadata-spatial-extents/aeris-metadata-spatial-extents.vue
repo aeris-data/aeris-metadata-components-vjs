@@ -39,14 +39,6 @@ metadata-format.html
           <vl-source-vector>
           <vl-feature v-for="(extent, index) in spatialExtents" :id="computeFeatureId(extent, index)" :key="computeFeatureId(extent, index)">
           <vl-geom-point :coordinates="[extent.area.longitude, extent.area.latitude]" v-if="isPoint(extent)" />
-          <!--
-          <vl-style-box v-if="isPoint(extent)">
-          <vl-style-text font="16px FontAwesome" :text="markerIcon">
-          <vl-style-fill color="#E04006" />
-          <vl-style-stroke color="white" />
-        </vl-style-text>
-          </vl-style-box>
-          -->
         </vl-feature>
           </vl-source-vector>
           
@@ -55,7 +47,19 @@ metadata-format.html
           
           </vl-source-cluster>
         </vl-layer-vector>
-          
+   
+        <vl-layer-vector v-if="onlyRectangles">
+          <vl-source-vector>
+        <vl-feature v-for="(extent, index) in spatialExtents" :id="computeFeatureId(extent, index)" :key="computeFeatureId(extent, index)"> 
+        <vl-geom-polygon :coordinates="polygonCoords(extent)" v-if="isRectangle(extent)"></vl-geom-polygon>
+        <vl-style-box>
+        <vl-style-stroke color="#9c2c04" :width="2"></vl-style-stroke>
+        <vl-style-fill :color="[224, 64, 6, 0.3]"></vl-style-fill>
+        	</vl-style-box>
+        	</vl-feature>
+        	 </vl-source-vector>
+        </vl-layer-vector>
+             
       
       
       
@@ -109,7 +113,6 @@ export default {
   computed: {
 	  controls : function() {
 		  var aux = olcontrol.defaults({attribution: false})
-		  console.log(aux.getArray())
 		  return aux
 	  },
   
@@ -124,7 +127,7 @@ export default {
     	aerisThemeListener: null,
     	aerisMetadataListener: null,
     	center: [0, 0],
-        zoom: 2,
+        zoom: 1,
         rotation: 0,
         clickCoordinate: undefined,
         selectedFeatures: [],
@@ -143,7 +146,6 @@ export default {
   		this.lang = data.lang || this.lang
   		if (data.detail.spatialExtents) {
   		  this.visible = true;
-  		  console.log(data.detail.spatialExtents)
           this.spatialExtents = data.detail.spatialExtents;
        }
        else {
@@ -152,8 +154,20 @@ export default {
   	},
   	
   	handleTheme: function(event) {
-  		this.$el.querySelector("header").style.background=event.detail.primary
+  		if (this.$el.querySelector) {
+  			this.$el.querySelector("header").style.background=event.detail.primary
+  		}
   	},
+  	
+    polygonCoords: function(extent) {
+    	var un = [extent.area.eastLongitude, extent.area.northLatitude]
+    	var deux = [extent.area.eastLongitude, extent.area.southLatitude]
+    	var trois = [extent.area.westLongitude, extent.area.southLatitude]
+    	var quatre = [extent.area.westLongitude, extent.area.northLatitude]
+    	return [[un, deux, trois, quatre, un]]
+    	
+    },
+    
   	
   	onlyPoints: function() {
   		for (var i = 0; i < this.spatialExtents.length; i++) {
@@ -164,8 +178,24 @@ export default {
   		return true;
   	},
   	
+	onlyRectangles: function() {
+  		for (var i = 0; i < this.spatialExtents.length; i++) {
+  		    if (this.isRectangle(this.spatialExtents[i]) == false) {
+  		    	return false;
+  		    }
+  		}
+  		return true;
+  	},
+  	
   	isPoint: function(extent) {
   		if (extent.area.type=='POINT_AREA') {
+  			return true;
+  		}
+  	},
+  	
+
+  	isRectangle: function(extent) {
+  		if (extent.area.type=='RECTANGLE_AREA') {
   			return true;
   		}
   	},
@@ -189,7 +219,7 @@ export default {
   	          fillColor: '#E04006',
   	          text: size.toString(),
   	          textFillColor: '#fff',
-  	          textFont:  "13px Arial"
+  	          textFont:  "11px Arial"
   	        })
   	    	}
   	    	else {
@@ -198,7 +228,6 @@ export default {
   	   	          fillColor: '#E04006',
   	   	          textFont:  "30px FontAwesome",
   	   	          text: '\uf041'
-  	   	          //textFillColor: '#fff',
   	   	        })
   	   	        
   	    	}
