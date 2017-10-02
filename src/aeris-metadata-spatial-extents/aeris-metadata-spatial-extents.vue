@@ -75,6 +75,7 @@ metadata-format.html
 <script>
 import olcontrol from 'ol/control'
 import { core as vlCore } from 'vuelayers'
+
 export default {
   props: {
   	lang:  {
