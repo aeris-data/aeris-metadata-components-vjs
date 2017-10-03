@@ -139,6 +139,7 @@ export default {
 	  
     handleRefresh: function(data) {
   		console.log("Aeris Metadata Spatial extents - Refreshing"); 
+  	    console.log("You")
     	this.visible = false
     	if ((! data) || (! data.detail))  {
     	 return
@@ -152,6 +153,7 @@ export default {
        else {
        	this.visible = false;
        }
+  		console.log("Pi")
   	},
   	
   	handleTheme: function(event) {
@@ -202,7 +204,7 @@ export default {
   	},
   	
   	computeFeatureId: function(extent, id) {
-  		return "Feature_"+extent.area.type+"_"+id;
+  		return "Feature_"+Math.random().toString(36).substring(7)+"_"+extent.area.type+"_"+id;
   	},
   	
   	clusterStyleFunc () {
