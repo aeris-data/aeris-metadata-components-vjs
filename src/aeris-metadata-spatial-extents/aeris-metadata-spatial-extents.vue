@@ -23,7 +23,7 @@ metadata-format.html
         <h3><i class="fa fa-globe"></i> {{ $t('spatialextents') }}</h3>
         <div class="aeris-icon-group"></div>
       </header>
-      <main>
+      <main v-if="spatialExtents">
       <div>
       <!-- app map -->
       <vl-map class="map" ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" :controls='controls'>
@@ -123,7 +123,7 @@ export default {
   },
    data () {
     return {
-    	spatialExtents: [],
+    	spatialExtents: null,
     	visible: true,
     	aerisThemeListener: null,
     	aerisMetadataListener: null,
