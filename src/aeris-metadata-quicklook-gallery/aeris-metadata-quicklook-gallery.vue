@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<span class="aeris-metadata-quick-gallery-host" v-if="visible">
+<span class="aeris-metadata-quick-gallery-host" v-show="visible">
 <div class="component-container">
       <header>
         <h3><i class="fa fa-picture-o"></i> {{ $t('quicklook_gallery') }}</h3>

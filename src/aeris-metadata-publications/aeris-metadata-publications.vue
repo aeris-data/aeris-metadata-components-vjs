@@ -17,7 +17,7 @@ metadata-format.html
 </i18n>
 
 <template>
-<span class="aeris-metadata-temporal-extent-host" v-if="visible">
+<span class="aeris-metadata-temporal-extent-host" v-show="visible">
 <div class="component-container">
       <header>
         <h3><i class="fa fa-bookmark-o"></i> {{ $t('publications') }}</h3>
