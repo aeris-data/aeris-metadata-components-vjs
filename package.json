@@ -1,7 +1,7 @@
 {
   "name": "aeris-metadata-components-vjs",
   "description": "Aeris metadata components. ",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "author": "Aeris",
   "private": false,
   "scripts": {
