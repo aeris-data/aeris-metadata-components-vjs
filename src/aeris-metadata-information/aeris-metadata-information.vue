@@ -1,11 +1,10 @@
-
 <i18n>
 {
   "en": {
     "otherInformation": "Other information",
     "uuid": "Unique identifier",
     "lastModification": "Last modification",
-    "dataCenter": "Data centre",
+    "dataCenter": "AERIS data center",
     "projection": "Projection",
     "dataLevel": "Data processing level"
   },
@@ -13,7 +12,7 @@
     "otherInformation": "Autres informations",
     "uuid": "Identifiant unique",
     "lastModification": "Dernière modifications",
-    "dataCenter": "Centre de données",
+    "dataCenter": "Centre de données AERIS",
     "projection": "Projection",
     "dataLevel": "Niveau de traitement de la donnèes"
   }
@@ -82,8 +81,9 @@ export default {
   },
   
   destroyed: function() {
-  	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-  	this.aerisMetadataListener = null;
+	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+	this.aerisMetadataListener = null;
+		
   	document.removeEventListener('aerisTheme', this.aerisThemeListener);
   	this.aerisThemeListener = null;
   },
@@ -91,10 +91,10 @@ export default {
   created: function () {
   console.log("Aeris Metadata Information - Creating");
    this.$i18n.locale = this.lang
-  this.aerisMetadataListener = this.handleRefresh.bind(this)
-   document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
    this.aerisThemeListener = this.handleTheme.bind(this) 
    document.addEventListener('aerisTheme', this.aerisThemeListener);
+   this.aerisMetadataListener = this.handleRefresh.bind(this);
+   document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   },
   
   updated: function() {
@@ -132,7 +132,7 @@ export default {
   	},
   	
   	ensureTheme: function() {
-  	if ((this.theme) && (this.$el.querySelectorAll)) {
+  	if (this.theme) {
   	var elems = this.$el.querySelectorAll('article h5');
 	    var index = 0, length = elems.length;
     	for ( ; index < length; index++) {
