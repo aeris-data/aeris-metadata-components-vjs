@@ -48,7 +48,7 @@ metadata-format.html
       <span  v-for="role in roles">
         <h5 class="section-title">{{$t(role)}}</h5>
         <span  v-for="contact in contacts">
-          <aeris-metadata-contact :contact="JSON.stringify(contact)" :lang="lang"></aeris-metadata-contact>
+          <aeris-metadata-contact :contact="JSON.stringify(contact)" :lang="lang" v-if="hasRole(contact, role)"></aeris-metadata-contact>
         </span>
        </span>
      
@@ -114,7 +114,11 @@ export default {
     
   },
   methods: {
-  
+	  
+	hasRole: function(contact, role) {
+		return (contact.roles.indexOf(role) >= 0)
+	},
+	
     handleRefresh: function(data) {
   		console.log("Aeris Metadata Contacts - Refreshing"); 
     	this.visible = false
