@@ -1,3 +1,13 @@
+<i18n>
+{
+  "en": {
+    "loading": "Loading..."
+  },
+  "fr": {
+    "loading": "Chargement"
+  }
+}
+</i18n>
 <template>
 <span class="aeris-metadata-host" v-if="visible">
  <div id="aerisMetadataContent" class="aeris-metadata_content grid">
@@ -38,7 +48,7 @@ export default {
    
   watch: {
     lang (value) {
-	      //this.$i18n.locale = value
+	      this.$i18n.locale = value
     },
     
     identifier() {
@@ -50,7 +60,7 @@ export default {
   },
   
   mounted: function () {
-   //this.$i18n.locale = this.lang;
+   this.$i18n.locale = this.lang;
   	this.refresh();
   },
   
@@ -61,11 +71,16 @@ export default {
   methods: {
   
   refresh: function() {
-  	   if (this.service && this.identifier) {
+	  //Reset
+	  var event = new CustomEvent('aerisMetadataRefreshed', {detail: {}, lang: this.lang});
+	  document.dispatchEvent(event);
+  	  
+	  if (this.service && this.identifier) {
 	   var url = this.service+'/'+this.identifier;
 	   if (this.service.endsWith('/')) {
 	   	 url = this.service+this.identifier;
 	   }
+	   document.dispatchEvent(new CustomEvent('aerisLongActionStartEvent', { 'detail': {message: this.$i18n.t('loading')}}))
    	   this.$http.get(url).then((response)=>{this.handleSuccess(response)},(response)=>{this.handleError(response)});
    	   }
    },
@@ -75,6 +90,7 @@ export default {
       },
       
   handleSuccess : function(response) {
+	    document.dispatchEvent(new CustomEvent('aerisLongActionStopEvent', { 'detail': {message: this.$i18n.t('loading')}}))
         var tempString = JSON.stringify(response.data);
         console.log("tempString: "+tempString)
         tempString = this.replaceAll(tempString, '"fre"', '"fr"');
@@ -93,6 +109,7 @@ export default {
   },
       
   handleError: function(response) {
+	    document.dispatchEvent(new CustomEvent('aerisLongActionStopEvent', { 'detail': {message: this.$i18n.t('loading')}}))
   		console.log("Aeris-Metadata - Error while accessing server:"); 
         var error = response.status;
         var message = response.statusText;

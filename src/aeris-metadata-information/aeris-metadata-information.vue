@@ -114,13 +114,13 @@ export default {
   },
   methods: {
   
-    handleRefresh: function(data) {
+    handleRefresh: function(e) {
   		console.log("Aeris Metadata Information - Refreshing"); 
     	this.visible = false
-    	if ((! data) || (! data.detail))  {
+    	if ((! e) || (! e.detail) || (! e.detail.identifier))  {
     	 return
     	}
-  		this.value = data.detail;
+  		this.value = e.detail;
   		this.lang = data.lang || this.lang
 		this.visible = true;
   	},
