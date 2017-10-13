@@ -117,11 +117,11 @@ export default {
     handleRefresh: function(e) {
   		console.log("Aeris Metadata Information - Refreshing"); 
     	this.visible = false
-    	if ((! e) || (! e.detail) || (! e.detail.identifier))  {
+    	if ((! e) || (! e.detail) || (! e.detail.id))  {
     	 return
     	}
   		this.value = e.detail;
-  		this.lang = data.lang || this.lang
+  		this.lang = e.lang || this.lang
 		this.visible = true;
   	},
   	
