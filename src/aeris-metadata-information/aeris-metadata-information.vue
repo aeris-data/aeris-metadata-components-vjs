@@ -20,7 +20,7 @@
 </i18n>
 
 <template>
-<span class="aeris-metadata-information-host" v-if="visible">
+<span class="aeris-metadata-information-host" v-show="visible">
  <div class="component-container">
       <header>
         <h3><i class="fa fa-info"></i>{{$t('otherInformation')}}</h3>
