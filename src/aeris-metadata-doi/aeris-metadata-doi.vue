@@ -1,5 +1,5 @@
 /*
- dependances: 
+ dependances:
 
 metadata-shared-styles.html
 metadata-format.html
@@ -11,7 +11,7 @@ metadata-format.html
     "header": "How to cite this product ?",
     "doi": "DOI",
     "citation": "Citation"
-    
+
   },
   "fr": {
     "header": "Comment citer ce produit ?",
@@ -22,7 +22,7 @@ metadata-format.html
 </i18n>
 
 <template>
-<span class="aeris-metadata-doi-host" v-if="visible">
+<span class="aeris-metadata-doi-host" v-show="visible">
 <div class="component-container">
       <header>
         <h3><i class="fa fa-pencil"></i> {{ $t('header') }}</h3>
@@ -34,7 +34,7 @@ metadata-format.html
         <div class="metadata-doi-description" v-if="citation">
           <h5 v-if="citation">{{$t('citation')}}:</h5>{{citation}}</div>
 	</article>
-	</main>	      
+	</main>
     </div>
 </span>
 </template>
@@ -47,7 +47,7 @@ export default {
       default: 'en'
     }
   },
-  
+
   watch: {
     lang (value) {
 	      this.$i18n.locale = value
@@ -60,20 +60,20 @@ export default {
    	   }
     }
   },
-  
+
   destroyed: function() {
   	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   	this.aerisMetadataListener = null;
   	document.removeEventListener('aerisTheme', this.aerisThemeListener);
   	this.aerisThemeListener = null;
   },
-  
+
   created: function () {
   console.log("Aeris Metadata doi - Creating");
    this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-   this.aerisThemeListener = this.handleTheme.bind(this) 
+   this.aerisThemeListener = this.handleTheme.bind(this)
    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
@@ -81,9 +81,9 @@ export default {
      	var event = new CustomEvent('aerisThemeRequest', {});
   	document.dispatchEvent(event);
   },
-  
+
   computed: {
-  	
+
   },
 
    data () {
@@ -96,15 +96,15 @@ export default {
     	aerisMetadataListener: null
     }
   },
-  
+
   updated: function() {
   	this.ensureTheme()
   },
-  
+
   methods: {
-  
+
     handleRefresh: function(data) {
-  		console.log("Aeris Metadata Citation - Refreshing"); 
+  		console.log("Aeris Metadata Citation - Refreshing");
     	this.visible = false
     	if ((! data) || (! data.detail))  {
     	 return
@@ -121,21 +121,21 @@ export default {
        	//this.doi = "10.25326/1";
        }
   	},
-  	
+
   	 handleSuccess : function(response) {
 	  	 this.citation = response.data.trim();
 	  	 console.log("jjjj");
   },
-  
+
    handleError : function(response) {
    },
-  	
+
   	handleTheme: function(theme) {
   		this.theme = theme
 		this.$el.querySelector("header").style.background=this.theme.primary
 		this.ensureTheme()
   	},
-  	
+
   	ensureTheme: function() {
   	if ((this.theme) && (this.$el.querySelectorAll)) {
   	var elems = this.$el.querySelectorAll('article h5');
@@ -145,8 +145,8 @@ export default {
     	}
     }
   	}
-  	
-  	
+
+
   }
 }
 </script>
@@ -156,7 +156,7 @@ export default {
         display: block;
         transition: 0.6s
     }
- 
+
     .metadata-doi-container {
         border: 1px solid #bbb;
         overflow: hidden
@@ -173,7 +173,7 @@ export default {
         margin: 0;
          color: #475053
     }
-    
+
     .metadata-doi-container header span {
         color: #475053
     }
@@ -194,11 +194,11 @@ export default {
     .metadata-doi-container header i:hover {
         opacity: 0.6
     }
-    
+
     .metadata-doi-description {
     	text-align:justify;
     }
-    
+
     .metadata-doi-container article {
         display: none;
         padding: 10px;
@@ -230,7 +230,7 @@ export default {
     .metadata-icon-btn:hover {
         opacity: 0.6
     }
-    
+
     .metadata-d-container header {
         background-color: #fff
     }
