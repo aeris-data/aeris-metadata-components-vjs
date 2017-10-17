@@ -1,5 +1,5 @@
 /*
- dependances: 
+ dependances:
  font awesome
  international field
  shared style
@@ -17,7 +17,7 @@
 </i18n>
 
 <template>
-<span class="aeris-metadata-description-host" v-if="visible">
+<span class="aeris-metadata-description-host" v-show="visible">
 <div class="component-container">
       <header>
         <h3><i class="fa fa-comment-o"></i>{{$t('description')}}</h3>
@@ -43,7 +43,7 @@ export default {
       default: true
     },
   },
-  
+
   data () {
     return {
     	visible: true,
@@ -52,50 +52,50 @@ export default {
     	aerisMetadataListener: null
     }
   },
-  
+
   watch: {
     lang (value) {
 	      this.$i18n.locale = value
     }
   },
-  
+
   destroyed: function() {
   	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   	this.aerisMetadataListener = null;
   	document.removeEventListener('aerisTheme', this.aerisThemeListener);
   	this.aerisThemeListener = null;
   },
-  
+
   created: function () {
   console.log("Aeris Metadata Description - Creating");
    this.$i18n.locale = this.lang
-   this.aerisThemeListener = this.handleTheme.bind(this) 
+   this.aerisThemeListener = this.handleTheme.bind(this)
    document.addEventListener('aerisTheme', this.aerisThemeListener);
    this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   },
-  
+
   computed: {
 	value: function() {
 		return JSON.stringify(this.description);
-	}  
+	}
   },
-  
+
    mounted: function() {
     	var event = new CustomEvent('aerisThemeRequest', {});
   	document.dispatchEvent(event);
   },
-  
+
   methods: {
-  
+
   handleTheme: function(event) {
   		this.$el.querySelector("header").style.background=event.detail.primary
   	},
-  
+
   handleRefresh: function(data) {
-  		console.log("Aeris Metadata Description - Refreshing"); 
+  		console.log("Aeris Metadata Description - Refreshing");
   		this.visible = false;
-  		
+
   		if ((! data))  {
     	 return
     	}
@@ -105,10 +105,10 @@ export default {
     	if ((! data.detail.resourceAbstract))  {
     	 return
     	}
-    	
+
   		 if (this.markdown) {
 	          var descriptions = data.detail.resourceAbstract;
-            
+
             /* Convert markdown description to html for each language */
 	          for(var item in descriptions){
               if(descriptions.hasOwnProperty(item)) {
@@ -121,7 +121,7 @@ export default {
           }
           this.visible=true;
   	}
-  
+
   }
 }
 </script>
