@@ -32,30 +32,30 @@ export default {
       type: String,
       default: 'en'
     },
-    
-     
+
+
   },
-  
-   
+
+
   watch: {
     lang (value) {
 	      this.$i18n.locale = value
     }
   },
-  
+
   destroyed: function() {
   	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   	this.aerisMetadataListener = null;
   	document.removeEventListener('aerisTheme', this.aerisThemeListener);
   	this.aerisThemeListener = null;
   },
-  
+
   created: function () {
   console.log("Aeris Metadata Temporal Extents - Creating");
    this.$i18n.locale = this.lang
    this.aerisMetadataListener = this.handleRefresh.bind(this)
    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-   this.aerisThemeListener = this.handleTheme.bind(this) 
+   this.aerisThemeListener = this.handleTheme.bind(this)
    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
@@ -63,7 +63,7 @@ export default {
     	var event = new CustomEvent('aerisThemeRequest', {});
   	document.dispatchEvent(event);
   },
-  
+
   computed: {
   },
    data () {
@@ -75,9 +75,9 @@ export default {
     }
   },
   methods: {
-  
+
     handleRefresh: function(data) {
-  		console.log("Aeris Metadata Formats - Refreshing"); 
+  		console.log("Aeris Metadata Formats - Refreshing");
     	this.visible = false
     	if ((! data) || (! data.detail))  {
     	 return
@@ -93,12 +93,19 @@ export default {
        	this.visible = false;
        }
   	},
-  	
-  	handleTheme: function(theme) {
-  		this.$el.querySelector("header").style.background=event.detail.primary
-  	}
-  	
-  	
+
+  	handleTheme(e) {
+      this.theme = e.detail;
+      this.ensureTheme();
+  	},
+
+    ensureTheme() {
+      if (this.$el.querySelector("header")) {
+        this.$el.querySelector("header").style.background = this.theme.primary;
+      }
+    }
+
+
   }
 }
 </script>
