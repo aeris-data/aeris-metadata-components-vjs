@@ -116,7 +116,12 @@ export default {
   methods: {
 	  
 	hasRole: function(contact, role) {
-		return (contact.roles.indexOf(role) >= 0)
+		if (contact.roles) {
+			return (contact.roles.indexOf(role) >= 0)
+		}
+		else {
+			return false
+		}
 	},
 	
     handleRefresh: function(data) {
