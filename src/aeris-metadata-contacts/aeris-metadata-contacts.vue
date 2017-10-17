@@ -45,12 +45,20 @@ metadata-format.html
         <div class="aeris-icon-group"></div>
       </header>
       <main>
-      <span  v-for="role in roles">
-        <h5 class="section-title">{{$t(role)}}</h5>
-        <span  v-for="contact in contacts">
-          <aeris-metadata-contact :contact="JSON.stringify(contact)" :lang="lang" v-if="hasRole(contact, role)"></aeris-metadata-contact>
-        </span>
-       </span>
+       <span v-if="roles.length>0">
+      <span  v-for="role in roles" >
+      <h5 class="section-title">{{$t(role)}}</h5>
+      <span  v-for="contact in contacts">
+        <aeris-metadata-contact :contact="JSON.stringify(contact)" :lang="lang" v-if="hasRole(contact, role)"></aeris-metadata-contact>
+      </span>
+     </span>
+     </span>
+     <span  v-else>
+     <span  v-for="contact in contacts">
+       <aeris-metadata-contact :contact="JSON.stringify(contact)" :lang="lang" ></aeris-metadata-contact>
+     </span>
+    </span>
+      
 
       </main>
     </div>
@@ -101,6 +109,16 @@ export default {
   computed: {
   	roles: function() {
   		return this.getRolesToDisplay();
+  	},
+  	noroles: function() {
+  		if (!this.roles) {
+  			return false
+  		}
+  		if (this.roles.length>0) {
+  			return true
+  		} else {
+  			return false	
+  		}
   	}
   },
    data () {
@@ -169,7 +187,7 @@ export default {
             });
 
           } else {
-            if(rolesToDisplay.indexOf('pointofcontact') < 0) rolesToDisplay.push('pointofcontact');
+            //if(rolesToDisplay.indexOf('pointofcontact') < 0) rolesToDisplay.push('pointofcontact');
           }})
         return rolesToDisplay;
   	}
