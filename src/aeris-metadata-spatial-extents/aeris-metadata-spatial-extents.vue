@@ -1,5 +1,5 @@
 /*
- dependances: 
+ dependances:
 
 metadata-shared-styles.html
 metadata-format.html
@@ -17,7 +17,7 @@ metadata-format.html
 </i18n>
 
 <template>
-<span class="aeris-metadata-spatial-extent-host" v-if="visible">
+<span class="aeris-metadata-spatial-extent-host" v-show="visible">
 <div class="component-container">
       <header>
         <h3><i class="fa fa-globe"></i> {{ $t('spatialextents') }}</h3>
@@ -29,11 +29,11 @@ metadata-format.html
       <vl-map class="map" ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" :controls='controls'>
         <!-- map view aka ol.View -->
         <vl-view ref="view" :center="center" :zoom.sync="zoom" :rotation.sync="rotation"/>
-       
+
         <vl-layer-tile id="mapbox">
           <vl-source-mapbox mapId="mapbox.streets-satellite" url="https://api.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={accessToken}" attributions="" accessToken="pk.eyJ1IjoiZnJhbmNvaXNhbmRyZSIsImEiOiJjaXVlMGE5b3QwMDBoMm9tZGQ1M2xubzVhIn0.FK8gRVJb4ADNnrO6cNlWUw"/>
         </vl-layer-tile>
-      
+
         <vl-layer-vector v-if="onlyPoints">
           <vl-source-cluster :distance="40">
           <vl-source-vector>
@@ -41,16 +41,16 @@ metadata-format.html
           <vl-geom-point :coordinates="[extent.area.longitude, extent.area.latitude]" v-if="isPoint(extent)" />
         </vl-feature>
           </vl-source-vector>
-          
+
           <vl-style-func :factory="clusterStyleFunc">
           </vl-style-func>
-          
+
           </vl-source-cluster>
         </vl-layer-vector>
-   
+
         <vl-layer-vector v-if="onlyRectangles">
           <vl-source-vector>
-        <vl-feature v-for="(extent, index) in spatialExtents" :id="computeFeatureId(extent, index)" :key="computeFeatureId(extent, index)"> 
+        <vl-feature v-for="(extent, index) in spatialExtents" :id="computeFeatureId(extent, index)" :key="computeFeatureId(extent, index)">
         <vl-geom-polygon :coordinates="polygonCoords(extent)" v-if="isRectangle(extent)"></vl-geom-polygon>
         <vl-style-box>
         <vl-style-stroke color="#9c2c04" :width="2"></vl-style-stroke>
@@ -59,12 +59,12 @@ metadata-format.html
         	</vl-feature>
         	 </vl-source-vector>
         </vl-layer-vector>
-             
-      
-      
-      
-      
-      
+
+
+
+
+
+
       </vl-map>
       </div>
       </main>
@@ -83,26 +83,26 @@ export default {
       default: 'en'
     }
   },
-  
+
   watch: {
     lang (value) {
 	      this.$i18n.locale = value
     }
   },
-  
+
   destroyed: function() {
   	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   	this.aerisMetadataListener = null;
     document.removeEventListener('aerisTheme', this.aerisThemeListener);
   	this.aerisThemeListener = null;
   },
-  
+
   created: function () {
    console.log("Aeris Metadata Spatial extents - Creating");
    this.$i18n.locale = this.lang
    this.aerisMetadataListener = this.handleRefresh.bind(this)
    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-   this.aerisThemeListener = this.handleTheme.bind(this) 
+   this.aerisThemeListener = this.handleTheme.bind(this)
    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
@@ -110,13 +110,13 @@ export default {
     	var event = new CustomEvent('aerisThemeRequest', {});
   	document.dispatchEvent(event);
   },
-  
+
   computed: {
 	  controls : function() {
 		  var aux = olcontrol.defaults({attribution: false})
 		  return aux
 	  },
-  
+
   markerIcon : function() {
 		return '\uf041'
 	}
@@ -136,9 +136,9 @@ export default {
     }
   },
   methods: {
-	  
+
     handleRefresh: function(data) {
-  		console.log("Aeris Metadata Spatial extents - Refreshing"); 
+  		console.log("Aeris Metadata Spatial extents - Refreshing");
   	    console.log("You")
     	this.visible = false
     	if ((! data) || (! data.detail))  {
@@ -155,23 +155,23 @@ export default {
        }
   		console.log("Pi")
   	},
-  	
+
   	handleTheme: function(event) {
   		if (this.$el.querySelector) {
   			this.$el.querySelector("header").style.background=event.detail.primary
   		}
   	},
-  	
+
     polygonCoords: function(extent) {
     	var un = [extent.area.eastLongitude, extent.area.northLatitude]
     	var deux = [extent.area.eastLongitude, extent.area.southLatitude]
     	var trois = [extent.area.westLongitude, extent.area.southLatitude]
     	var quatre = [extent.area.westLongitude, extent.area.northLatitude]
     	return [[un, deux, trois, quatre, un]]
-    	
+
     },
-    
-  	
+
+
   	onlyPoints: function() {
   		for (var i = 0; i < this.spatialExtents.length; i++) {
   		    if (this.isPoint(this.spatialExtents[i]) == false) {
@@ -180,7 +180,7 @@ export default {
   		}
   		return true;
   	},
-  	
+
 	onlyRectangles: function() {
   		for (var i = 0; i < this.spatialExtents.length; i++) {
   		    if (this.isRectangle(this.spatialExtents[i]) == false) {
@@ -189,24 +189,24 @@ export default {
   		}
   		return true;
   	},
-  	
+
   	isPoint: function(extent) {
   		if (extent.area.type=='POINT_AREA') {
   			return true;
   		}
   	},
-  	
+
 
   	isRectangle: function(extent) {
   		if (extent.area.type=='RECTANGLE_AREA') {
   			return true;
   		}
   	},
-  	
+
   	computeFeatureId: function(extent, id) {
   		return "Feature_"+Math.random().toString(36).substring(7)+"_"+extent.area.type+"_"+id;
   	},
-  	
+
   	clusterStyleFunc () {
   	    const cache = {}
 
@@ -232,17 +232,17 @@ export default {
   	   	          textFont:  "30px FontAwesome",
   	   	          text: '\uf041'
   	   	        })
-  	   	        
+
   	    	}
   	        cache[size] = style
   	      }
   	      return [style]
   	    }
   	  }
-  	
-  	
-  	
-  	
+
+
+
+
   }
 }
 </script>

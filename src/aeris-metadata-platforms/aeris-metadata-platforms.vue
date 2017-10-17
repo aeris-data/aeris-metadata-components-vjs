@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<span class="aeris-metadata-parameters-host" v-if="visible">
+<span class="aeris-metadata-parameters-host" v-show="visible">
 <div class="component-container">
       <header>
         <h3><i class="fa fa-cubes"></i> {{ $t('platforms') }}</h3>
@@ -18,7 +18,7 @@
       <main>
    		<span  v-for="platform in platforms">
    		<aeris-metadata-platform :platform="JSON.stringify(platform)" :lang="lang"></aeris-metadata-platform>
-       </span>   
+       </span>
       </main>
     </div>
 </span>
@@ -32,26 +32,26 @@ export default {
       default: 'en'
     }
   },
-  
+
   watch: {
     lang (value) {
 	      this.$i18n.locale = value
     }
   },
-  
+
   destroyed: function() {
   	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   	this.aerisMetadataListener = null;
   	document.removeEventListener('aerisTheme', this.aerisThemeListener);
   	this.aerisThemeListener = null;
   },
-  
+
   created: function () {
   console.log("Aeris Metadata Platform - Creating");
    this.$i18n.locale = this.lang
    this.aerisMetadataListener = this.handleRefresh.bind(this)
    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-   this.aerisThemeListener = this.handleTheme.bind(this) 
+   this.aerisThemeListener = this.handleTheme.bind(this)
    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
@@ -59,7 +59,7 @@ export default {
     	var event = new CustomEvent('aerisThemeRequest', {});
   	document.dispatchEvent(event);
   },
-  
+
   computed: {
   },
    data () {
@@ -72,9 +72,9 @@ export default {
     }
   },
   methods: {
-  
+
     handleRefresh: function(data) {
-  		console.log("Aeris Metadata Platform - Refreshing"); 
+  		console.log("Aeris Metadata Platform - Refreshing");
     	this.visible = false
     	if ((! data) || (! data.detail))  {
     	 return
@@ -89,13 +89,13 @@ export default {
        	this.visible = false;
        }
   	},
-  	
+
   	handleTheme: function(event) {
   		this.theme = event.detail
 		this.$el.querySelector("header").style.background=this.theme.primary
   	}
-  	
-  	
+
+
   }
 }
 </script>

@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<span class="aeris-metadata-information-links-host" v-if="visible">
+<span class="aeris-metadata-information-links-host" v-show="visible">
 <div class="component-container">
       <header>
         <h3><i class="fa fa-link"></i> {{ $t('informationLinks') }}</h3>
@@ -19,7 +19,7 @@
       <main >
       <span  v-for="link in links">
      <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
-      
+
        </span>
       </main>
     </div>
@@ -34,37 +34,37 @@ export default {
       default: 'en'
     }
   },
-  
-   
+
+
   watch: {
     lang (value) {
 	      this.$i18n.locale = value
     }
   },
-  
+
    mounted: function() {
     	var event = new CustomEvent('aerisThemeRequest', {});
   	document.dispatchEvent(event);
   },
-  
+
   destroyed: function() {
   	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   	this.aerisMetadataListener = null;
   	document.removeEventListener('aerisTheme', this.aerisThemeListener);
   	this.aerisThemeListener = null;
   },
-  
+
   created: function () {
   console.log("Aeris Metadata Information links - Creating");
    this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-   this.aerisThemeListener = this.handleTheme.bind(this) 
+   this.aerisThemeListener = this.handleTheme.bind(this)
    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
-  
+
   computed: {
-  	
+
   },
    data () {
     return {
@@ -73,16 +73,16 @@ export default {
     	aerisThemeListener: null,
     	aerisMetadataListener: null
     }
-    
+
   },
   methods: {
-  
+
      handleTheme: function(event) {
   		this.$el.querySelector("header").style.background=event.detail.primary
   	},
-    
+
     handleRefresh: function(data) {
-  		console.log("Aeris Metadata Links - Refreshing"); 
+  		console.log("Aeris Metadata Links - Refreshing");
     	this.visible = false
     	this.links = [];
     	if ((! data) || (! data.detail))  {
@@ -99,7 +99,7 @@ export default {
              });
              this.links = informationLinks;
              this.visible = true;
-        } 
+        }
   	}
   }
 }
@@ -113,7 +113,7 @@ export default {
   .aeris-metadata-contacts-host metadata-contact {
         margin-top: 5px
     }
-    
-   
+
+
 
  </style>

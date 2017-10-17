@@ -1,6 +1,6 @@
 /*
- dependances: 
- 
+ dependances:
+
 moment-js.html
 metadata-temporal.html"
 metadata-shared-styles.html"
@@ -18,7 +18,7 @@ metadata-shared-styles.html"
 </i18n>
 
 <template>
-<span class="aeris-metadata-temporal-extent-host" v-if="visible">
+<span class="aeris-metadata-temporal-extent-host" v-show="visible">
 <div class="component-container">
       <header>
         <h3><i class="fa fa-clock-o"></i> {{ $t('temporalExtents') }}</h3>
@@ -40,41 +40,41 @@ export default {
       type: String,
       default: 'en'
     },
-    
-     
+
+
   },
-  
-   
+
+
   watch: {
     lang (value) {
 	      this.$i18n.locale = value
     }
   },
-  
+
   mounted: function() {
     	var event = new CustomEvent('aerisThemeRequest', {});
   	document.dispatchEvent(event);
   },
-  
+
   destroyed: function() {
   document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   	this.aerisMetadataListener = null;
   	 document.removeEventListener('aerisTheme', this.aerisThemeListener);
   	this.aerisThemeListener = null;
   },
-  
+
   created: function () {
   console.log("Aeris Metadata Temporal Extents - Creating");
    this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-   this.aerisThemeListener = this.handleTheme.bind(this) 
+   this.aerisThemeListener = this.handleTheme.bind(this)
   document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
-  
+
   computed: {
   },
-  
+
    data () {
     return {
     	temporalExtents: [],
@@ -84,20 +84,20 @@ export default {
     }
   },
   methods: {
-  
+
    sort: function(a, b) {
         var aMoment = moment(a.beginDate, 'YYYY-MM-DD');
         var bMoment = moment(b.beginDate, 'YYYY-MM-DD');
         if(aMoment === bMoment) return 0;
         return aMoment.isBefore(bMoment) ? 1 : -1;
       },
-      
+
    handleTheme: function(event) {
   		this.$el.querySelector("header").style.background=event.detail.primary
   	},
-  
+
     handleRefresh: function(data) {
-  		console.log("Aeris Metadata Temporal Extents - Refreshing"); 
+  		console.log("Aeris Metadata Temporal Extents - Refreshing");
     	this.visible = false
     	if ((! data) || (! data.detail))  {
     	 return
