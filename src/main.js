@@ -39,6 +39,7 @@ import AerisMetadataPlatforms from './aeris-metadata-platforms/aeris-metadata-pl
 import AerisMetadataPlatform from './aeris-metadata-platforms/aeris-metadata-platform.vue'
 import AerisMetadataQuicklookGallery from './aeris-metadata-quicklook-gallery/aeris-metadata-quicklook-gallery.vue'
 import AerisMetadataDoi from './aeris-metadata-doi/aeris-metadata-doi.vue'
+import AerisMetadataDatapolicy from './aeris-metadata-datapolicy/aeris-metadata-datapolicy.vue'
 
 
 ljs.addAliases({
@@ -82,6 +83,7 @@ ljs.load('dep', function() {
 	registerElement('aeris-metadata-platform',AerisMetadataPlatform);
 	registerElement('aeris-metadata-quicklook-gallery',AerisMetadataQuicklookGallery);
 	registerElement('aeris-metadata-doi', AerisMetadataDoi);
+	registerElement('aeris-metadata-datapolicy', AerisMetadataDatapolicy);
 	
 	window.registredAerisElements.push('aeris-metadata-components-vjs')
 })
