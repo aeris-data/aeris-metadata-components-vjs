@@ -26,7 +26,9 @@ metadata-shared-styles.html"
       </header>
       <main>
        <span  v-for="temporalExtent in temporalExtents">
-       <aeris-metadata-temporal-extent :begin="temporalExtent.beginDate" :end="temporalExtent.endDate" :comment="temporalExtent.comment" :lang="lang"></aeris-metadata-temporal-extent>
+       
+       <aeris-metadata-temporal-extent :begin="temporalExtent.beginDate" :end="temporalExtent.endDate" :comment="JSON.stringify(temporalExtent.comment)" v-if="temporalExtent.comment" :lang="lang"></aeris-metadata-temporal-extent>
+       <aeris-metadata-temporal-extent :begin="temporalExtent.beginDate" :end="temporalExtent.endDate"  v-else :lang="lang"></aeris-metadata-temporal-extent>
        </span>
       </main>
     </div>

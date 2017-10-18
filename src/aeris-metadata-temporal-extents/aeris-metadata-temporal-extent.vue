@@ -20,7 +20,7 @@
               <span>{{formatedEnd}}</span>
             </div>
             <div class="metadata-temporal-description" v-if="comment">
-              <aeris-metadata-international-field :value="comment" :lang="lang" no-label-float></aeris-metadata-international-field>
+              <aeris-metadata-international-field :content="comment" :lang="lang" no-label-float></aeris-metadata-international-field>
             </div>
           </div>
         </article>
