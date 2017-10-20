@@ -31,7 +31,7 @@ aeris-metadata-link
         <div class="aeris-icon-group"></div>
       </header>
       <main >
-      <div class="aeris-link-category" v-if="httpLinks">
+      <div class="aeris-link-category" v-show="httpLinks.length >0">
           <div class="link-category-header">
             <h5 class="aeris-metadata-emphasis-text">{{ $t('httpLinks') }}:</h5>
           </div>
@@ -39,7 +39,7 @@ aeris-metadata-link
      		<aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
        		</span>
       </div>
-       <div class="aeris-link-category" v-if="ftpLinks">
+       <div class="aeris-link-category" v-show="ftpLinks.length >0">
           <div class="link-category-header">
             <h5 class="aeris-metadata-emphasis-text">{{ $t('ftpLinks') }}:</h5>
           </div>
@@ -47,7 +47,7 @@ aeris-metadata-link
      		<aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
        		</span>
       </div>
-       <div class="aeris-link-category" v-if="orderLinks">
+       <div class="aeris-link-category" v-show="orderLinks.length >0">
           <div class="link-category-header">
             <h5 class="aeris-metadata-emphasis-text">{{ $t('orderLinks') }}:</h5>
           </div>
