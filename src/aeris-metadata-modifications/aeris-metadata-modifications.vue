@@ -112,8 +112,6 @@ export default {
   	},
   	
   	handleSuccess: function(response, author) {
-  		console.log("RRR")
-  		console.log(author)
   		if (this.modifications) {
   			for (var i = 0; i < this.modifications.length;i++) {
   				var modification = this.modifications[i]
@@ -122,7 +120,6 @@ export default {
   					this.$set(this.modifications, i, modification)
   				}
   			}
-  			console.log(this.modifications)
   		}
   	},
 
