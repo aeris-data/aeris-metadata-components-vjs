@@ -128,7 +128,7 @@ export default {
     	aerisThemeListener: null,
     	aerisMetadataListener: null,
     	center: [0, 0],
-        zoom: 1,
+        zoom: 0,
         rotation: 0,
         clickCoordinate: undefined,
         selectedFeatures: [],

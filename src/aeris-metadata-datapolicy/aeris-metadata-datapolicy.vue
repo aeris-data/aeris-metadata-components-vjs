@@ -99,6 +99,11 @@ export default {
   		if ((! data))  {
     	 return
     	}
+  		
+  		if ((! data.detail.distributionInformation))  {
+  	    	 return
+  	    	}
+  		
     	if ((! data.detail.distributionInformation.description))  {
     	 return
     	}
