@@ -92,6 +92,15 @@ export default {
   		this.$el.querySelector("header").style.background=event.detail.primary
   	},
 
+  /* Certaines metadonnées en markdown ne présentent pas d'espace entre le # et la suite du texte. On corrige. */
+  	
+  addSpaces: function(value) {
+	  var aux = value.replace(/#/g, '# ')
+	  aux = aux.replace(/# #/g, '##')
+	  aux = aux.replace(/# #/g, '##')
+	  return aux
+  },
+  	
   handleRefresh: function(data) {
   		console.log("Aeris Metadata Description - Refreshing");
   		this.visible = false;
@@ -112,7 +121,7 @@ export default {
             /* Convert markdown description to html for each language */
 	          for(var item in descriptions){
               if(descriptions.hasOwnProperty(item)) {
-                descriptions[item] = marked(descriptions[item]);
+                descriptions[item] = marked(this.addSpaces(descriptions[item]));
               	}
 	      	  }
 	          this.description = descriptions;

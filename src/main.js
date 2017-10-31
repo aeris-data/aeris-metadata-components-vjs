@@ -39,7 +39,7 @@ import AerisMetadataQuicklookGallery from './aeris-metadata-quicklook-gallery/ae
 import AerisMetadataDoi from './aeris-metadata-doi/aeris-metadata-doi.vue'
 import AerisMetadataDatapolicy from './aeris-metadata-datapolicy/aeris-metadata-datapolicy.vue'
 import AerisMetadataModifications from './aeris-metadata-modifications/aeris-metadata-modifications.vue'
-
+import AerisMetadataSynthesis from './misc/aeris-metadata-synthesis.vue';
 
 ljs.addAliases({
 	photobox: ['https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js', 'https://rawgit.com/aeris-data/Photobox/master/dist/css/photobox.min.css', 'https://rawgit.com/aeris-data/Photobox/master/dist/js/photobox.min.js'],
@@ -84,6 +84,7 @@ ljs.load('dep', function() {
 	registerElement('aeris-metadata-doi', AerisMetadataDoi);
 	registerElement('aeris-metadata-datapolicy', AerisMetadataDatapolicy);
 	registerElement('aeris-metadata-modifications', AerisMetadataModifications);
+	registerElement('aeris-metadata-synthesis', AerisMetadataSynthesis);
 	
 	window.registredAerisElements.push('aeris-metadata-components-vjs')
 })
