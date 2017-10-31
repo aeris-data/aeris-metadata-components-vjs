@@ -26,9 +26,9 @@
          <i class="fa fa-calendar" /><span> {{format(modification.date)}}</span>
          </div>
          <div class="metadata-author-description">
-         <i class="fa fa-user" /> : {{modification.author}} 
+         <i class="fa fa-user" /> : {{modification.author}}
          <span v-if="modification.name">
-         ( {{modification.name}})
+         ( {{modification.name}} )
          </span>
           </div>
        </div>
@@ -91,14 +91,14 @@ export default {
     }
   },
   methods: {
-	  
+
    format: function(value) {
-	   return value.replace("T"," ")
+	   return moment(value).format('LLL');
    }  ,
-   
+
    sort: function(a, b) {
-        var aMoment = moment(a.beginDate, 'YYYY-MM-DD');
-        var bMoment = moment(b.beginDate, 'YYYY-MM-DD');
+        var aMoment = moment(a.date);
+        var bMoment = moment(b.date);
         if(aMoment === bMoment) return 0;
         return aMoment.isBefore(bMoment) ? 1 : -1;
       },
@@ -106,11 +106,11 @@ export default {
    handleTheme: function(event) {
   		this.$el.querySelector("header").style.background=event.detail.primary
   	},
-  	
+
   	handleError: function() {
-  		
+
   	},
-  	
+
   	handleSuccess: function(response, author) {
   		if (this.modifications) {
   			for (var i = 0; i < this.modifications.length;i++) {
@@ -133,7 +133,6 @@ export default {
   		this.lang = data.lang || this.lang
   		if (data.detail.modifications) {
   		  this.visible = true;
-  		  console.log(data.detail.modifications)
           var modifications = data.detail.modifications;
   		  modifications.sort(this.sort);
           this.modifications = modifications.reverse();
