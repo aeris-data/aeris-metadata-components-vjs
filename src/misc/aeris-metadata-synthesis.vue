@@ -16,8 +16,8 @@
 		<aeris-metadata-description markdown="true"></aeris-metadata-description> 
 		<aeris-metadata-contacts></aeris-metadata-contacts> 
 		<aeris-metadata-temporal-extents></aeris-metadata-temporal-extents> 
+		<aeris-metadata-data-links></aeris-metadata-data-links> 
 		<aeris-metadata-information-links></aeris-metadata-information-links> 
-		<aeris-metadata-data-access></aeris-metadata-data-access> 
 		<aeris-metadata-disponibility-calendar calendar-type="quarter"></aeris-metadata-disponibility-calendar> 
 		<aeris-metadata-plateforms></aeris-metadata-plateforms> 
 		<aeris-metadata-formats></aeris-metadata-formats> 
