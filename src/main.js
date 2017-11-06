@@ -12,8 +12,11 @@ import VueResource from 'vue-resource';
 Vue.use(VueResource);
 
 import VueLayers from 'vuelayers'
-
 Vue.use(VueLayers)
+
+import {VueColorPlugin, VueAerisLanguagePlugin} from 'aeris-mixins'
+Vue.use(VueColorPlugin)
+Vue.use(VueAerisLanguagePlugin)
 
 import AerisMetadataInternationalField from './aeris-metadata-international-field/aeris-metadata-international-field.vue'
 import AerisMetadataContact from './aeris-metadata-contacts/aeris-metadata-contact.vue'
