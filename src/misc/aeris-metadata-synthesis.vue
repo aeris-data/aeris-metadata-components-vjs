@@ -10,7 +10,7 @@
 
 <template>
 	<span class="aeris-metadata-synthesis-host">
-	<aeris-metadata :identifier="identifier" :lang="lang" service="https://sedoo.aeris-data.fr/catalogue/rest/projectrecette/id/">
+	<aeris-metadata :identifier="identifier" :lang="lang" :service="service">
 	</aeris-metadata>
 	<div class="metadata-container">
 		<aeris-metadata-description markdown="true"></aeris-metadata-description> 
@@ -19,7 +19,7 @@
 		<aeris-metadata-data-links></aeris-metadata-data-links> 
 		<aeris-metadata-information-links></aeris-metadata-information-links> 
 		<aeris-metadata-disponibility-calendar calendar-type="quarter"></aeris-metadata-disponibility-calendar> 
-		<aeris-metadata-plateforms></aeris-metadata-plateforms> 
+		<aeris-metadata-platforms></aeris-metadata-platforms> 
 		<aeris-metadata-formats></aeris-metadata-formats> 
 		<aeris-metadata-parameters></aeris-metadata-parameters> 
 		<aeris-metadata-publications></aeris-metadata-publications> 
@@ -35,6 +35,11 @@ export default {
   	lang:  {
       type: String,
       default: 'en'
+    },
+    
+    service: {
+    	type: String,
+    	default: 'https://sedoo.aeris-data.fr/catalogue/rest/projectrecette/id/'
     },
     
     identifier:  {
