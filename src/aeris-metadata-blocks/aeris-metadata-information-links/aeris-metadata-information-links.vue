@@ -10,26 +10,26 @@
 </i18n>
 
 <template>
-<span class="aeris-metadata-information-links-host" v-show="visible">
-<div class="component-container">
-      <header>
-        <h3><i class="fa fa-link"></i> {{ $t('informationLinks') }}</h3>
-        <div class="aeris-icon-group"></div>
-      </header>
-      <main >
-      <span  v-for="link in links">
+<div class="aeris-metadata-information-links-host" v-show="visible">
+  <div class="component-container">
+    <header>
+      <h3><i class="fa fa-link"></i> {{ $t('informationLinks') }}</h3>
+      <div class="aeris-icon-group"></div>
+    </header>
+    <main>
+      <span v-for="link in links">
      <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
 
        </span>
-      </main>
-    </div>
-</span>
+    </main>
+  </div>
+</div>
 </template>
 
 <script>
 export default {
   props: {
-  	lang:  {
+    lang: {
       type: String,
       default: 'en'
     }
@@ -37,70 +37,70 @@ export default {
 
 
   watch: {
-    lang (value) {
-	      this.$i18n.locale = value
+    lang(value) {
+      this.$i18n.locale = value
     }
   },
 
-   mounted: function() {
-    	var event = new CustomEvent('aerisThemeRequest', {});
-  	document.dispatchEvent(event);
+  mounted: function() {
+    var event = new CustomEvent('aerisThemeRequest', {});
+    document.dispatchEvent(event);
   },
 
   destroyed: function() {
-  	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-  	this.aerisMetadataListener = null;
-  	document.removeEventListener('aerisTheme', this.aerisThemeListener);
-  	this.aerisThemeListener = null;
+    document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    this.aerisMetadataListener = null;
+    document.removeEventListener('aerisTheme', this.aerisThemeListener);
+    this.aerisThemeListener = null;
   },
 
-  created: function () {
-  console.log("Aeris Metadata Information links - Creating");
-   this.$i18n.locale = this.lang
+  created: function() {
+    console.log("Aeris Metadata Information links - Creating");
+    this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
-   document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-   this.aerisThemeListener = this.handleTheme.bind(this)
-   document.addEventListener('aerisTheme', this.aerisThemeListener);
+    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    this.aerisThemeListener = this.handleTheme.bind(this)
+    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
   computed: {
 
   },
-   data () {
+  data() {
     return {
-    	links: null,
-    	visible: true,
-    	aerisThemeListener: null,
-    	aerisMetadataListener: null
+      links: null,
+      visible: true,
+      aerisThemeListener: null,
+      aerisMetadataListener: null
     }
 
   },
   methods: {
 
-     handleTheme: function(event) {
-  		this.$el.querySelector("header").style.background=event.detail.primary
-  	},
+    handleTheme: function(event) {
+      this.$el.querySelector("header").style.background = event.detail.primary
+    },
 
     handleRefresh: function(data) {
-  		console.log("Aeris Metadata Links - Refreshing");
-    	this.visible = false
-    	this.links = [];
-    	if ((! data) || (! data.detail))  {
-    	 return
-    	}
-    	if (data.detail.links) {
-             var allLinks = data.detail.links;
-             var informationLinks = [];
-	         allLinks.forEach(function(item) {
-	         console.log("Type: "+item.type)
-             if(item.type === 'INFORMATION_LINK') {
-             informationLinks.push(item)
-             	};
-             });
-             this.links = informationLinks;
-             this.visible = true;
-        }
-  	}
+      console.log("Aeris Metadata Links - Refreshing");
+      this.visible = false
+      this.links = [];
+      if ((!data) || (!data.detail)) {
+        return
+      }
+      if (data.detail.links) {
+        var allLinks = data.detail.links;
+        var informationLinks = [];
+        allLinks.forEach(function(item) {
+          console.log("Type: " + item.type)
+          if (item.type === 'INFORMATION_LINK') {
+            informationLinks.push(item)
+          };
+        });
+        this.links = informationLinks;
+        this.visible = true;
+      }
+    }
   }
 }
 </script>

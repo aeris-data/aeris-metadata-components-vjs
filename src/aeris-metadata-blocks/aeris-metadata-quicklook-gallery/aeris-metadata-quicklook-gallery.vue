@@ -10,171 +10,171 @@
 </i18n>
 
 <template>
-<span class="aeris-metadata-quick-gallery-host" v-show="visible">
-<div class="component-container">
-      <header>
-        <h3><i class="fa fa-picture-o"></i> {{ $t('quicklook_gallery') }}</h3>
-      </header>
-       <main>
-				<i class="prev fa fa-chevron-left fa-2x" v-on:mousedown="scrollLeft" v-if="showArrows"></i>
-					<div class="ql-gallery-container style-scope aeris-metadata-quicklooks-gallery">
-					<div class="ql-gallery-img-container style-scope aeris-metadata-quicklooks-gallery">
-					
-					
-						  <article class="ql-gallery-image" v-for="item in quicklooks">
-								<a :href="item.url" rel="photobox" :title="computeDescription(item.description)" :data-pb-album="guid">
+<div class="aeris-metadata-quick-gallery-host" v-show="visible">
+  <div class="component-container">
+    <header>
+      <h3><i class="fa fa-picture-o"></i> {{ $t('quicklook_gallery') }}</h3>
+    </header>
+    <main>
+      <i class="prev fa fa-chevron-left fa-2x" v-on:mousedown="scrollLeft" v-if="showArrows"></i>
+      <div class="ql-gallery-container style-scope aeris-metadata-quicklooks-gallery">
+        <div class="ql-gallery-img-container style-scope aeris-metadata-quicklooks-gallery">
+
+
+          <article class="ql-gallery-image" v-for="item in quicklooks">
+            <a :href="item.url" rel="photobox" :title="computeDescription(item.description)" :data-pb-album="guid">
 						  		<img :src="item.url" alt="Quicklook">
 								</a>
-						  </article>
-					</div>
-				</div>
-				<i class="next fa fa-chevron-right fa-2x" v-on:mousedown="scrollRight" v-if="showArrows"></i>
-      </main>
-    </div>
-</span>
+          </article>
+        </div>
+      </div>
+      <i class="next fa fa-chevron-right fa-2x" v-on:mousedown="scrollRight" v-if="showArrows"></i>
+    </main>
+  </div>
+</div>
 </template>
 
 <script>
 export default {
   props: {
-  	lang:  {
+    lang: {
       type: String,
       default: 'en'
     }
   },
-  
+
   watch: {
-    lang (value) {
-	      this.$i18n.locale = value
+    lang(value) {
+      this.$i18n.locale = value
     }
   },
-  
+
   destroyed: function() {
-  document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-  	this.aerisMetadataListener = null;
-  	document.removeEventListener('aerisTheme', this.aerisThemeListener);
-  	this.aerisThemeListener = null;
-  	document.removeEventListener('mouseup', this.mouseupListener);
-  	this.mouseupListener = null;
+    document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    this.aerisMetadataListener = null;
+    document.removeEventListener('aerisTheme', this.aerisThemeListener);
+    this.aerisThemeListener = null;
+    document.removeEventListener('mouseup', this.mouseupListener);
+    this.mouseupListener = null;
   },
-  
-  created: function () {
-  console.log("Aeris Metadata Quicklook gallery - Creating");
-   this.$i18n.locale = this.lang
+
+  created: function() {
+    console.log("Aeris Metadata Quicklook gallery - Creating");
+    this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
-   document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-   this.aerisThemeListener = this.handleTheme.bind(this) 
-   document.addEventListener('aerisTheme', this.aerisThemeListener);
+    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    this.aerisThemeListener = this.handleTheme.bind(this)
+    document.addEventListener('aerisTheme', this.aerisThemeListener);
     this.mouseupListener = this.clearInterv.bind(this)
-   document.addEventListener('mouseup', this.mouseupListener);
+    document.addEventListener('mouseup', this.mouseupListener);
   },
 
   mounted: function() {
-    	var event = new CustomEvent('aerisThemeRequest', {});
-  		this.galleryElem = this.$el.querySelector('.ql-gallery-container');
-  		document.dispatchEvent(event);
-  		this.hideArrows = true;
-        this.photoboxInit();
-        this.checkSize();
+    var event = new CustomEvent('aerisThemeRequest', {});
+    this.galleryElem = this.$el.querySelector('.ql-gallery-container');
+    document.dispatchEvent(event);
+    this.hideArrows = true;
+    this.photoboxInit();
+    this.checkSize();
   },
-  
-  
-  computed: {
-  	showArrows : function() {
-  		return !this.hideArrows;
-  	},
-  	
-  	guid : function() {
-        function s4() {
-          return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-        }
 
-        return s4() + s4();
+
+  computed: {
+    showArrows: function() {
+      return !this.hideArrows;
+    },
+
+    guid: function() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
       }
+
+      return s4() + s4();
+    }
   },
-   data () {
+  data() {
     return {
-    	platforms: [],
-    	visible: true,
-    	theme: null,
-    	aerisThemeListener: null,
-    	aerisMetadataListener: null,
-    	mouseupListener: null,
-    	hideArrows : true,
-    	quicklooks: null,
-    	galleryElem: null,
-    	srInterval: null
+      platforms: [],
+      visible: true,
+      theme: null,
+      aerisThemeListener: null,
+      aerisMetadataListener: null,
+      mouseupListener: null,
+      hideArrows: true,
+      quicklooks: null,
+      galleryElem: null,
+      srInterval: null
     }
   },
   methods: {
-  
-   scrollRight: function(ev) {
-        console.log("right")
-        if(ev.type === 'mousedown') {
-          this.srInterval = window.setInterval(function() {
-           this.$el.querySelector('.ql-gallery-container').scrollLeft+=10
-          }.bind(this), 16);
-        }
-      },
 
-      scrollLeft: function(ev) {
-        if(ev.type === 'mousedown') {
-          this.slInterval = window.setInterval(function() {
-            this.$el.querySelector('.ql-gallery-container').scrollLeft-=10
-          }.bind(this), 16);
-        }
-      },
-  
-  clearInterv: function() {
-        /* Stop scrolling */
-        if(this.srInterval) window.clearInterval(this.srInterval);
-        if(this.slInterval) window.clearInterval(this.slInterval);
-      },
-  
-      
-       checkSize: function() {
-        var imgContainer = this.$el.querySelector('.ql-gallery-img-container');
+    scrollRight: function(ev) {
+      console.log("right")
+      if (ev.type === 'mousedown') {
+        this.srInterval = window.setInterval(function() {
+          this.$el.querySelector('.ql-gallery-container').scrollLeft += 10
+        }.bind(this), 16);
+      }
+    },
 
-        window.setInterval(function() {
-          this.hideArrows = (imgContainer.offsetWidth >= this.galleryElem.offsetWidth) ? false : true;
-        }.bind(this), 100);
-      },
-      
-  
+    scrollLeft: function(ev) {
+      if (ev.type === 'mousedown') {
+        this.slInterval = window.setInterval(function() {
+          this.$el.querySelector('.ql-gallery-container').scrollLeft -= 10
+        }.bind(this), 16);
+      }
+    },
+
+    clearInterv: function() {
+      /* Stop scrolling */
+      if (this.srInterval) window.clearInterval(this.srInterval);
+      if (this.slInterval) window.clearInterval(this.slInterval);
+    },
+
+
+    checkSize: function() {
+      var imgContainer = this.$el.querySelector('.ql-gallery-img-container');
+
+      window.setInterval(function() {
+        this.hideArrows = (imgContainer.offsetWidth >= this.galleryElem.offsetWidth) ? false : true;
+      }.bind(this), 100);
+    },
+
+
     photoboxInit: function() {
-        Photobox.init({
-          opacity: 0.8
-        });
-      },
-      
-      computeDescription: function(internationalString) {
-        return (internationalString && internationalString[this.lang]) ? internationalString[this.lang] : ' '; /* Return white-space to avoid title being set "undefined" */
-      },
-  
+      Photobox.init({
+        opacity: 0.8
+      });
+    },
+
+    computeDescription: function(internationalString) {
+      return (internationalString && internationalString[this.lang]) ? internationalString[this.lang] : ' '; /* Return white-space to avoid title being set "undefined" */
+    },
+
     handleRefresh: function(data) {
-  		console.log("Aeris Metadata Quicklook Gallery - Refreshing"); 
-    	this.visible = false
-    	if ((! data) || (! data.detail))  {
-    	 return
-    	}
-  		this.quicklooks = [];
-  		this.lang = data.lang || this.lang
-  		if (data.detail.quicklooks) {
-  		  this.visible = true;
-          this.quicklooks = data.detail.quicklooks;
-       }
-       else {
-       	this.visible = false;
-       }  	},
-  	
-  	handleTheme: function(event) {
-  		this.theme = event.detail
-		this.$el.querySelector("header").style.background=this.theme.primary
-  	}
-  	
-  	
+      console.log("Aeris Metadata Quicklook Gallery - Refreshing");
+      this.visible = false
+      if ((!data) || (!data.detail)) {
+        return
+      }
+      this.quicklooks = [];
+      this.lang = data.lang || this.lang
+      if (data.detail.quicklooks) {
+        this.visible = true;
+        this.quicklooks = data.detail.quicklooks;
+      } else {
+        this.visible = false;
+      }
+    },
+
+    handleTheme: function(event) {
+      this.theme = event.detail
+      this.$el.querySelector("header").style.background = this.theme.primary
+    }
+
+
   }
 }
 </script>

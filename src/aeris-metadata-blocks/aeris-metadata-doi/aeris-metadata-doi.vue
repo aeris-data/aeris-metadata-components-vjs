@@ -22,129 +22,132 @@ metadata-format.html
 </i18n>
 
 <template>
-<span class="aeris-metadata-doi-host" v-show="visible">
-<div class="component-container">
-      <header>
-        <h3><i class="fa fa-pencil"></i> {{ $t('header') }}</h3>
-      </header>
-      <main>
+<div class="aeris-metadata-doi-host" v-show="visible">
+  <div class="component-container">
+    <header>
+      <h3><i class="fa fa-pencil"></i> {{ $t('header') }}</h3>
+    </header>
+    <main>
       <article>
         <div class="metadata-doi-description" v-if="doi">
           <h5 v-if="doi">{{$t('doi')}}:</h5>{{doi}}</div>
         <div class="metadata-doi-description" v-if="citation">
           <h5 v-if="citation">{{$t('citation')}}:</h5>{{citation}}</div>
-	</article>
-	</main>
-    </div>
-</span>
+      </article>
+    </main>
+  </div>
+</div>
 </template>
 
 <script>
 export default {
   props: {
-  	lang:  {
+    lang: {
       type: String,
       default: 'en'
     }
   },
 
   watch: {
-    lang (value) {
-	      this.$i18n.locale = value
+    lang(value) {
+      this.$i18n.locale = value
     },
-    doi (value) {
-    	this.citation='';
-    	if (this.doi) {
-    	 var url = 'https://data.datacite.org/text/x-bibliography;style=apa/'+this.doi;
-   	   	this.$http.get(url).then((response)=>{this.handleSuccess(response)},(response)=>{this.handleError(response)});
-   	   }
+    doi(value) {
+      this.citation = '';
+      if (this.doi) {
+        var url = 'https://data.datacite.org/text/x-bibliography;style=apa/' + this.doi;
+        this.$http.get(url).then((response) => {
+          this.handleSuccess(response)
+        }, (response) => {
+          this.handleError(response)
+        });
+      }
     }
   },
 
   destroyed: function() {
-  	document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-  	this.aerisMetadataListener = null;
-  	document.removeEventListener('aerisTheme', this.aerisThemeListener);
-  	this.aerisThemeListener = null;
+    document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    this.aerisMetadataListener = null;
+    document.removeEventListener('aerisTheme', this.aerisThemeListener);
+    this.aerisThemeListener = null;
   },
 
-  created: function () {
-  console.log("Aeris Metadata doi - Creating");
-   this.$i18n.locale = this.lang
+  created: function() {
+    console.log("Aeris Metadata doi - Creating");
+    this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
-   document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-   this.aerisThemeListener = this.handleTheme.bind(this)
-   document.addEventListener('aerisTheme', this.aerisThemeListener);
+    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    this.aerisThemeListener = this.handleTheme.bind(this)
+    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
   mounted: function() {
-     	var event = new CustomEvent('aerisThemeRequest', {});
-  	document.dispatchEvent(event);
+    var event = new CustomEvent('aerisThemeRequest', {});
+    document.dispatchEvent(event);
   },
 
   computed: {
 
   },
 
-   data () {
+  data() {
     return {
-    	visible: true,
-    	theme: null,
-    	doi: null,
-    	citation:null,
-    	aerisThemeListener: null,
-    	aerisMetadataListener: null
+      visible: true,
+      theme: null,
+      doi: null,
+      citation: null,
+      aerisThemeListener: null,
+      aerisMetadataListener: null
     }
   },
 
   updated: function() {
-  	this.ensureTheme()
+    this.ensureTheme()
   },
 
   methods: {
 
     handleRefresh: function(data) {
-  		console.log("Aeris Metadata Citation - Refreshing");
-    	this.visible = false
-    	if ((! data) || (! data.detail))  {
-    	 return
-    	}
-  		this.platforms = [];
-  		this.lang = data.lang || this.lang
-  		if (data.detail.doi) {
-  		  this.visible = true;
-          this.doi = data.detail.doi;
-       }
-       else {
-       	this.visible = false;
-       	//this.visible = true;
-       	//this.doi = "10.25326/1";
-       }
-  	},
+      console.log("Aeris Metadata Citation - Refreshing");
+      this.visible = false
+      if ((!data) || (!data.detail)) {
+        return
+      }
+      this.platforms = [];
+      this.lang = data.lang || this.lang
+      if (data.detail.doi) {
+        this.visible = true;
+        this.doi = data.detail.doi;
+      } else {
+        this.visible = false;
+        //this.visible = true;
+        //this.doi = "10.25326/1";
+      }
+    },
 
-  	 handleSuccess : function(response) {
-	  	 this.citation = response.data.trim();
-	  	 console.log("jjjj");
-  },
+    handleSuccess: function(response) {
+      this.citation = response.data.trim();
+      console.log("jjjj");
+    },
 
-   handleError : function(response) {
-   },
+    handleError: function(response) {},
 
-  	handleTheme: function(theme) {
-  		this.theme = theme
-		this.$el.querySelector("header").style.background=this.theme.primary
-		this.ensureTheme()
-  	},
+    handleTheme: function(theme) {
+      this.theme = theme
+      this.$el.querySelector("header").style.background = this.theme.primary
+      this.ensureTheme()
+    },
 
-  	ensureTheme: function() {
-  	if ((this.theme) && (this.$el.querySelectorAll)) {
-  	var elems = this.$el.querySelectorAll('article h5');
-	    var index = 0, length = elems.length;
-    	for ( ; index < length; index++) {
-        	elems[index].style.color=this.theme.primary
-    	}
+    ensureTheme: function() {
+      if ((this.theme) && (this.$el.querySelectorAll)) {
+        var elems = this.$el.querySelectorAll('article h5');
+        var index = 0,
+          length = elems.length;
+        for (; index < length; index++) {
+          elems[index].style.color = this.theme.primary
+        }
+      }
     }
-  	}
 
 
   }
