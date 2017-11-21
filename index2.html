@@ -4,24 +4,23 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Vue Example</title>
-	<script type="text/javascript" component="aeris-data/aeris-commons-components-vjs@latest" src="https://rawgit.com/aeris-data/aeris-component-loader/master/aerisComponentLoader.js" ></script> 
-	
+	<script type="text/javascript" component="aeris-data/aeris-commons-components-vjs@latest" src="https://rawgit.com/aeris-data/aeris-component-loader/master/aerisComponentLoader.js" ></script>
+
 	<style>
 	body {
         font-family: 'Open Sans', sans-serif;
         margin: 0;
         height: 100%;
       }
-	
+
 	</style>
   </head>
   <body>
-  <link rel="stylesheet" href="https://rawgit.com/aeris-data/aeris-metadata-components-vjs/develop/src/style/aeris-metadata-shared-style.css">
  <style type="text/css">.metadata-container {
     margin: 0 auto;
     max-width: 1000px;
   }
-  
+
   .metadata-container .column {
     width: 50%;
 }
@@ -31,7 +30,7 @@
  	background-color: #d3d3d3;
  	padding:20px
  }
- 
+
  .large-column {
  	width: 80%;
  	overflow-y: scroll;
@@ -59,17 +58,17 @@
 <div class="small-column">
 <h2>Langage</h2>
 <form action="">
-  <input type="radio" name="lang" value="en"> English   <input type="radio" name="lang" value="female"> French 
+  <input type="radio" name="lang" value="en"> English   <input type="radio" name="lang" value="female"> French
 </form>
 <h2>Dataset</h2>
 <form action="">
   <input type="radio" name="dataset"  value="cc9e1df3-f292-496d-a754-6681d5260d54" onclick="document.querySelector('aeris-metadata').setAttribute('identifier', value)"> IASI   <input type="radio" name="dataset" value="575882c0-64ce-4648-bb19-00030d5d63af" onclick="document.querySelector('aeris-metadata').setAttribute('identifier', value)"> IAGOS
-  <input type="radio" name="dataset"  value="61e54760-86ba-4b69-804b-06a7793f9104" onclick="document.querySelector('aeris-metadata').setAttribute('identifier', value)"> IAGOS2 
-  <input type="radio" name="dataset" checked="true" value="bcb74d91-d6ea-4f83-a897-f98f8edc044c" onclick="document.querySelector('aeris-metadata').setAttribute('identifier', value)"> GMOS 
+  <input type="radio" name="dataset"  value="61e54760-86ba-4b69-804b-06a7793f9104" onclick="document.querySelector('aeris-metadata').setAttribute('identifier', value)"> IAGOS2
+  <input type="radio" name="dataset" checked="true" value="bcb74d91-d6ea-4f83-a897-f98f8edc044c" onclick="document.querySelector('aeris-metadata').setAttribute('identifier', value)"> GMOS
 </form>
 <h2>Theme</h2>
 <form action="">
-  <input type="radio" name="theme" checked="false" onclick="document.querySelector('#theme2').setAttribute('active', 'false');document.querySelector('#theme1').setAttribute('active', 'true');"> Blue <input checked="true" type="radio" name="theme" onclick="document.querySelector('#theme1').setAttribute('active', 'false');document.querySelector('#theme2').setAttribute('active', 'true');"> Red 
+  <input type="radio" name="theme" checked="false" onclick="document.querySelector('#theme2').setAttribute('active', 'false');document.querySelector('#theme1').setAttribute('active', 'true');"> Blue <input checked="true" type="radio" name="theme" onclick="document.querySelector('#theme1').setAttribute('active', 'false');document.querySelector('#theme2').setAttribute('active', 'true');"> Red
 </form>
 </div>
 
@@ -82,12 +81,12 @@
 <div class="metadata-container md-template-collection">
 <div class="column style-scope md-template-collection">
 <aeris-metadata-modifications></aeris-metadata-modifications>
-<aeris-metadata-description markdown=""></aeris-metadata-description> 
+<aeris-metadata-description markdown=""></aeris-metadata-description>
 <aeris-metadata-datapolicy></aeris-metadata-datapolicy>
-<aeris-metadata-contacts></aeris-metadata-contacts> 
-<aeris-metadata-spatial-extents></aeris-metadata-spatial-extents> 
-<aeris-metadata-temporal-extents></aeris-metadata-temporal-extents> 
-<aeris-metadata-information-links></aeris-metadata-information-links> 
+<aeris-metadata-contacts></aeris-metadata-contacts>
+<aeris-metadata-spatial-extents></aeris-metadata-spatial-extents>
+<aeris-metadata-temporal-extents></aeris-metadata-temporal-extents>
+<aeris-metadata-information-links></aeris-metadata-information-links>
 <aeris-metadata-data-links></aeris-metadata-data-links>
 <aeris-metadata-information></aeris-metadata-information>
 </div>

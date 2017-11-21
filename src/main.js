@@ -19,29 +19,29 @@ Vue.use(VueColorPlugin)
 Vue.use(VueAerisLanguagePlugin)
 
 import AerisMetadataInternationalField from './aeris-metadata-international-field/aeris-metadata-international-field.vue'
-import AerisMetadataContact from './aeris-metadata-contacts/aeris-metadata-contact.vue'
-import AerisMetadataContacts from './aeris-metadata-contacts/aeris-metadata-contacts.vue'
-import AerisMetadataTemporalExtent from './aeris-metadata-temporal-extents/aeris-metadata-temporal-extent.vue'
-import AerisMetadataTemporalExtents from './aeris-metadata-temporal-extents/aeris-metadata-temporal-extents.vue'
-import AerisMetadataSpatialExtents from './aeris-metadata-spatial-extents/aeris-metadata-spatial-extents.vue'
-import AerisMetadata from './aeris-metadata/aeris-metadata.vue'
-import AerisMetadataFormats from './aeris-metadata-formats/aeris-metadata-formats.vue'
-import AerisMetadataFormat from './aeris-metadata-formats/aeris-metadata-format.vue'
-import AerisMetadataDescription from './aeris-metadata-description/aeris-metadata-description.vue'
-import AerisMetadataInformationLink from './aeris-metadata-information-links/aeris-metadata-information-link.vue'
-import AerisMetadataInformationLinks from './aeris-metadata-information-links/aeris-metadata-information-links.vue'
-import AerisMetadataDataLinks from './aeris-metadata-data-links/aeris-metadata-data-links.vue'
-import AerisMetadataInformation from './aeris-metadata-information/aeris-metadata-information.vue'
-import AerisMetadataPublications from './aeris-metadata-publications/aeris-metadata-publications.vue'
-import AerisMetadataPublication from './aeris-metadata-publications/aeris-metadata-publication.vue'
-import AerisMetadataParameters from './aeris-metadata-parameters/aeris-metadata-parameters.vue'
-import AerisMetadataParameter from './aeris-metadata-parameters/aeris-metadata-parameter.vue'
-import AerisMetadataPlatforms from './aeris-metadata-platforms/aeris-metadata-platforms.vue'
-import AerisMetadataPlatform from './aeris-metadata-platforms/aeris-metadata-platform.vue'
-import AerisMetadataQuicklookGallery from './aeris-metadata-quicklook-gallery/aeris-metadata-quicklook-gallery.vue'
-import AerisMetadataDoi from './aeris-metadata-doi/aeris-metadata-doi.vue'
-import AerisMetadataDatapolicy from './aeris-metadata-datapolicy/aeris-metadata-datapolicy.vue'
-import AerisMetadataModifications from './aeris-metadata-modifications/aeris-metadata-modifications.vue'
+import AerisMetadataContact from './aeris-metadata-blocks/aeris-metadata-contacts/aeris-metadata-contact.vue'
+import AerisMetadataContacts from './aeris-metadata-blocks/aeris-metadata-contacts/aeris-metadata-contacts.vue'
+import AerisMetadataTemporalExtent from './aeris-metadata-blocks/aeris-metadata-temporal-extents/aeris-metadata-temporal-extent.vue'
+import AerisMetadataTemporalExtents from './aeris-metadata-blocks/aeris-metadata-temporal-extents/aeris-metadata-temporal-extents.vue'
+import AerisMetadataSpatialExtents from './aeris-metadata-blocks/aeris-metadata-spatial-extents/aeris-metadata-spatial-extents.vue'
+import AerisMetadata from './aeris-metadata-blocks/aeris-metadata/aeris-metadata.vue'
+import AerisMetadataFormats from './aeris-metadata-blocks/aeris-metadata-formats/aeris-metadata-formats.vue'
+import AerisMetadataFormat from './aeris-metadata-blocks/aeris-metadata-formats/aeris-metadata-format.vue'
+import AerisMetadataDescription from './aeris-metadata-blocks/aeris-metadata-description/aeris-metadata-description.vue'
+import AerisMetadataInformationLink from './aeris-metadata-blocks/aeris-metadata-information-links/aeris-metadata-information-link.vue'
+import AerisMetadataInformationLinks from './aeris-metadata-blocks/aeris-metadata-information-links/aeris-metadata-information-links.vue'
+import AerisMetadataDataLinks from './aeris-metadata-blocks/aeris-metadata-data-links/aeris-metadata-data-links.vue'
+import AerisMetadataInformation from './aeris-metadata-blocks/aeris-metadata-information/aeris-metadata-information.vue'
+import AerisMetadataPublications from './aeris-metadata-blocks/aeris-metadata-publications/aeris-metadata-publications.vue'
+import AerisMetadataPublication from './aeris-metadata-blocks/aeris-metadata-publications/aeris-metadata-publication.vue'
+import AerisMetadataParameters from './aeris-metadata-blocks/aeris-metadata-parameters/aeris-metadata-parameters.vue'
+import AerisMetadataParameter from './aeris-metadata-blocks/aeris-metadata-parameters/aeris-metadata-parameter.vue'
+import AerisMetadataPlatforms from './aeris-metadata-blocks/aeris-metadata-platforms/aeris-metadata-platforms.vue'
+import AerisMetadataPlatform from './aeris-metadata-blocks/aeris-metadata-platforms/aeris-metadata-platform.vue'
+import AerisMetadataQuicklookGallery from './aeris-metadata-blocks/aeris-metadata-quicklook-gallery/aeris-metadata-quicklook-gallery.vue'
+import AerisMetadataDoi from './aeris-metadata-blocks/aeris-metadata-doi/aeris-metadata-doi.vue'
+import AerisMetadataDatapolicy from './aeris-metadata-blocks/aeris-metadata-datapolicy/aeris-metadata-datapolicy.vue'
+import AerisMetadataModifications from './aeris-metadata-blocks/aeris-metadata-modifications/aeris-metadata-modifications.vue'
 import AerisMetadataSynthesis from './misc/aeris-metadata-synthesis.vue';
 
 ljs.addAliases({
@@ -49,7 +49,7 @@ ljs.addAliases({
 	dep: ['photobox', 'https://unpkg.com/vuelayers/lib/style.css', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', 'https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.4.1/document-register-element.js', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js']
 })
 ljs.load('dep', function() {
-	
+
 	function registerElement(name, component) {
 		if (!window.registredAerisElements) {
 			window.registredAerisElements = [];
@@ -59,10 +59,10 @@ ljs.load('dep', function() {
 			window.registredAerisElements.push(name)
 		}
 	}
-	
+
 	console.info("Début registration des custom elements metadata")
 	console.info("Registred elements at this time: "+window.registredAerisElements)
-	
+
 	registerElement('aeris-metadata-international-field', AerisMetadataInternationalField);
 	registerElement('aeris-metadata-contact', AerisMetadataContact);
 	registerElement('aeris-metadata-contacts', AerisMetadataContacts);
@@ -88,8 +88,6 @@ ljs.load('dep', function() {
 	registerElement('aeris-metadata-datapolicy', AerisMetadataDatapolicy);
 	registerElement('aeris-metadata-modifications', AerisMetadataModifications);
 	registerElement('aeris-metadata-synthesis', AerisMetadataSynthesis);
-	
+
 	window.registredAerisElements.push('aeris-metadata-components-vjs')
 })
-
-
