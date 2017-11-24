@@ -94,7 +94,6 @@ export default {
     }
 	
 	aeris-metadata-international-field blockquote {
-	    border-left: solid 2px gray;
 	    padding-left: 10px;
 	}
 </style>
