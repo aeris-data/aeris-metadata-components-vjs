@@ -1,5 +1,5 @@
 <template>
-<div class="aeris-metadata-parameter-host" v-if="visible">
+<div class="aeris-metadata-parameter-host">
   <div class="metadata-parameter-container">
     <article>
       <div>
@@ -22,34 +22,15 @@ export default {
       type: String,
       default: 'en'
     },
-    visible: {
-      type: Boolean,
-      default: true
-    },
     parameter: {
       type: String,
       default: null
     }
   },
 
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
-  updated: function() {
-    this.ensureTheme()
-  },
-
-  destroyed: function() {
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
-  },
 
   created: function() {
     console.log("Aeris Metadata Parameter - Creating");
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
 
   },
 
@@ -64,25 +45,6 @@ export default {
       }
     }
 
-  },
-
-  data() {
-    return {
-      theme: null,
-      aerisThemeListener: null
-    }
-  },
-
-  methods: {
-
-    handleTheme: function(event) {
-      this.theme = event.detail
-      this.ensureTheme();
-    },
-
-    ensureTheme: function() {
-      if (this.theme) {}
-    }
   }
 }
 </script>

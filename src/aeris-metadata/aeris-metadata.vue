@@ -111,7 +111,6 @@ export default {
       tempString = this.replaceAll(tempString, '"eng"', '"en"');
       this.displayableData = tempString;
       var data = JSON.parse(tempString);
-      this.lang = this.lang || this._data.language;
       this.sendDataToComponents(data);
     },
 

@@ -1,11 +1,3 @@
-/*
- dependances:
-
-metadata-shared-styles.html
-font awesome
-aeris-metadata-link
-
-*/
 <i18n>
 {
   "en": {
@@ -24,40 +16,32 @@ aeris-metadata-link
 </i18n>
 
 <template>
-<div class="aeris-metadata-information-links-host" v-if="visible">
-  <div class="component-container">
-    <header class="aeris-metadata-emphasis-background">
-      <h3><i class="fa fa-database"></i> {{ $t('dataAccess') }}</h3>
-      <div class="aeris-icon-group"></div>
-    </header>
-    <main>
-      <div class="aeris-link-category" v-show="httpLinks.length >0">
-        <div class="link-category-header">
-          <h5 class="aeris-metadata-emphasis-text">{{ $t('httpLinks') }}:</h5>
-        </div>
-        <span v-for="link in httpLinks">
-     		<aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
-       		</span>
-      </div>
-      <div class="aeris-link-category" v-show="ftpLinks.length >0">
-        <div class="link-category-header">
-          <h5 class="aeris-metadata-emphasis-text">{{ $t('ftpLinks') }}:</h5>
-        </div>
-        <span v-for="link in ftpLinks">
-     		<aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
-       		</span>
-      </div>
-      <div class="aeris-link-category" v-show="orderLinks.length >0">
-        <div class="link-category-header">
-          <h5 class="aeris-metadata-emphasis-text">{{ $t('orderLinks') }}:</h5>
-        </div>
-        <span v-for="link in orderLinks">
-     		<aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
-       		</span>
-      </div>
-    </main>
+<aeris-metadata-layout v-if="visible" :title="$t('dataAccess')" icon="fa fa-database">
+  <div class="aeris-link-category" v-show="httpLinks.length >0">
+    <div class="link-category-header">
+      <h5 class="aeris-metadata-emphasis-text">{{ $t('httpLinks') }}:</h5>
+    </div>
+    <div v-for="link in httpLinks">
+      <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
+    </div>
   </div>
-</div>
+  <div class="aeris-link-category" v-show="ftpLinks.length >0">
+    <div class="link-category-header">
+      <h5 class="aeris-metadata-emphasis-text">{{ $t('ftpLinks') }}:</h5>
+    </div>
+    <div v-for="link in ftpLinks">
+      <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
+    </div>
+  </div>
+  <div class="aeris-link-category" v-show="orderLinks.length >0">
+    <div class="link-category-header">
+      <h5 class="aeris-metadata-emphasis-text">{{ $t('orderLinks') }}:</h5>
+    </div>
+    <div v-for="link in orderLinks">
+      <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
+    </div>
+  </div>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -76,20 +60,9 @@ export default {
     }
   },
 
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
-  updated: function() {
-    this.ensureTheme()
-  },
-
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
@@ -97,8 +70,6 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
   computed: {
@@ -109,31 +80,13 @@ export default {
       httpLinks: [],
       ftpLinks: [],
       orderLinks: [],
-      visible: true,
-      theme: null,
-      aerisThemeListener: null,
+      visible: false,
       aerisMetadataListener: null
     }
 
   },
   methods: {
 
-    ensureTheme: function() {
-      if (this.theme) {
-        var elems = this.$el.querySelectorAll('.link-category-header h5');
-        var index = 0,
-          length = elems.length;
-        for (; index < length; index++) {
-          elems[index].style.color = this.theme.emphasis
-        }
-      }
-    },
-
-    handleTheme: function(event) {
-      this.$el.querySelector("header").style.background = event.detail.emphasis
-      this.theme = event.detail
-      this.ensureTheme()
-    },
 
     handleRefresh: function(data) {
       console.log("Aeris Metadata Data Links - Refreshing");
@@ -161,25 +114,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
- .aeris-metadata-contacts-host .section-title {
-        border-bottom: 1px solid
-    }
-  .aeris-metadata-contacts-host metadata-contact {
-        margin-top: 5px
-    }
-
-    header.aeris-metadata-emphasis-background {
-     background-color: #f39c12;
-    }
-
-    h5.aeris-metadata-emphasis-text {
-     color: #f39c12;
-    }
-
-
-
-
- </style>

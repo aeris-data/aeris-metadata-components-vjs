@@ -1,20 +1,13 @@
-/*
- dependances:
-
-metadata-shared-styles.html
-metadata-format.html
-
-*/
 <i18n>
 {
   "en": {
-    "header": "How to cite this product ?",
+    "title": "How to cite this product ?",
     "doi": "DOI",
     "citation": "Citation"
 
   },
   "fr": {
-    "header": "Comment citer ce produit ?",
+    "title": "Comment citer ce produit ?",
     "doi": "DOI",
     "citation": "Citation"
   }
@@ -22,23 +15,13 @@ metadata-format.html
 </i18n>
 
 <template>
-<div class="aeris-metadata-doi-host" v-show="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-pencil"></i> {{ $t('header') }}</h3>
-    </header>
-    <main>
-      <article>
-        <div class="metadata-doi-description" v-if="doi">
-          <h5 v-if="doi">{{$t('doi')}}:</h5>{{doi}}</div>
-        <div class="metadata-doi-description" v-if="citation">
-          <h5 v-if="citation">{{$t('citation')}}:</h5>{{citation}}</div>
-      </article>
-    </main>
-  </div>
-</div>
+<aeris-metadata-layout v-if="visible" :title="$t('title')" icon="fa fa-pencil">
+  <div class="metadata-doi-description" v-if="doi">
+    <h5 v-if="doi">{{$t('doi')}}:</h5>{{doi}}</div>
+  <div class="metadata-doi-description" v-if="citation">
+    <h5 v-if="citation">{{$t('citation')}}:</h5>{{citation}}</div>
+</aeris-metadata-layout>
 </template>
-
 <script>
 export default {
   props: {
@@ -68,8 +51,6 @@ export default {
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
@@ -77,32 +58,15 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
-  },
-
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
-  computed: {
-
   },
 
   data() {
     return {
-      visible: true,
-      theme: null,
+      visible: false,
       doi: null,
       citation: null,
-      aerisThemeListener: null,
       aerisMetadataListener: null
     }
-  },
-
-  updated: function() {
-    this.ensureTheme()
   },
 
   methods: {
@@ -114,7 +78,6 @@ export default {
         return
       }
       this.platforms = [];
-      this.lang = data.lang || this.lang
       if (data.detail.doi) {
         this.visible = true;
         this.doi = data.detail.doi;
@@ -127,29 +90,9 @@ export default {
 
     handleSuccess: function(response) {
       this.citation = response.data.trim();
-      console.log("jjjj");
     },
 
     handleError: function(response) {},
-
-    handleTheme: function(theme) {
-      this.theme = theme
-      this.$el.querySelector("header").style.background = this.theme.primary
-      this.ensureTheme()
-    },
-
-    ensureTheme: function() {
-      if ((this.theme) && (this.$el.querySelectorAll)) {
-        var elems = this.$el.querySelectorAll('article h5');
-        var index = 0,
-          length = elems.length;
-        for (; index < length; index++) {
-          elems[index].style.color = this.theme.primary
-        }
-      }
-    }
-
-
   }
 }
 </script>

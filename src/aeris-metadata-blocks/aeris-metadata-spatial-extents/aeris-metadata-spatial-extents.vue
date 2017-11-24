@@ -1,10 +1,3 @@
-/*
- dependances:
-
-metadata-shared-styles.html
-metadata-format.html
-
-*/
 <i18n>
 {
   "en": {
@@ -17,54 +10,46 @@ metadata-format.html
 </i18n>
 
 <template>
-<div class="aeris-metadata-spatial-extent-host" v-show="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-globe"></i> {{ $t('spatialextents') }}</h3>
-      <div class="aeris-icon-group"></div>
-    </header>
-    <main v-if="spatialExtents">
-      <div>
-        <!-- app map -->
-        <vl-map class="map" ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" :controls='controls'>
-          <!-- map view aka ol.View -->
-          <vl-view ref="view" :center="center" :zoom.sync="zoom" :rotation.sync="rotation" />
+<aeris-metadata-layout :title="$t('spatialextents')" icon="fa fa-globe">
 
-          <vl-layer-tile id="mapbox">
-            <vl-source-mapbox mapId="mapbox.streets-satellite" url="https://api.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={accessToken}" attributions="" accessToken="pk.eyJ1IjoiZnJhbmNvaXNhbmRyZSIsImEiOiJjaXVlMGE5b3QwMDBoMm9tZGQ1M2xubzVhIn0.FK8gRVJb4ADNnrO6cNlWUw"
-            />
-          </vl-layer-tile>
+  <!-- app map -->
+  <vl-map class="map" ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" :controls='controls'>
+    <!-- map view aka ol.View -->
+    <vl-view ref="view" :center="center" :zoom.sync="zoom" :rotation.sync="rotation" />
 
-          <vl-layer-vector v-if="onlyPoints">
-            <vl-source-cluster :distance="40">
-              <vl-source-vector>
-                <vl-feature v-for="(extent, index) in spatialExtents" :id="computeFeatureId(extent, index)" :key="computeFeatureId(extent, index)">
-                  <vl-geom-point :coordinates="[extent.area.longitude, extent.area.latitude]" v-if="isPoint(extent)" />
-                </vl-feature>
-              </vl-source-vector>
+    <vl-layer-tile id="mapbox">
+      <vl-source-mapbox mapId="mapbox.streets-satellite" url="https://api.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={accessToken}" attributions="" accessToken="pk.eyJ1IjoiZnJhbmNvaXNhbmRyZSIsImEiOiJjaXVlMGE5b3QwMDBoMm9tZGQ1M2xubzVhIn0.FK8gRVJb4ADNnrO6cNlWUw"
+      />
+    </vl-layer-tile>
 
-              <vl-style-func :factory="clusterStyleFunc">
-              </vl-style-func>
+    <vl-layer-vector v-if="onlyPoints">
+      <vl-source-cluster :distance="40">
+        <vl-source-vector>
+          <vl-feature v-for="(extent, index) in spatialExtents" :id="computeFeatureId(extent, index)" :key="computeFeatureId(extent, index)">
+            <vl-geom-point :coordinates="[extent.area.longitude, extent.area.latitude]" v-if="isPoint(extent)" />
+          </vl-feature>
+        </vl-source-vector>
 
-            </vl-source-cluster>
-          </vl-layer-vector>
+        <vl-style-func :factory="clusterStyleFunc">
+        </vl-style-func>
 
-          <vl-layer-vector v-if="onlyRectangles">
-            <vl-source-vector>
-              <vl-feature v-for="(extent, index) in spatialExtents" :id="computeFeatureId(extent, index)" :key="computeFeatureId(extent, index)">
-                <vl-geom-polygon :coordinates="polygonCoords(extent)" v-if="isRectangle(extent)"></vl-geom-polygon>
-                <vl-style-box>
-                  <vl-style-stroke color="#9c2c04" :width="2"></vl-style-stroke>
-                  <vl-style-fill :color="[224, 64, 6, 0.3]"></vl-style-fill>
-                </vl-style-box>
-              </vl-feature>
-            </vl-source-vector>
-          </vl-layer-vector>
-        </vl-map>
-      </div>
-    </main>
-  </div>
-</div>
+      </vl-source-cluster>
+    </vl-layer-vector>
+
+    <vl-layer-vector v-if="onlyRectangles">
+      <vl-source-vector>
+        <vl-feature v-for="(extent, index) in spatialExtents" :id="computeFeatureId(extent, index)" :key="computeFeatureId(extent, index)">
+          <vl-geom-polygon :coordinates="polygonCoords(extent)" v-if="isRectangle(extent)"></vl-geom-polygon>
+          <vl-style-box>
+            <vl-style-stroke color="#9c2c04" :width="2"></vl-style-stroke>
+            <vl-style-fill :color="[224, 64, 6, 0.3]"></vl-style-fill>
+          </vl-style-box>
+        </vl-feature>
+      </vl-source-vector>
+    </vl-layer-vector>
+
+  </vl-map>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -90,8 +75,6 @@ export default {
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
@@ -99,14 +82,8 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
 
   computed: {
     controls: function() {
@@ -123,8 +100,7 @@ export default {
   data() {
     return {
       spatialExtents: null,
-      visible: true,
-      aerisThemeListener: null,
+      visible: false,
       aerisMetadataListener: null,
       center: [0, 0],
       zoom: 0,
@@ -144,7 +120,6 @@ export default {
         return
       }
       this.spatialExtents = [];
-      this.lang = data.lang || this.lang
       if (data.detail.spatialExtents) {
         this.visible = true;
         this.spatialExtents = data.detail.spatialExtents;
@@ -152,12 +127,6 @@ export default {
         this.visible = false;
       }
       console.log("Pi")
-    },
-
-    handleTheme: function(event) {
-      if (this.$el.querySelector) {
-        this.$el.querySelector("header").style.background = event.detail.primary
-      }
     },
 
     polygonCoords: function(extent) {

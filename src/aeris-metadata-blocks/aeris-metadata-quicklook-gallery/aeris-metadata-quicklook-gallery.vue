@@ -10,28 +10,22 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-quick-gallery-host" v-show="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-picture-o"></i> {{ $t('quicklook_gallery') }}</h3>
-    </header>
-    <main>
-      <i class="prev fa fa-chevron-left fa-2x" v-on:mousedown="scrollLeft" v-if="showArrows"></i>
-      <div class="ql-gallery-container style-scope aeris-metadata-quicklooks-gallery">
-        <div class="ql-gallery-img-container style-scope aeris-metadata-quicklooks-gallery">
+<aeris-metadata-layout v-show="visible" :title="$t('quicklook_gallery')" icon="fa fa-picture-o">
 
-
-          <article class="ql-gallery-image" v-for="item in quicklooks">
-            <a :href="item.url" rel="photobox" :title="computeDescription(item.description)" :data-pb-album="guid">
-						  		<img :src="item.url" alt="Quicklook">
-								</a>
-          </article>
-        </div>
+  <div class="aeris-metadata-quick-gallery-host">
+    <i class="prev fa fa-chevron-left fa-2x" v-on:mousedown="scrollLeft" v-if="showArrows"></i>
+    <div class="ql-gallery-container style-scope aeris-metadata-quicklooks-gallery">
+      <div class="ql-gallery-img-container style-scope aeris-metadata-quicklooks-gallery">
+        <article class="ql-gallery-image" v-for="item in quicklooks">
+          <a :href="item.url" rel="photobox" :title="computeDescription(item.description)" :data-pb-album="guid">
+            <img :src="item.url" alt="Quicklook">
+          </a>
+        </article>
       </div>
-      <i class="next fa fa-chevron-right fa-2x" v-on:mousedown="scrollRight" v-if="showArrows"></i>
-    </main>
+    </div>
+    <i class="next fa fa-chevron-right fa-2x" v-on:mousedown="scrollRight" v-if="showArrows"></i>
   </div>
-</div>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -52,8 +46,6 @@ export default {
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
     document.removeEventListener('mouseup', this.mouseupListener);
     this.mouseupListener = null;
   },
@@ -63,16 +55,10 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
-    this.mouseupListener = this.clearInterv.bind(this)
-    document.addEventListener('mouseup', this.mouseupListener);
   },
 
   mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
     this.galleryElem = this.$el.querySelector('.ql-gallery-container');
-    document.dispatchEvent(event);
     this.hideArrows = true;
     this.photoboxInit();
     this.checkSize();
@@ -97,9 +83,7 @@ export default {
   data() {
     return {
       platforms: [],
-      visible: true,
-      theme: null,
-      aerisThemeListener: null,
+      visible: false,
       aerisMetadataListener: null,
       mouseupListener: null,
       hideArrows: true,
@@ -160,33 +144,26 @@ export default {
         return
       }
       this.quicklooks = [];
-      this.lang = data.lang || this.lang
       if (data.detail.quicklooks) {
         this.visible = true;
         this.quicklooks = data.detail.quicklooks;
       } else {
         this.visible = false;
       }
-    },
-
-    handleTheme: function(event) {
-      this.theme = event.detail
-      this.$el.querySelector("header").style.background = this.theme.primary
     }
-
 
   }
 }
 </script>
 
 <style>
-.aeris-metadata-quick-gallery-host .component-container main {
+.aeris-metadata-quick-gallery-host   {
         position: relative;
         text-align: center;
         overflow: hidden
     }
-.aeris-metadata-quick-gallery-host    .component-container main .prev,
-.aeris-metadata-quick-gallery-host    .component-container main .next {
+.aeris-metadata-quick-gallery-host .prev,
+.aeris-metadata-quick-gallery-host .next {
         position: absolute;
         z-index: 999;
         top: 50%;
@@ -196,16 +173,16 @@ export default {
         color: #333;
         opacity: 0.4
     }
-.aeris-metadata-quick-gallery-host    .component-container main .prev:hover,
-.aeris-metadata-quick-gallery-host    .component-container main .next:hover {
+.aeris-metadata-quick-gallery-host .prev:hover,
+.aeris-metadata-quick-gallery-host      .next:hover {
         cursor: pointer;
         opacity: 0.8
     }
-.aeris-metadata-quick-gallery-host    .component-container main .prev {
+.aeris-metadata-quick-gallery-host .prev {
         padding-left: 3px;
         left: 15px
     }
-.aeris-metadata-quick-gallery-host    .component-container main .next {
+.aeris-metadata-quick-gallery-host .next {
         padding-right: 3px;
         right: 15px
     }

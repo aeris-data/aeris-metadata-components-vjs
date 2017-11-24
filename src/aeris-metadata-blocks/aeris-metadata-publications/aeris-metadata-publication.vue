@@ -18,7 +18,7 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-publication-host" v-if="visible">
+<div class="aeris-metadata-publication-host">
 
   <div class="aeris-publication-container" v-bind:class="{ showBody: deployed }">
     <header class="aeris-publication-header">
@@ -67,10 +67,6 @@ export default {
       type: String,
       default: 'en'
     },
-    visible: {
-      type: Boolean,
-      default: true
-    },
     publication: {
       type: String,
       default: null
@@ -87,19 +83,8 @@ export default {
     this.$i18n.locale = this.lang
   },
 
-  updated: function() {
-    this.ensureTheme()
-  },
-
-  destroyed: function() {
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
-  },
-
   created: function() {
     console.log("Aeris Metadata Format - Creating");
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
 
@@ -136,43 +121,14 @@ export default {
   data() {
     return {
       deployed: false,
-      theme: null,
-      aerisThemeListener: null
-    }
-  },
-
-  methods: {
-
-    handleTheme: function(event) {
-      this.theme = event.detail
-      this.ensureTheme();
-    },
-
-    ensureTheme: function() {
-      if (this.theme) {
-        var elems = this.$el.querySelectorAll('article h5');
-        var index = 0,
-          length = elems.length;
-        for (; index < length; index++) {
-          elems[index].style.color = this.theme.primary
-        }
-      }
     }
   }
 }
 </script>
 
 <style>
-header.aeris-publication-header {
-  background-color: white;
-}
-
 .aeris-publication-container header h5.aeris-publication-header {
   color: #475053;
-}
-
-.aeris-metadata-publication-host header.aeris-publication-header {
-  background: white
 }
 
 .aeris-metadata-publication-host {
@@ -182,16 +138,12 @@ header.aeris-publication-header {
   margin: 10px 0
 }
 
-.aeris-publication-container {
-  border: 1px solid #bbb
-}
-
 .aeris-publication-container header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-flow: nowrap row;
-  padding: 10px
+  padding: 10px;
 }
 
 .aeris-publication-container header h5 {
@@ -207,7 +159,6 @@ header.aeris-publication-header {
   color: #4765A0;
   outline: none;
   border: none;
-  border-bottom: 1px solid #ddd
 }
 
 .aeris-publication-container header i {
@@ -226,7 +177,6 @@ header.aeris-publication-header {
 
 .aeris-publication-container article {
   padding: 10px;
-  border-top: 1px solid #ddd
 }
 
 .aeris-publication-container article h5 {

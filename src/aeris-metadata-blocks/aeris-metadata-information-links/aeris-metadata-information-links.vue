@@ -10,20 +10,9 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-information-links-host" v-show="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-link"></i> {{ $t('informationLinks') }}</h3>
-      <div class="aeris-icon-group"></div>
-    </header>
-    <main>
-      <span v-for="link in links">
-     <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
-
-       </span>
-    </main>
-  </div>
-</div>
+<aeris-metadata-layout v-if="visible" :title="$t('informationLinks')" icon="fa fa-link">
+  <aeris-metadata-information-link v-for="link in links" :key="link.url" :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -42,16 +31,9 @@ export default {
     }
   },
 
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
@@ -59,8 +41,6 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
   computed: {
@@ -69,17 +49,12 @@ export default {
   data() {
     return {
       links: null,
-      visible: true,
-      aerisThemeListener: null,
+      visible: false,
       aerisMetadataListener: null
     }
 
   },
   methods: {
-
-    handleTheme: function(event) {
-      this.$el.querySelector("header").style.background = event.detail.primary
-    },
 
     handleRefresh: function(data) {
       console.log("Aeris Metadata Links - Refreshing");
@@ -98,22 +73,9 @@ export default {
           };
         });
         this.links = informationLinks;
-        this.visible = true;
+        allLinks.length > 0 ? this.visible = true : null;
       }
     }
   }
 }
 </script>
-
-<style>
-
- .aeris-metadata-contacts-host .section-title {
-        border-bottom: 1px solid
-    }
-  .aeris-metadata-contacts-host metadata-contact {
-        margin-top: 5px
-    }
-
-
-
- </style>

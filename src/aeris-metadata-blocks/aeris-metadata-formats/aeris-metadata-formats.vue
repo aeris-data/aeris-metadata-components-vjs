@@ -10,18 +10,11 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-temporal-extent-host" v-show="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-list-ul"></i> {{ $t('formats') }}</h3>
-      <div class="aeris-icon-group"></div>
-    </header>
-    <main>
-      <span v-for="format in formats">
-       <aeris-metadata-format :format="JSON.stringify(format)" :lang="lang"></aeris-metadata-format>
-       </span>
-    </main>
+<aeris-metadata-layout v-if="visible" :title="$t('formats')" icon="fa fa-list-ul">
+  <div v-for="format in formats">
+    <aeris-metadata-format :format="JSON.stringify(format)" :lang="lang"></aeris-metadata-format>
   </div>
+</aeris-metadata-layout>
 </div>
 </template>
 
@@ -31,11 +24,8 @@ export default {
     lang: {
       type: String,
       default: 'en'
-    },
-
-
+    }
   },
-
 
   watch: {
     lang(value) {
@@ -46,8 +36,6 @@ export default {
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
@@ -55,22 +43,13 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
-  computed: {},
   data() {
     return {
       formats: [],
-      visible: true,
+      visible: false,
       aerisMetadataListener: null,
-      aerisThemeListener: null
     }
   },
   methods: {
@@ -82,7 +61,6 @@ export default {
         return
       }
       this.formats = [];
-      this.lang = data.lang || this.lang
       if (data.detail.formats) {
         this.visible = true;
         console.log(data.detail.formats)
@@ -90,23 +68,7 @@ export default {
       } else {
         this.visible = false;
       }
-    },
-
-    handleTheme(e) {
-      this.theme = e.detail;
-      this.ensureTheme();
-    },
-
-    ensureTheme() {
-      if (this.$el.querySelector("header")) {
-        this.$el.querySelector("header").style.background = this.theme.primary;
-      }
     }
-
-
   }
 }
 </script>
-
-<style>
- </style>

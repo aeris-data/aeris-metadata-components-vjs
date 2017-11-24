@@ -10,18 +10,11 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-parameters-host" v-if="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-thermometer-half"></i> {{ $t('parameters') }}</h3>
-    </header>
-    <main>
-      <span v-for="parameter in parameters">
-       <aeris-metadata-parameter :parameter="JSON.stringify(parameter)" :lang="lang"></aeris-metadata-parameter>
-       </span>
-    </main>
+<aeris-metadata-layout v-if="visible" :title="$t('parameters')" icon="fa fa-thermometer-half">
+  <div v-for="parameter in parameters">
+    <aeris-metadata-parameter :parameter="JSON.stringify(parameter)" :lang="lang"></aeris-metadata-parameter>
   </div>
-</div>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -42,8 +35,6 @@ export default {
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
@@ -51,26 +42,12 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
-  updated: function() {
-    this.ensureTheme();
-  },
-
-  computed: {},
   data() {
     return {
       parameters: [],
-      visible: true,
-      theme: null,
-      aerisThemeListener: null,
+      visible: false,
       aerisMetadataListener: null
     }
   },
@@ -83,7 +60,6 @@ export default {
         return
       }
       this.parameters = [];
-      this.lang = data.lang || this.lang
       if (data.detail.parameters) {
         this.visible = true;
         console.log(data.detail.parameters)
@@ -91,24 +67,8 @@ export default {
       } else {
         this.visible = false;
       }
-    },
-
-    ensureTheme: function() {
-      if ((this.theme) && (this.$el.querySelector)) {
-        this.$el.querySelector("header").style.background = this.theme.primary
-      }
-
-    },
-
-    handleTheme: function(event) {
-      this.theme = event.detail
-      this.ensureTheme()
     }
-
 
   }
 }
 </script>
-
-<style>
- </style>

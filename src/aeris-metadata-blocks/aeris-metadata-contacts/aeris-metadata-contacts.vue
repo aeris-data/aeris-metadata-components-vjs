@@ -1,10 +1,3 @@
-/*
- dependances:
-
-metadata-shared-styles.html
-metadata-format.html
-
-*/
 <i18n>
 {
   "en": {
@@ -38,31 +31,17 @@ metadata-format.html
 </i18n>
 
 <template>
-<div class="aeris-metadata-contacts-host" v-show="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-users"></i> {{ $t('contacts') }}</h3>
-      <div class="aeris-icon-group"></div>
-    </header>
-    <main>
-      <span v-if="roles.length>0">
-      <span  v-for="role in roles" >
-      <h5 class="section-title">{{$t(role)}}</h5>
-      <span  v-for="contact in contacts">
-        <aeris-metadata-contact :contact="JSON.stringify(contact)" :lang="lang" v-if="hasRole(contact, role)"></aeris-metadata-contact>
-      </span>
-      </span>
-      </span>
-      <span v-else>
-     <span  v-for="contact in contacts">
-       <aeris-metadata-contact :contact="JSON.stringify(contact)" :lang="lang" ></aeris-metadata-contact>
-     </span>
-      </span>
-
-
-    </main>
+<aeris-metadata-layout v-if="visible" :title="$t('contacts')" icon="fa fa-users">
+  <div v-if="roles.length>0">
+    <div v-for="role in roles">
+      <h5>{{$t(role)}}</h5>
+      <aeris-metadata-contact v-for="contact in contacts" :key="contact.name" :contact="JSON.stringify(contact)" :lang="lang" v-if="hasRole(contact, role)"></aeris-metadata-contact>
+    </div>
   </div>
-</div>
+  <div v-else>
+    <aeris-metadata-contact v-for="contact in contacts" :key="contact.name" :contact="JSON.stringify(contact)" :lang="lang"></aeris-metadata-contact>
+  </div>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -81,20 +60,9 @@ export default {
     }
   },
 
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
-  updated: function() {
-    this.ensureTheme()
-  },
-
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
@@ -102,8 +70,6 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
 
   computed: {
@@ -119,14 +85,14 @@ export default {
       } else {
         return false
       }
+    },
+    visible() {
+      return this.contacts ? Object.keys(this.contacts).some(d => d != null) : false;
     }
   },
   data() {
     return {
       contacts: null,
-      visible: true,
-      theme: null,
-      aerisThemeListener: null,
       aerisMetadataListener: null
     }
 
@@ -143,32 +109,10 @@ export default {
 
     handleRefresh: function(data) {
       console.log("Aeris Metadata Contacts - Refreshing");
-      this.visible = false
-      if ((!data) || (!data.detail)) {
-        return
-      }
-      if (data.detail.contacts) {
+      if (data.detail) {
         this.contacts = data.detail.contacts;
         this.getRolesToDisplay();
-        this.visible = true;
       }
-    },
-
-    ensureTheme: function() {
-      if ((this.theme) && (this.$el.querySelectorAll)) {
-        var elems = this.$el.querySelectorAll('.section-title');
-        var index = 0,
-          length = elems.length;
-        for (; index < length; index++) {
-          elems[index].style.color = this.theme.primary
-        }
-      }
-    },
-
-    handleTheme: function(event) {
-      this.$el.querySelector("header").style.background = event.detail.primary
-      this.theme = event.detail;
-      this.ensureTheme();
     },
 
     getRolesToDisplay: function() {
@@ -195,14 +139,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
- .aeris-metadata-contacts-host .section-title {
-        border-bottom: 1px solid
-    }
-  .aeris-metadata-contacts-host metadata-contact {
-        margin-top: 5px
-    }
-
- </style>

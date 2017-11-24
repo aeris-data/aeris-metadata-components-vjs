@@ -1,10 +1,3 @@
-/*
- dependances:
-
-metadata-shared-styles.html
-metadata-format.html
-
-*/
 <i18n>
 {
   "en": {
@@ -17,19 +10,9 @@ metadata-format.html
 </i18n>
 
 <template>
-<div class="aeris-metadata-temporal-extent-host" v-show="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-bookmark-o"></i> {{ $t('publications') }}</h3>
-      <div class="aeris-icon-group"></div>
-    </header>
-    <main>
-      <span v-for="publication in publications">
-       <aeris-metadata-publication :publication="JSON.stringify(publication)" :lang="lang"></aeris-metadata-publication>
-       </span>
-    </main>
-  </div>
-</div>
+<aeris-metadata-layout v-if="visible" :title="$t('publications')" icon="fa fa-bookmark-o">
+  <aeris-metadata-publication v-for="publication in publications" :key="publication.title" :publication="JSON.stringify(publication)" :lang="lang"></aeris-metadata-publication>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -50,8 +33,6 @@ export default {
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
@@ -59,21 +40,13 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
-  },
-
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
   },
 
   computed: {},
   data() {
     return {
       publications: [],
-      visible: true,
-      aerisThemeListener: null,
+      visible: false,
       aerisMetadataListener: null
     }
   },
@@ -86,7 +59,6 @@ export default {
         return
       }
       this.publications = [];
-      this.lang = data.lang || this.lang
       if (data.detail.publications) {
         this.visible = true;
         console.log(data.detail.publications)
@@ -94,16 +66,7 @@ export default {
       } else {
         this.visible = false;
       }
-    },
-
-    handleTheme: function(event) {
-      this.$el.querySelector("header").style.background = event.detail.primary
     }
-
-
   }
 }
 </script>
-
-<style>
- </style>

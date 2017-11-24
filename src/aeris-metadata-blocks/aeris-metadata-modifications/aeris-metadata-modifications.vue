@@ -12,31 +12,23 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-modifications-host" v-show="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-history"></i> {{ $t('modifications') }}</h3>
-      <div class="aeris-icon-group"></div>
-    </header>
-    <main>
-      <div v-for="modification in modifications">
-        <article class="tempExt">
-          <div class="metadata-temporal">
-            <div>
-              <i class="fa fa-calendar" /><span> {{format(modification.date)}}</span>
-            </div>
-            <div class="metadata-author-description">
-              <i class="fa fa-user" /> : {{modification.author}}
-              <div v-if="modification.name">
-                ( {{modification.name}} )
-              </div>
-            </div>
+<aeris-metadata-layout v-if="visible" :title="$t('modifications')" icon="fa fa-history">
+  <div v-for="modification in modifications">
+    <article class="tempExt">
+      <div class="metadata-temporal">
+        <div>
+          <i class="fa fa-calendar" /><span> {{format(modification.date)}}</span>
+        </div>
+        <div class="metadata-author-description">
+          <i class="fa fa-user" /> : {{modification.author}}
+          <div v-if="modification.name">
+            ( {{modification.name}} )
           </div>
-        </article>
+        </div>
       </div>
-    </main>
+    </article>
   </div>
-</div>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -45,11 +37,8 @@ export default {
     lang: {
       type: String,
       default: 'en'
-    },
-
-
+    }
   },
-
 
   watch: {
     lang(value) {
@@ -57,16 +46,9 @@ export default {
     }
   },
 
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
@@ -74,17 +56,12 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
-
-  computed: {},
 
   data() {
     return {
       modifications: [],
-      visible: true,
-      aerisThemeListener: null,
+      visible: false,
       aerisMetadataListener: null,
       orcidService: "https://sedoo.aeris-data.fr/aeris-rest-services/rest/orcid/name/"
     }
@@ -100,10 +77,6 @@ export default {
       var bMoment = moment(b.date);
       if (aMoment === bMoment) return 0;
       return aMoment.isBefore(bMoment) ? 1 : -1;
-    },
-
-    handleTheme: function(event) {
-      this.$el.querySelector("header").style.background = event.detail.primary
     },
 
     handleError: function() {
@@ -129,7 +102,6 @@ export default {
         return
       }
       this.modifications = [];
-      this.lang = data.lang || this.lang
       if (data.detail.modifications) {
         this.visible = true;
         var modifications = data.detail.modifications;

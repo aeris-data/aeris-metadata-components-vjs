@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-temporal-extent-host" v-if="computedVisible">
+<div class="aeris-metadata-temporal-extent-host">
   <div class="metadata-temporal-container">
     <article class="tempExt">
       <div class="metadata-temporal">
@@ -34,10 +34,6 @@ export default {
     lang: {
       type: String,
       default: 'en'
-    },
-    visible: {
-      type: Boolean,
-      default: true
     },
     begin: {
       type: String,
@@ -72,19 +68,7 @@ export default {
 
     formatedEnd: function() {
       return this.formatDate(this.end)
-    },
-
-    computedVisible: function() {
-      if (this.visible === false) {
-        return false;
-      }
-      if ((this.begin === "") && (this.end === "")) {
-        return false;
-      }
-      return true;
     }
-
-
   },
 
   methods: {
@@ -114,7 +98,6 @@ export default {
   position: relative;
   height: 20px;
   line-height: 20px;
-  font-size: 12px
 }
 
 .metadata-temporal-container i {

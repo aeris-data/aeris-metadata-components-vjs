@@ -6,7 +6,7 @@
 
 
 <template>
-<div class="aeris-metadata-information-link-host" v-if="visible">
+<div class="aeris-metadata-information-link-host">
   <div class="metadata-link-container">
     <main class="aeris-metatada-information-link-content">
       <article class="metadata-link-url">
@@ -26,10 +26,6 @@ export default {
     lang: {
       type: String,
       default: 'en'
-    },
-    visible: {
-      type: Boolean,
-      default: true
     },
     link: {
       type: String,

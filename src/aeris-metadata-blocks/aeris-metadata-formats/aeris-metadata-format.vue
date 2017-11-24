@@ -14,7 +14,7 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-format-host" v-show="visible">
+<div class="aeris-metadata-format-host">
 
   <div class="metadata-format-container" v-bind:class="{ showBody: deployed }">
     <header class="format-header">
@@ -49,10 +49,6 @@ export default {
       type: String,
       default: 'en'
     },
-    visible: {
-      type: Boolean,
-      default: true
-    },
     format: {
       type: String,
       default: null
@@ -66,24 +62,11 @@ export default {
   },
 
   mounted: function() {
-    this.$i18n.locale = this.lang
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
-  updated: function() {
-    this.ensureTheme()
-  },
-
-  destroyed: function() {
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
+    this.$i18n.locale = this.lang;
   },
 
   created: function() {
     console.log("Aeris Metadata Format - Creating");
-    this.themeListener = this.handleTheme.bind(this);
-    document.addEventListener('aerisTheme', this.themeListener);
   },
 
 
@@ -106,27 +89,7 @@ export default {
 
   data() {
     return {
-      deployed: false,
-      theme: null,
-      themeListener: null
-    }
-  },
-
-  methods: {
-
-    handleTheme: function(event) {
-      this.theme = event.detail
-      this.ensureTheme();
-    },
-
-    ensureTheme: function() {
-      if (this.theme) {
-        //  	var elems = this.$el.querySelectorAll('article h5');
-        //	    var index = 0, length = elems.length;
-        //    	for ( ; index < length; index++) {
-        //        	elems[index].style.color=this.theme.primary
-        //    	}
-      }
+      deployed: false
     }
   }
 }
@@ -143,12 +106,7 @@ export default {
   width: 100%
 }
 
-.aeris-metadata-format-host .format-header {
-  background-color: white;
-}
-
 .metadata-format-container {
-  border: 1px solid #bbb;
   overflow: hidden
 }
 
@@ -228,9 +186,5 @@ export default {
 
 .metadata-icon-btn:hover {
   opacity: 0.6
-}
-
-.metadata-format-container header {
-  background-color: #fff
 }
 </style>

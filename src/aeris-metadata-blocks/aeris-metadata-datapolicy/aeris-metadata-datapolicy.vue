@@ -1,33 +1,18 @@
-/*
- dependances:
- font awesome
- international field
- shared style
- markdown
-*/
 <i18n>
-{
-  "en": {
-    "datapolicy": "Data Policy"
-  },
-  "fr": {
-    "datapolicy": "Charte de données"
+  {
+    "en": {
+      "datapolicy": "Data Policy"
+    },
+    "fr": {
+      "datapolicy": "Charte de données"
+    }
   }
-}
 </i18n>
 
 <template>
-<div class="aeris-metadata-description-host" v-show="visible">
-  <div class="component-container">
-    <header>
-      <h3><i class="fa fa-copyright"></i>{{$t('datapolicy')}}</h3>
-      <div class="aeris-icon-group"></div>
-    </header>
-    <main class="metadata-description-main">
-      <aeris-metadata-international-field :html="markdown" :lang="lang" :content="value" no-label-float></aeris-metadata-international-field>
-    </main>
-  </div>
-</div>
+<aeris-metadata-layout v-if="visible" :title="$t('datapolicy')" icon="fa fa-copyright">
+  <aeris-metadata-international-field v-if="visible" :html="markdown" :content="value" no-label-float></aeris-metadata-international-field>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -46,10 +31,15 @@ export default {
 
   data() {
     return {
-      visible: true,
+      visible: false,
       description: null,
-      aerisThemeListener: null,
       aerisMetadataListener: null
+    }
+  },
+
+  computed: {
+    value: function() {
+      return JSON.stringify(this.description);
     }
   },
 
@@ -62,35 +52,16 @@ export default {
   destroyed: function() {
     document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.aerisMetadataListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
 
   created: function() {
     console.log("Aeris Metadata Description - Creating");
     this.$i18n.locale = this.lang
-    this.aerisThemeListener = this.handleTheme.bind(this)
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   },
 
-  computed: {
-    value: function() {
-      return JSON.stringify(this.description);
-    }
-  },
-
-  mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
-    document.dispatchEvent(event);
-  },
-
   methods: {
-
-    handleTheme: function(event) {
-      this.$el.querySelector("header").style.background = event.detail.primary
-    },
 
     handleRefresh: function(data) {
       console.log("Aeris Metadata Description - Refreshing");
@@ -127,9 +98,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.metadata-description-main {
-  text-align: justify;
-}
-</style>
