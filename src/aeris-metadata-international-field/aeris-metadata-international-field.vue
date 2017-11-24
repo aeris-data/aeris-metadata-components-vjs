@@ -92,4 +92,9 @@ export default {
 	.intl-field-display a {
         color: #3498db
     }
+	
+	aeris-metadata-international-field blockquote {
+	    border-left: solid 2px gray;
+	    padding-left: 10px;
+	}
 </style>
