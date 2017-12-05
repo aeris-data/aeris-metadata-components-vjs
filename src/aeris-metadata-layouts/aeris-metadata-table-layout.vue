@@ -65,6 +65,13 @@ export default {
 [data-aeris-metadata-table-layout] table {
   display: flex;
   flex-direction: column;
+  margin-bottom: 16px;
+}
+
+[data-aeris-metadata-table-layout] table th {
+  text-align: left;
+  font-weight: 300;
+  font-size: 1.1rem;
 }
 
 [data-aeris-metadata-table-layout] table tbody tr:nth-child(odd) {
@@ -73,8 +80,16 @@ export default {
 
 [data-aeris-metadata-table-layout] table tr {
   display: flex;
-  justify-content: space-between;
   padding: 10px;
+}
+
+[data-aeris-metadata-table-layout] table tr th,
+[data-aeris-metadata-table-layout] table tr td {
+  width: 33%;
+}
+
+[data-aeris-metadata-table-layout] table td {
+  word-break: break-all;
 }
 
 [data-aeris-metadata-table-layout] table td div {

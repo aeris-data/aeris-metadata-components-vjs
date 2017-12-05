@@ -1,7 +1,7 @@
 <template>
 <ul data-aeris-metadata-list>
   <li v-for="item in JSON.parse(items)" v-if="item.value">
-    <h5>{{item.name}}</h5>
+    <h5>{{item.name}}:</h5>
 
     <p v-if="item.img"><img :src="item.img" /></p>
     <p v-else-if="item.url">{{item}}</p>
@@ -75,14 +75,26 @@ export default {
 <style>
 [data-aeris-metadata-list] {
   padding: 0;
+  margin: 0;
 }
 
 [data-aeris-metadata-list] li {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   list-style: none;
-  padding: 12px 8px;
 }
 
-[data-aeris-metadata-list] li p {
+[data-aeris-metadata-list]>li {
+  padding: 8px 0 0 0px;
+}
+
+[data-aeris-metadata-list] li h5 {
+  margin-right: 10px;
+}
+
+[data-aeris-metadata-list] li p,
+[data-aeris-metadata-list] li ul {
   padding: 0;
   margin: 0;
 }

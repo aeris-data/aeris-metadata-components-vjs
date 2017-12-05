@@ -1,5 +1,5 @@
 <template>
-<div data-aeris-metadata-layout>
+<div data-aeris-metadata-layout data-template="metadata-block">
   <header>
     <h3><i :class="icon"></i>{{title}}</h3>
     <div class="aeris-icon-group"></div>
@@ -86,6 +86,7 @@ export default {
 [data-aeris-metadata-layout] header h3 {
   font-size: 1.5rem;
   font-weight: 300;
+  margin: 0;
 }
 
 [data-aeris-metadata-layout] header i {
@@ -93,12 +94,13 @@ export default {
 }
 
 [data-aeris-metadata-layout] main {
-  padding: 24px;
+  padding: 16px 0 0 0px;
 }
 
 [data-aeris-metadata-layout] h5 {
   font-size: 1rem;
   font-weight: 400;
+  margin: 0;
 }
 
 [data-aeris-metadata-layout] h6 {
