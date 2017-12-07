@@ -10,9 +10,9 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('quicklook_gallery')" icon="fa fa-picture-o">
+<aeris-metadata-layout v-show="visible" :title="$t('quicklook_gallery')" icon="fa fa-picture-o">
   <div class="aeris-metadata-quick-gallery-host">
-    <i class="prev fa fa-chevron-left fa-2x" v-on:mousedown="scrollLeft" v-if="showArrows"></i>
+    <i class="prev fa fa-chevron-left fa-2x" v-on:mousedown="scrollLeft" v-if="!hideArrows"></i>
     <div class="ql-gallery-container style-scope aeris-metadata-quicklooks-gallery">
       <div class="ql-gallery-img-container style-scope aeris-metadata-quicklooks-gallery">
         <article class="ql-gallery-image" v-for="item in quicklooks">
@@ -22,7 +22,7 @@
         </article>
       </div>
     </div>
-    <i class="next fa fa-chevron-right fa-2x" v-on:mousedown="scrollRight" v-if="showArrows"></i>
+    <i class="next fa fa-chevron-right fa-2x" v-on:mousedown="scrollRight" v-if="!hideArrows"></i>
   </div>
 </aeris-metadata-layout>
 </template>
@@ -50,6 +50,8 @@ export default {
     this.aerisMetadataListener = null;
     document.removeEventListener('mouseup', this.mouseupListener);
     this.mouseupListener = null;
+    window.removeEventListener('resize', this.resizeListener);
+    this.resizeListener = null;
   },
 
   created: function() {
@@ -57,22 +59,24 @@ export default {
     this.$i18n.locale = this.lang
     this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
-    console.log("------")
+    this.mouseupListener = this.clearInterv.bind(this)
+    document.addEventListener('mouseup', this.mouseupListener);
+    this.resizeListener = this.checkSize.bind(this);
+    window.addEventListener('resize', this.resizeListener);
   },
 
-  mounted: function() {
-    this.galleryElem = this.$el.querySelector('.ql-gallery-container');
-    this.hideArrows = true;
-    this.photoboxInit();
-    this.checkSize();
+  updated() {
+    var self = this;
+    var imgCompletedInterval = setInterval(function() {
+      if (self.$el.querySelector("img").complete) {
+        clearInterval(imgCompletedInterval);
+        self.checkSize();
+        self.photoboxInit();
+      }
+    }, 500);
   },
-
 
   computed: {
-    showArrows: function() {
-      return !this.hideArrows;
-    },
-
     guid: function() {
       function s4() {
         return Math.floor((1 + Math.random()) * 0x10000)
@@ -88,30 +92,25 @@ export default {
       platforms: [],
       visible: false,
       aerisMetadataListener: null,
+      resizeListener: null,
       mouseupListener: null,
       hideArrows: true,
       quicklooks: null,
-      galleryElem: null,
       srInterval: null
     }
   },
   methods: {
 
     scrollRight: function(ev) {
-      console.log("right")
-      if (ev.type === 'mousedown') {
-        this.srInterval = window.setInterval(function() {
-          this.$el.querySelector('.ql-gallery-container').scrollLeft += 10
-        }.bind(this), 16);
-      }
+      this.srInterval = window.setInterval(function() {
+        this.$el.querySelector('.ql-gallery-container').scrollLeft += 10
+      }.bind(this), 16);
     },
 
     scrollLeft: function(ev) {
-      if (ev.type === 'mousedown') {
-        this.slInterval = window.setInterval(function() {
-          this.$el.querySelector('.ql-gallery-container').scrollLeft -= 10
-        }.bind(this), 16);
-      }
+      this.slInterval = window.setInterval(function() {
+        this.$el.querySelector('.ql-gallery-container').scrollLeft -= 10
+      }.bind(this), 16);
     },
 
     clearInterv: function() {
@@ -120,15 +119,9 @@ export default {
       if (this.slInterval) window.clearInterval(this.slInterval);
     },
 
-
     checkSize: function() {
-      var imgContainer = this.$el.querySelector('.ql-gallery-img-container');
-
-      window.setInterval(function() {
-        this.hideArrows = (imgContainer.offsetWidth >= this.galleryElem.offsetWidth) ? false : true;
-      }.bind(this), 100);
+      this.hideArrows = !(this.$el.querySelector('.ql-gallery-img-container').offsetWidth >= this.$el.querySelector('.ql-gallery-container').offsetWidth);
     },
-
 
     photoboxInit: function() {
       Photobox.init({
@@ -150,6 +143,7 @@ export default {
       if (data.detail.quicklooks) {
         this.visible = true;
         this.quicklooks = data.detail.quicklooks;
+
       } else {
         this.visible = false;
       }
@@ -205,7 +199,8 @@ export default {
         width: auto;
         vertical-align: middle;
         text-align: center;
-        transition: transform 0.3s
+        transform: translateZ(0);
+        transition: transform 0.3s;
     }
     .ql-gallery-image a img {
         height: 100%;
@@ -217,6 +212,6 @@ export default {
     }
     .ql-gallery-image:hover {
         cursor: pointer;
-        transform: scale(1.05)
+        transform: translateZ(0) scale(1.05);
     }
  </style>

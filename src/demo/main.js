@@ -23,20 +23,27 @@ Vue.use(VueColorPlugin)
 Vue.use(VueAerisLanguagePlugin)
 
 import AerisMetadataComponents from '../lib/aeris-metadata-components.js'
+Vue.use(AerisMetadataComponents);
 
 import VueCustomElementRecorder from '../lib/vue-custom-element-recorder.js'
 VueCustomElementRecorder.run();
 
 import app from './app.vue'
 import metadata from './metadata.vue'
+import quicklookGallery from './quicklook-gallery.vue'
 
 const router = new VueRouter({
   mode: 'history',
   routes: [{
-    path: '/:id',
-    component: metadata,
-    props: true
-  }]
+      path: '/metadata/:id',
+      component: metadata,
+      props: true
+    },
+    {
+      path: '/quicklook-gallery',
+      component: quicklookGallery
+    }
+  ]
 })
 
 new Vue({
@@ -45,6 +52,7 @@ new Vue({
   template: '<app/>',
   components: {
     app,
-    metadata
+    metadata,
+    quicklookGallery
   }
 }).$mount('#app')
