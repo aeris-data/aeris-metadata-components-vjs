@@ -1,6 +1,6 @@
 import AerisMetadata from './components/aeris-metadata/aeris-metadata.vue';
 import AerisMetadataList from './components/aeris-metadata-ui/aeris-metadata-list.vue'
-import AerisMetadataTableLayout from './components/aeris-metadata-layouts/aeris-metadata-table-layout.vue';
+import AerisMetadataUiTable from './components/aeris-metadata-ui/aeris-metadata-ui-table.vue';
 import AerisMetadataLayout from './components/aeris-metadata-layouts/aeris-metadata-layout.vue';
 import AerisMetadataInternationalField from './components/aeris-metadata-international-field/aeris-metadata-international-field.vue'
 import AerisMetadataContact from './components/aeris-metadata-blocks/aeris-metadata-contacts/aeris-metadata-contact.vue'
@@ -30,7 +30,7 @@ import AerisMetadataSynthesis from './components/misc/aeris-metadata-synthesis.v
 const AerisMetadataComponents = {
   AerisMetadata,
   AerisMetadataList,
-  AerisMetadataTableLayout,
+  AerisMetadataUiTable,
   AerisMetadataLayout,
   AerisMetadataInternationalField,
   AerisMetadataContact,

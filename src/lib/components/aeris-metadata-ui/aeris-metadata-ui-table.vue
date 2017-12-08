@@ -23,7 +23,7 @@
 <script>
 export default {
 
-  name: 'aeris-metadata-table-layout',
+  name: 'aeris-metadata-ui-table',
 
   props: {
     table: {
