@@ -1,6 +1,22 @@
 <template>
 <div data-aeris-metadata-table-layout>
-  <slot></slot>
+  <table>
+    <thead>
+      <tr>
+        <th v-for="title in tableParsed.header">{{title}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="row in tableParsed.content">
+        <td v-for="column in row">
+          <!-- <div v-if="column.type == 'img'">
+            <img :src="column.value"></img>
+          </div> -->
+          <span v-html="column.value"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 </template>
 
@@ -9,10 +25,22 @@ export default {
 
   name: 'aeris-metadata-table-layout',
 
+  props: {
+    table: {
+      required: true
+    }
+  },
+
   data() {
     return {
       theme: null,
       aerisThemeListener: null
+    }
+  },
+
+  computed: {
+    tableParsed() {
+      return JSON.parse(this.table);
     }
   },
 
