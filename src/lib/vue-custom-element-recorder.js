@@ -31,10 +31,12 @@ const VueCustomElementRecorder = {
 
         for (let component in AerisMetadataComponents) {
           if (AerisMetadataComponents[component] && component !== 'install') {
-            console.log(AerisMetadataComponents[component].name)
-            Vue.customElement(AerisMetadataComponents[component].name, AerisMetadataComponents[component]);
+
+            if (window.registredAerisElements.indexOf(AerisMetadataComponents[component].name) < 0) {
+              Vue.customElement(AerisMetadataComponents[component].name, AerisMetadataComponents[component]);
+              window.registredAerisElements.push(AerisMetadataComponents[component].name);
+            }
           }
-          window.registredAerisElements.push(component.name);
         }
 
         window.registredAerisElements.push('aeris-metadata-components-vjs');
