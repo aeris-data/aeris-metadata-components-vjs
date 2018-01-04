@@ -25,6 +25,8 @@ import AerisMetadataQuicklookGallery from './components/aeris-metadata-blocks/ae
 import AerisMetadataDoi from './components/aeris-metadata-blocks/aeris-metadata-doi/aeris-metadata-doi.vue'
 import AerisMetadataDatapolicy from './components/aeris-metadata-blocks/aeris-metadata-datapolicy/aeris-metadata-datapolicy.vue'
 import AerisMetadataModifications from './components/aeris-metadata-blocks/aeris-metadata-modifications/aeris-metadata-modifications.vue'
+import AerisMetadataSingleFileDownload from './components/aeris-metadata-blocks/aeris-metadata-single-file-download/aeris-metadata-single-file-download.vue';
+import AerisMetadataYearSelectDownload from './components/aeris-metadata-blocks/aeris-metadata-year-select-download/aeris-metadata-year-select-download.vue';
 import AerisMetadataSynthesis from './components/misc/aeris-metadata-synthesis.vue';
 
 const AerisMetadataComponents = {
@@ -55,6 +57,8 @@ const AerisMetadataComponents = {
   AerisMetadataDoi,
   AerisMetadataDatapolicy,
   AerisMetadataModifications,
+  AerisMetadataSingleFileDownload,
+  AerisMetadataYearSelectDownload,
   AerisMetadataSynthesis
 };
 
