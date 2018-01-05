@@ -76,7 +76,7 @@ export default {
           };
         });
         this.links = informationLinks;
-        allLinks.length > 0 ? this.visible = true : null;
+        this.links.length > 0 ? this.visible = true : null;
       }
     }
   }
