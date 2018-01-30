@@ -1,17 +1,21 @@
 <template>
 <ul data-aeris-metadata-list>
   <li v-for="item in JSON.parse(items)" v-if="item.value">
-    <h5>{{item.name}}:</h5>
+    <aeris-metadata-ui-card>
+      <i :class="item.icon"></i>
+      <dt>{{item.name}}</dt>
+      <dd v-if="item.value">{{item.value}}</dd>
+      <dd v-else-if="item.img"><img :src="item.img" /></dd>
+      <dd v-else-if="item.url">{{item}}</dd>
 
-    <p v-if="item.img"><img :src="item.img" /></p>
-    <p v-else-if="item.url">{{item}}</p>
+      <dl v-else-if="Array.isArray(item.value)">
+        <template v-for="subitem in item.value">
+          <dt>{{subitem.title}}</dt>
+          <dd>{{subitem.text}}</dd>
+        </template>
+      </dl>
 
-    <ul v-else-if="Array.isArray(item.value)">
-      <li v-for="subitem in item.value">{{subitem}}</li>
-    </ul>
-
-    <p v-else-if="item.value">{{item.value}}</p>
-
+    </aeris-metadata-ui-card>
   </li>
 </ul>
 </template>
@@ -77,27 +81,23 @@ export default {
 
 <style>
 [data-aeris-metadata-list] {
+  display: flex;
+  flex-flow: row wrap;
   padding: 0;
   margin: 0;
 }
 
-[data-aeris-metadata-list] li {
+[data-aeris-metadata-list]>li {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   list-style: none;
-}
-
-[data-aeris-metadata-list]>li {
   padding: 8px 0 0 0px;
+  margin: 4px 8px;
 }
 
-[data-aeris-metadata-list] li h5 {
-  margin-right: 10px;
-}
-
-[data-aeris-metadata-list] li p,
-[data-aeris-metadata-list] li ul {
+[data-aeris-metadata-list]>li p,
+[data-aeris-metadata-list]>li ul {
   padding: 0;
   margin: 0;
 }
