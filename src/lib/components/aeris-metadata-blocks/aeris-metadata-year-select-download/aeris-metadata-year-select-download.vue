@@ -67,8 +67,6 @@ export default {
     this.aerisMetadataListener = null;
     document.removeEventListener('cartContentResponse', this.cartContentResponseListener);
     this.cartContentResponseListener = null;
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
-    this.aerisThemeListener = null;
   },
   created: function() {
     console.log("Aeris year select download - Creating");
@@ -78,9 +76,6 @@ export default {
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
     this.cartContentResponseListener = this.cartContentResponse.bind(this);
     document.addEventListener('cartContentResponse', this.cartContentResponseListener);
-    // to get the theme
-    this.aerisThemeListener = this.handleTheme.bind(this);
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
   },
   computed: {
   },
@@ -91,14 +86,12 @@ export default {
       aerisMetadataListener: null,
       cartResponseListener: null,
       cartContentResponseListener: null,
-      aerisThemeListener: null,
       years: [],
       service: null,
       uuid: null,
       collectionName: null,
       loading: false,
-      isL0: false,
-      theme: null
+      isL0: false
     }
   },
   methods: {
@@ -288,17 +281,6 @@ export default {
       var message = response.statusText;
       if (!error) message = 'Can\'t connect to the server';
       console.log('Error ' + error + ': ' + message);
-    },
-
-    handleTheme: function(event) {
-        this.theme = event.detail;
-        this.ensureTheme();
-      },
-
-    ensureTheme: function() {
-    	if (this.$el && this.$el.querySelector("header h3 i")) {
-    		this.$el.querySelector("header h3 i").style.color = this.theme.primary;
-    	}
     }
   } // methods
 } // default
