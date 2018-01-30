@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('publications')" icon="fa fa-bookmark-o">
+<aeris-metadata-layout v-show="visible" :title="$t('publications')" :type="type" :isVisible="visible" :order="order" icon="fa fa-bookmark-o">
   <aeris-metadata-publication v-for="publication in publications" :key="publication.title" :publication="JSON.stringify(publication)" :lang="lang"></aeris-metadata-publication>
 </aeris-metadata-layout>
 </template>
@@ -24,6 +24,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -50,7 +53,8 @@ export default {
     return {
       publications: [],
       visible: false,
-      aerisMetadataListener: null
+      aerisMetadataListener: null,
+      type: 'aerisPublications'
     }
   },
   methods: {

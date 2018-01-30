@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('parameters')" icon="fa fa-thermometer-half">
+<aeris-metadata-layout v-show="visible" :title="$t('parameters')" :type="type" :isVisible="visible" :order="order" icon="fa fa-thermometer-half">
   <div v-for="parameter in parameters">
     <aeris-metadata-parameter :parameter="JSON.stringify(parameter)" :lang="lang"></aeris-metadata-parameter>
   </div>
@@ -26,6 +26,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -51,7 +54,8 @@ export default {
     return {
       parameters: [],
       visible: false,
-      aerisMetadataListener: null
+      aerisMetadataListener: null,
+      type: 'aerisParameters'
     }
   },
   methods: {

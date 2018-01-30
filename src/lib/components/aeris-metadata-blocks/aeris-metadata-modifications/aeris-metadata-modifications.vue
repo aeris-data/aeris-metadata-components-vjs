@@ -12,22 +12,23 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('modifications')" icon="fa fa-history">
-  <div v-for="modification in modifications">
-    <article class="tempExt">
-      <div class="metadata-temporal">
-        <div>
-          <i class="fa fa-calendar" /><span> {{format(modification.date)}}</span>
-        </div>
-        <div class="metadata-author-description">
-          <i class="fa fa-user" /> : {{modification.author}}
-          <div v-if="modification.name">
-            ( {{modification.name}} )
-          </div>
-        </div>
-      </div>
-    </article>
-  </div>
+<aeris-metadata-layout data-aeris-metadata-modifications v-show="visible" :title="$t('modifications')" :type="type" :isVisible="visible" :order="order" icon="fa fa-history">
+  <ul>
+    <li v-for="modification in modifications">
+      <aeris-metadata-ui-card>
+        <i class="fa fa-calendar"></i>
+        <ul>
+          <li>
+            <p>{{format(modification.date)}}</p>
+          </li>
+          <li>
+            <p>{{modification.author}}</p>
+            <p v-if="modification.name">({{modification.name}})</p>
+          </li>
+        </ul>
+      </aeris-metadata-ui-card>
+    </li>
+  </ul>
 </aeris-metadata-layout>
 </template>
 
@@ -40,6 +41,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -66,7 +70,8 @@ export default {
       modifications: [],
       visible: false,
       aerisMetadataListener: null,
-      orcidService: "https://sedoo.aeris-data.fr/aeris-rest-services/rest/orcid/name/"
+      orcidService: "https://sedoo.aeris-data.fr/aeris-rest-services/rest/orcid/name/",
+      type: 'aerisModifications'
     }
   },
   methods: {
@@ -132,13 +137,19 @@ export default {
 </script>
 
 <style>
-
-.metadata-author-description {
-    margin-left: 0.5em;
-padding: 3px 0 0 10px;
-border-left: 1px solid #bbb;
-font-size: 0.8em;
-line-height: 1.5em;
+[data-aeris-metadata-modifications] ul {
+  display: flex;
+  flex-flow: row wrap;
+  padding: 0;
+  margin: 0;
 }
 
- </style>
+[data-aeris-metadata-modifications] li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  list-style: none;
+  padding: 8px 0 0 0px;
+  margin: 4px 8px;
+}
+</style>

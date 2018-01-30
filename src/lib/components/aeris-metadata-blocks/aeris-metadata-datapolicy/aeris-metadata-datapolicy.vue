@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('datapolicy')" icon="fa fa-copyright">
+<aeris-metadata-layout v-if="visible" :title="$t('datapolicy')" :type="type" :isVisible="visible" :order="order" icon="fa fa-copyright">
   <aeris-metadata-international-field v-if="visible" :html="markdown" :content="value" no-label-float></aeris-metadata-international-field>
 </aeris-metadata-layout>
 </template>
@@ -30,10 +30,14 @@ export default {
       type: Boolean,
       default: true
     },
+    order: {
+      type: Number
+    }
   },
 
   data() {
     return {
+      type: 'aerisDataPolicy',
       visible: false,
       description: null,
       aerisMetadataListener: null

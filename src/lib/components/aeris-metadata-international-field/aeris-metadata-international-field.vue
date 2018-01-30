@@ -1,11 +1,11 @@
 <template>
 <div class="aeris-metadata-internatinal-field-host" v-if="visible">
   <div class="intl-field-display">
-    <span v-if="html" v-html="text"></span>
-    <span v-else>
-     <span v-if="isLink"><a :href="text" target="_blank" >{{_truncate(text)}}</a></span>
-    <span v-else>{{text}}</span>
-    </span>
+    <p v-if="html" v-html="text"></p>
+    <p v-else>
+      <span v-if="isLink"><a :href="text" target="_blank" >{{_truncate(text)}}</a></span>
+      <span v-else>{{text}}</span>
+    </p>
   </div>
 </div>
 </template>

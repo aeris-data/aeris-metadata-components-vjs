@@ -10,8 +10,8 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('description')" icon="fa fa-comment-o">
-  <aeris-metadata-international-field v-if="visible" :html="markdown" :lang="lang" :content="value" no-label-float></aeris-metadata-international-field>
+<aeris-metadata-layout data-aeris-metadata-description v-show="visible" :title="$t('description')" :type="type" :isVisible="visible" :order="order" icon="fa fa-comment-o">
+  <aeris-metadata-international-field v-show="visible" :html="markdown" :lang="lang" :content="value" no-label-float></aeris-metadata-international-field>
 </aeris-metadata-layout>
 </template>
 
@@ -30,10 +30,14 @@ export default {
       type: Boolean,
       default: true
     },
+    order: {
+      type: Number
+    }
   },
 
   data() {
     return {
+      type: 'aerisDescription',
       visible: false,
       description: null,
       aerisMetadataListener: null

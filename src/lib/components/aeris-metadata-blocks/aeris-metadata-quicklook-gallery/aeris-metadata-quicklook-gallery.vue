@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-show="visible" :title="$t('quicklook_gallery')" icon="fa fa-picture-o">
+<aeris-metadata-layout v-show="visible" :title="$t('quicklook_gallery')" :type="type" :isVisible="visible" :order="order" icon="fa fa-picture-o">
   <div class="aeris-metadata-quick-gallery-host">
     <i class="prev fa fa-chevron-left fa-2x" v-on:mousedown="scrollLeft" v-if="!hideArrows"></i>
     <div class="ql-gallery-container style-scope aeris-metadata-quicklooks-gallery">
@@ -36,6 +36,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -96,7 +99,8 @@ export default {
       mouseupListener: null,
       hideArrows: true,
       quicklooks: null,
-      srInterval: null
+      srInterval: null,
+      type: 'aerisQuicklookGallery'
     }
   },
   methods: {

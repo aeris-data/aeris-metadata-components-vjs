@@ -5,13 +5,11 @@ import AerisMetadataListDefinitionLayout from './components/aeris-metadata-layou
 import AerisMetadataListDefinitionMultipleLayout from './components/aeris-metadata-layouts/aeris-metadata-list-definition-multiple-layout.vue'
 import AerisMetadataLayout from './components/aeris-metadata-layouts/aeris-metadata-layout.vue';
 import AerisMetadataInternationalField from './components/aeris-metadata-international-field/aeris-metadata-international-field.vue'
-import AerisMetadataContact from './components/aeris-metadata-blocks/aeris-metadata-contacts/aeris-metadata-contact.vue'
 import AerisMetadataContacts from './components/aeris-metadata-blocks/aeris-metadata-contacts/aeris-metadata-contacts.vue'
 import AerisMetadataTemporalExtent from './components/aeris-metadata-blocks/aeris-metadata-temporal-extents/aeris-metadata-temporal-extent.vue'
 import AerisMetadataTemporalExtents from './components/aeris-metadata-blocks/aeris-metadata-temporal-extents/aeris-metadata-temporal-extents.vue'
 import AerisMetadataSpatialExtents from './components/aeris-metadata-blocks/aeris-metadata-spatial-extents/aeris-metadata-spatial-extents.vue'
 import AerisMetadataFormats from './components/aeris-metadata-blocks/aeris-metadata-formats/aeris-metadata-formats.vue'
-import AerisMetadataFormat from './components/aeris-metadata-blocks/aeris-metadata-formats/aeris-metadata-format.vue'
 import AerisMetadataDescription from './components/aeris-metadata-blocks/aeris-metadata-description/aeris-metadata-description.vue'
 import AerisMetadataInformationLink from './components/aeris-metadata-blocks/aeris-metadata-information-links/aeris-metadata-information-link.vue'
 import AerisMetadataInformationLinks from './components/aeris-metadata-blocks/aeris-metadata-information-links/aeris-metadata-information-links.vue'
@@ -39,13 +37,11 @@ const AerisMetadataComponents = {
   AerisMetadataListDefinitionMultipleLayout,
   AerisMetadataLayout,
   AerisMetadataInternationalField,
-  AerisMetadataContact,
   AerisMetadataContacts,
   AerisMetadataTemporalExtent,
   AerisMetadataTemporalExtents,
   AerisMetadataSpatialExtents,
   AerisMetadataFormats,
-  AerisMetadataFormat,
   AerisMetadataDescription,
   AerisMetadataInformationLink,
   AerisMetadataInformationLinks,

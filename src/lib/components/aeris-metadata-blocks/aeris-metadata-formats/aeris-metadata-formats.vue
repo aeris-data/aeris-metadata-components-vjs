@@ -1,21 +1,32 @@
 <i18n>
 {
   "en": {
-    "formats": "Formats"
+    "formats": "Formats",
+    "readingInformation": "How to read the file ?",
+    "description": "Description",
+    "temporalInterval": "Temporal interval"
   },
   "fr": {
-    "formats": "Formats"
+    "formats": "Formats",
+    "readingInformation": "Comment lire le fichier ?",
+    "description": "Description",
+    "temporalInterval": "Intervalle temporel"
   }
 }
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('formats')" icon="fa fa-list-ul">
-  <div v-for="format in formats">
-    <aeris-metadata-format :format="JSON.stringify(format)" :lang="lang"></aeris-metadata-format>
-  </div>
+<aeris-metadata-layout v-show="visible" :title="$t('formats')" :type="type" :isVisible="visible" :order="order" icon="fa fa-files-o">
+  <aeris-metadata-list-definition-multiple-layout :items="JSON.stringify(items)">
+    <div slot="item" slot-scope="props" v-if="props.item.temporalInterval">
+      <dt>{{props.item.title}}</dt>
+      <dd>
+        <aeris-metadata-temporal-extent :begin="props.item.temporalInterval.beginDate" :end="props.item.temporalInterval.endDate" :comment="props.item.temporalInterval.comment" :lang="lang" no-delete></aeris-metadata-temporal-extent>
+      </dd>
+    </div>
+  </aeris-metadata-list-definition-multiple-layout>
+
 </aeris-metadata-layout>
-</div>
 </template>
 
 <script>
@@ -27,6 +38,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -50,26 +64,53 @@ export default {
 
   data() {
     return {
+      type: 'formats',
       formats: [],
       visible: false,
-      aerisMetadataListener: null,
+      aerisMetadataListener: null
     }
   },
+
+  computed: {
+
+    items() {
+      return this.formats.map(format => {
+        return {
+          icon: 'fa fa-file',
+          value: [{
+              title: "Format",
+              text: format.name
+            },
+            {
+              title: this.$i18n.t('description'),
+              internationalText: format.description
+            },
+            {
+              title: this.$i18n.t('readingInformation'),
+              internationalText: format.readingInformation
+            },
+            {
+              title: this.$i18n.t('temporalInterval'),
+              temporalInterval: format.temporalInterval ? {
+                beginDate: format.readingInformation.beginDate,
+                endDate: format.readingInformation.endDate,
+                comment: format.readingInformation.comment
+              } : null
+            }
+          ]
+        }
+      });
+    }
+  },
+
   methods: {
 
     handleRefresh: function(data) {
       console.log("Aeris Metadata Formats - Refreshing");
-      this.visible = false
-      if ((!data) || (!data.detail)) {
-        return
-      }
       this.formats = [];
-      if (data.detail.formats) {
-        this.visible = true;
-        console.log(data.detail.formats)
+      this.visible = data.detail && data.detail.formats ? true : false;
+      if (this.visible) {
         this.formats = data.detail.formats;
-      } else {
-        this.visible = false;
       }
     }
   }

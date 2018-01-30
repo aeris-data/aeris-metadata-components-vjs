@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('temporalExtents')" icon="fa fa-clock-o">
+  <aeris-metadata-layout v-show="visible" :title="$t('temporalExtents')" :type="type" :isVisible="visible" :order="order" icon="fa fa-clock-o">
 
   <div v-for="temporalExtent in temporalExtents">
     <aeris-metadata-temporal-extent :begin="temporalExtent.beginDate" :end="temporalExtent.endDate" :comment="JSON.stringify(temporalExtent.comment)" v-if="temporalExtent.comment" :lang="lang"></aeris-metadata-temporal-extent>
@@ -29,6 +29,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -54,6 +57,7 @@ export default {
 
   data() {
     return {
+      type: 'aerisTemporalExtents',
       temporalExtents: [],
       visible: false,
       aerisMetadataListener: null

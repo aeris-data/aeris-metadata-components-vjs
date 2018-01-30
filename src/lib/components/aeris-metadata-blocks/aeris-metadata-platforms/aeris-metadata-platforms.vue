@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('platforms')" icon="fa fa-cubes">
+<aeris-metadata-layout v-show="visible" :title="$t('platforms')" :type="type" :isVisible="visible" :order="order" icon="fa fa-cubes">
   <aeris-metadata-platform v-for="platform in platforms" :key="platform.name" :platform="JSON.stringify(platform)" :lang="lang"></aeris-metadata-platform>
 </aeris-metadata-layout>
 </template>
@@ -24,6 +24,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -49,7 +52,8 @@ export default {
     return {
       platforms: [],
       visible: false,
-      aerisMetadataListener: null
+      aerisMetadataListener: null,
+      type: 'aerisPlatforms'
     }
   },
   methods: {

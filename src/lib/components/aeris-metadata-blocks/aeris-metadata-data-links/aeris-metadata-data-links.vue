@@ -16,7 +16,7 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('dataAccess')" icon="fa fa-database">
+<aeris-metadata-layout v-show="visible" :title="$t('dataAccess')" :type="type" :isVisible="visible" :order="order" icon="fa fa-database">
   <div class="aeris-link-category" v-show="httpLinks.length >0">
     <div class="link-category-header">
       <h5 class="aeris-metadata-emphasis-text">{{ $t('httpLinks') }}:</h5>
@@ -53,6 +53,9 @@ export default {
     lang: {
       type: String,
       default: 'fr'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -84,7 +87,8 @@ export default {
       ftpLinks: [],
       orderLinks: [],
       visible: false,
-      aerisMetadataListener: null
+      aerisMetadataListener: null,
+      type: 'aerisDataLinks'
     }
 
   },

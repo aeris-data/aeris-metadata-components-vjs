@@ -20,8 +20,8 @@ e.<i18n>
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('otherInformation')" icon="fa fa-info">
-  <aeris-metadata-list :items="JSON.stringify(items)"></aeris-metadata-list>
+<aeris-metadata-layout v-show="visible" :title="$t('otherInformation')" :type="type" :isVisible="visible" :order="order" icon="fa fa-info">
+  <aeris-metadata-list-definition-layout :items="JSON.stringify(items)"></aeris-metadata-list-definition-layout>
 </aeris-metadata-layout>
 </template>
 
@@ -35,8 +35,9 @@ export default {
       type: String,
       default: 'en'
     },
-
-
+    order: {
+      type: Number
+    }
   },
 
   watch: {
@@ -88,7 +89,8 @@ export default {
     return {
       aerisMetadataListener: null,
       data: [],
-      visible: false
+      visible: false,
+      type: 'otherInformation'
     }
   },
 
@@ -96,18 +98,17 @@ export default {
 
     handleRefresh: function(e) {
       console.log("Aeris Metadata Information - Refreshing");
-      this.visible = false;
-      if (!e.detail.id && !e.detail.lastModification && !e.detail.aerisDataCenter && !e.detail.projection && !e.detail.dataLevel) {
-        return
+      this.visible = e.detail.id || e.detail.lastModification || e.detail.aerisDataCenter || e.detail.projection || e.detail.dataLevel;
+
+      if (this.visible) {
+        this.data = {
+          id: e.detail.id,
+          lastModification: e.detail.lastModification,
+          aerisDataCenter: e.detail.aerisDataCenter,
+          projection: e.detail.projection,
+          dataLevel: e.detail.dataLevel
+        }
       }
-      this.data = {
-        id: e.detail.id,
-        lastModification: e.detail.lastModification,
-        aerisDataCenter: e.detail.aerisDataCenter,
-        projection: e.detail.projection,
-        dataLevel: e.detail.dataLevel
-      };
-      this.visible = true;
     },
 
     formatDate: function(date) {

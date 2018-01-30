@@ -31,16 +31,14 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('contacts')" icon="fa fa-users">
-  <div v-if="roles.length>0">
-    <div v-for="role in roles">
+<aeris-metadata-layout data-aeris-metadata-contacts v-show="visible" :title="$t('contacts')" :type="type" :isVisible="visible" :order="order" icon="fa fa-users">
+  <div v-if="roles.length>0" v-for="role in roles">
+    <header>
       <h5>{{$t(role)}}</h5>
-      <aeris-metadata-contact v-for="contact in contacts" :key="contact.name" :contact="JSON.stringify(contact)" :lang="lang" v-if="hasRole(contact, role)"></aeris-metadata-contact>
-    </div>
+    </header>
+    <aeris-metadata-list-definition-multiple-layout :items="JSON.stringify(toItems(contacts, role))"></aeris-metadata-list-definition-multiple-layout>
   </div>
-  <div v-else>
-    <aeris-metadata-contact v-for="contact in contacts" :key="contact.name" :contact="JSON.stringify(contact)" :lang="lang"></aeris-metadata-contact>
-  </div>
+  <aeris-metadata-list-definition-multiple-layout v-else :items="JSON.stringify(items)"></aeris-metadata-list-definition-multiple-layout>
 </aeris-metadata-layout>
 </template>
 
@@ -53,6 +51,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -91,16 +92,45 @@ export default {
     },
     visible() {
       return this.contacts ? Object.keys(this.contacts).some(d => d != null) : false;
+    },
+    items() {
+      return this.contacts.map(contact => {
+        return {
+
+        }
+      })
     }
   },
   data() {
     return {
-      contacts: null,
-      aerisMetadataListener: null
+      type: 'contacts',
+      aerisMetadataListener: null,
+      contacts: []
     }
 
   },
   methods: {
+
+    toItems(contacts, role) {
+      return this.contacts.filter(contact => this.hasRole(contact, role)).map(contact => {
+        return {
+          icon: 'fa fa-user',
+          value: [{
+            title: "Name",
+            text: contact.name
+          }, {
+            title: "Organisation",
+            text: contact.organisation
+          }, {
+            title: "Email",
+            text: contact.email
+          }, {
+            title: "Commentaire",
+            internationalText: contact.comment
+          }]
+        }
+      });
+    },
 
     hasRole: function(contact, role) {
       if (contact.roles) {
@@ -112,9 +142,11 @@ export default {
 
     handleRefresh: function(data) {
       console.log("Aeris Metadata Contacts - Refreshing");
-      if (data.detail) {
+      if (data.detail && data.detail.contacts && data.detail.contacts.length > 0) {
         this.contacts = data.detail.contacts;
-        this.getRolesToDisplay();
+        if (this.visible) {
+          this.getRolesToDisplay();
+        }
       }
     },
 
@@ -142,3 +174,13 @@ export default {
   }
 }
 </script>
+
+<style>
+[data-aeris-metadata-contacts] h5 {
+  padding: 32px 0;
+  margin: 0;
+  font-weight: 400;
+  font-size: 1.2em;
+  color: #333;
+}
+</style>

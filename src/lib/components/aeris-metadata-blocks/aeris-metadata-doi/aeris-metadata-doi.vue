@@ -15,7 +15,7 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('title')" icon="fa fa-pencil">
+<aeris-metadata-layout v-show="visible" :title="$t('title')" :type="type" :isVisible="visible" :order="order" icon="fa fa-pencil">
   <div class="metadata-doi-description" v-if="doi">
     <h5 v-if="doi">{{$t('doi')}}:</h5>{{doi}}</div>
   <div class="metadata-doi-description" v-if="citation">
@@ -31,6 +31,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -68,7 +71,8 @@ export default {
       visible: false,
       doi: null,
       citation: null,
-      aerisMetadataListener: null
+      aerisMetadataListener: null,
+      type: 'aerisDataDoi'
     }
   },
 

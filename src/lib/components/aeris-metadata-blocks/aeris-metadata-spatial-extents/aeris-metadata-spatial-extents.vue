@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout :title="$t('spatialextents')" icon="fa fa-globe">
+<aeris-metadata-layout :title="$t('spatialextents')" :type="type" :isVisible="visible" :order="order" icon="fa fa-globe">
 
   <!-- app map -->
   <vl-map class="map" ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" :controls='controls'>
@@ -66,6 +66,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -102,6 +105,7 @@ export default {
   },
   data() {
     return {
+      type: 'aerisSpatialExtents',
       spatialExtents: null,
       visible: false,
       aerisMetadataListener: null,

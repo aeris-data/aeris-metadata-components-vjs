@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('informationLinks')" icon="fa fa-link">
+<aeris-metadata-layout v-show="visible" :title="$t('informationLinks')":type="type" :isVisible="visible" :order="order" icon="fa fa-link">
   <aeris-metadata-information-link v-for="link in links" :key="link.url" :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
 </aeris-metadata-layout>
 </template>
@@ -24,6 +24,9 @@ export default {
     lang: {
       type: String,
       default: 'en'
+    },
+    order: {
+      type: Number
     }
   },
 
@@ -53,7 +56,8 @@ export default {
     return {
       links: null,
       visible: false,
-      aerisMetadataListener: null
+      aerisMetadataListener: null,
+      type: 'aerisInformationLinks'
     }
 
   },
