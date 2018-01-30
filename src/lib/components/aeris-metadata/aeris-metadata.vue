@@ -21,7 +21,7 @@
 export default {
 
   name: 'aeris-metadata',
-  
+
   props: {
     lang: {
       type: String,
@@ -51,21 +51,16 @@ export default {
       this.$i18n.locale = value
     },
 
-    identifier() {
-      this.refresh();
-    },
-    service() {
+    identifier(value) {
       this.refresh();
     }
   },
 
   mounted: function() {
     this.$i18n.locale = this.lang;
-    this.refresh();
-  },
-
-  computed: {
-
+    this.$nextTick(function() {
+      this.refresh();
+    })
   },
 
   methods: {
