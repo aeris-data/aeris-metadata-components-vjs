@@ -19,6 +19,9 @@
     <li>
       <router-link to="/quicklook-gallery">/quicklook-gallery</router-link>
     </li>
+    <li>
+    <router-link to="/aeris-metadata-synthesis">/aeris-metadata-synthesis</router-link>
+  </li>
   </ul>
   <div>
     <router-view class="view"></router-view>

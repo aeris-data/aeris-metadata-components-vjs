@@ -31,6 +31,7 @@ VueCustomElementRecorder.run();
 import app from './app.vue'
 import metadata from './metadata.vue'
 import quicklookGallery from './quicklook-gallery.vue'
+import metadataSynthesis from './aeris-metadata-synthesis.vue'
 
 const router = new VueRouter({
   mode: 'history',
@@ -42,6 +43,10 @@ const router = new VueRouter({
     {
       path: '/quicklook-gallery',
       component: quicklookGallery
+    },
+    {
+      path: '/aeris-metadata-synthesis',
+      component: metadataSynthesis
     }
   ]
 })

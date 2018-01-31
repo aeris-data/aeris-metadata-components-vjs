@@ -14,17 +14,17 @@
   <aeris-metadata :identifier="identifier" :lang="lang" :service="service">
   </aeris-metadata>
   <div class="metadata-container">
-    <aeris-metadata-description markdown="true"></aeris-metadata-description>
-    <aeris-metadata-contacts></aeris-metadata-contacts>
-    <aeris-metadata-temporal-extents></aeris-metadata-temporal-extents>
-    <aeris-metadata-data-links></aeris-metadata-data-links>
-    <aeris-metadata-information-links></aeris-metadata-information-links>
-    <aeris-metadata-disponibility-calendar calendar-type="quarter"></aeris-metadata-disponibility-calendar>
-    <aeris-metadata-platforms></aeris-metadata-platforms>
-    <aeris-metadata-formats></aeris-metadata-formats>
-    <aeris-metadata-parameters></aeris-metadata-parameters>
-    <aeris-metadata-publications></aeris-metadata-publications>
-    <aeris-metadata-quicklook-gallery></aeris-metadata-quicklook-gallery>
+    <aeris-metadata-description markdown="true" :lang="lang"></aeris-metadata-description>
+    <aeris-metadata-contacts :lang="lang"></aeris-metadata-contacts>
+    <aeris-metadata-temporal-extents :lang="lang"></aeris-metadata-temporal-extents>
+    <aeris-metadata-data-links :lang="lang"></aeris-metadata-data-links>
+    <aeris-metadata-information-links :lang="lang"></aeris-metadata-information-links>
+    <aeris-metadata-disponibility-calendar calendar-type="quarter" :lang="lang"></aeris-metadata-disponibility-calendar>
+    <aeris-metadata-platforms :lang="lang"></aeris-metadata-platforms>
+    <aeris-metadata-formats :lang="lang"></aeris-metadata-formats>
+    <aeris-metadata-parameters :lang="lang"></aeris-metadata-parameters>
+    <aeris-metadata-publications :lang="lang"></aeris-metadata-publications>
+    <aeris-metadata-quicklook-gallery :lang="lang"></aeris-metadata-quicklook-gallery>
   </div>
 </div>
 </div>
@@ -52,8 +52,15 @@ export default {
 
   },
 
+  watch: {
+	    lang(value) {
+	      this.$i18n.locale = value;
+	    }
+  },
+	  
   created: function() {
     console.log("Aeris metadata synthesis - Creating");
+    this.$i18n.locale = this.lang;
   },
 
 

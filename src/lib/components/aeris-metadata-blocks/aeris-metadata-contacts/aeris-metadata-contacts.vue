@@ -11,7 +11,8 @@
     "owner": "Owner",
     "principalinvestigator":"Principal investigator",
     "processor": "Processor",
-    "publisher": "Publisher"
+    "publisher": "Publisher",
+    "resourceprovider": "Resource provider"
 
   },
   "fr": {
@@ -25,7 +26,8 @@
     "owner": "Propriétaire",
     "principalinvestigator": "Investigateur principal",
     "processor": "Elaborateur",
-    "publisher": "Publicateur"
+    "publisher": "Publicateur",
+    "resourceprovider": "Fournisseur de ressources"
   }
 }
 </i18n>
