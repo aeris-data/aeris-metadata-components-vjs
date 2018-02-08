@@ -1,6 +1,7 @@
 <template>
 <ul data-aeris-metadata-list>
   <li v-for="item in JSON.parse(items)" v-if="item.value">
+
     <h5>{{item.name}}:</h5>
 
     <p v-if="item.img"><img :src="item.img" /></p>
@@ -10,7 +11,7 @@
       <li v-for="subitem in item.value">{{subitem}}</li>
     </ul>
 
-    <p v-else-if="item.value">{{item.value}}</p>
+    <p v-else-if="item.value" v-html="item.value"></p>
 
   </li>
 </ul>
