@@ -14,7 +14,7 @@
   <aeris-metadata :identifier="identifier" :lang="lang" :service="service">
   </aeris-metadata>
   <div class="metadata-container">
-    <aeris-metadata-description markdown="true" :lang="lang"></aeris-metadata-description>
+    <aeris-metadata-description :markdown="true" :lang="lang"></aeris-metadata-description>
     <aeris-metadata-contacts :lang="lang"></aeris-metadata-contacts>
     <aeris-metadata-temporal-extents :lang="lang"></aeris-metadata-temporal-extents>
     <aeris-metadata-data-links :lang="lang"></aeris-metadata-data-links>

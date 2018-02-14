@@ -68,7 +68,7 @@ export default {
   updated() {
     var self = this;
     var imgCompletedInterval = setInterval(function() {
-      if (self.$el.querySelector("img").complete) {
+    if (self.$el.querySelector("img") && self.$el.querySelector("img").complete) {
         clearInterval(imgCompletedInterval);
         self.checkSize();
         self.photoboxInit();
