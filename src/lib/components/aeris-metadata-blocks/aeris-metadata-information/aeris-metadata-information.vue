@@ -61,10 +61,6 @@ export default {
           name: this.$i18n.t('dataCenter')
         },
         {
-          value: this.data.projection,
-          name: this.$i18n.t('projection')
-        },
-        {
           value: this.data.dataLevel,
           name: this.$i18n.t('dataLevel')
         }
@@ -97,14 +93,15 @@ export default {
     handleRefresh: function(e) {
       console.log("Aeris Metadata Information - Refreshing");
       this.visible = false;
-      if (!e.detail.id && !e.detail.lastModification && !e.detail.aerisDataCenter && !e.detail.projection && !e.detail.dataLevel) {
-        return
+      if (e.detail) {
+    	  if (!e.detail.id && !e.detail.lastModification && !e.detail.aerisDataCenter && !e.detail.dataLevel) {
+	        return
+	      }
       }
       this.data = {
         id: e.detail.id,
-        lastModification: e.detail.lastModification,
+        lastModification: (e.detail.lastModification ? e.detail.lastModification.value : ''),
         aerisDataCenter: e.detail.aerisDataCenter,
-        projection: e.detail.projection,
         dataLevel: e.detail.dataLevel
       };
       this.visible = true;

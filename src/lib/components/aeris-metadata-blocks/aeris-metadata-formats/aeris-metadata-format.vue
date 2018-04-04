@@ -24,15 +24,15 @@
     <article v-if="hasMore">
       <div class="metadata-format-description">
         <h5 v-if="value.description">{{$t('description')}}:</h5>
-        <aeris-metadata-international-field label="Description" :content="JSON.stringify(value.description)" :lang="lang" no-label-float convertlinks="true"></aeris-metadata-international-field>
+        <aeris-metadata-international-field label="Description" :content="JSON.stringify(value.description)" :lang="lang" no-label-float :convertlinks="true"></aeris-metadata-international-field>
       </div>
       <div class="metadata-format-reading">
         <h5 v-if="value.readingInformation">{{$t('readingInformation')}}</h5>
         <p>
-          <aeris-metadata-international-field :content="JSON.stringify(value.readingInformation)" :lang="lang" no-label-float convertlinks="true"></aeris-metadata-international-field>
+          <aeris-metadata-international-field :content="JSON.stringify(value.readingInformation)" :lang="lang" no-label-float :convertlinks="true"></aeris-metadata-international-field>
         </p>
       </div>
-      <div class="metadata-format-temporal">
+      <div class="metadata-format-temporal" v-if="value.readingInformation">
         <h5 v-if="value.temporalInterval">{{$t('temporalInterval')}}:</h5>
         <aeris-metadata-temporal-extent :begin="value.readingInformation.beginDate" :end="value.readingInformation.endDate" :comment="value.readingInformation.comment" :lang="lang" no-delete></aeris-metadata-temporal-extent>
       </div>

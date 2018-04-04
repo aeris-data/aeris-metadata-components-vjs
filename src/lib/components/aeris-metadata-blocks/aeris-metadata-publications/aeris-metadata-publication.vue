@@ -53,7 +53,7 @@
       </div>
       <div>
         <h5 v-if="value.doi">{{$t('doi')}}</h5>
-        <p><a :href="computedDoiUrl" target="_blank">{{value.doi}}</a></p>
+        <p ><a :href="computedDoiUrl" target="_blank">{{computedDoiLinkName}}</a></p>
       </div>
     </article>
   </div>
@@ -109,12 +109,19 @@ export default {
         return 'http://doi.org/' + aux;
       }
     },
+    
+    computedDoiLinkName: function() {
+    	if (this.value.doi.length > 60) {
+        	return this.value.doi.substring(0, 60) + '...';	
+    	} else {
+    		return this.value.doi;
+    	}
+    },
 
     value: function() {
       if (this.publication == null) {
         return {};
       } else {
-        console.log(this.publication)
         return JSON.parse(this.publication);
       }
     }
@@ -147,6 +154,7 @@ export default {
   align-items: center;
   flex-flow: nowrap row;
   padding: 10px;
+  backface-visibility: hidden; 
 }
 
 .aeris-publication-container header h5 {

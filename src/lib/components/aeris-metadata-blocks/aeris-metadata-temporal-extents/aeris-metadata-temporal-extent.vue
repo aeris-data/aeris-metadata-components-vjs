@@ -76,7 +76,7 @@ export default {
 
   methods: {
     formatDate: function(date) {
-      return date ? (date.toLowerCase() === 'now') ? moment().format('LL') : moment(date, 'YYYY-MM-DD').format('LL') : '';
+      return date ? (date.toLowerCase() === 'now') ? moment().format('LLL') : moment(date, 'YYYY-MM-DD').format('LLL') : '';
     }
   }
 }

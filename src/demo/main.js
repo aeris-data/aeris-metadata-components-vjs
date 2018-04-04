@@ -58,6 +58,7 @@ new Vue({
   components: {
     app,
     metadata,
-    quicklookGallery
+    quicklookGallery,
+    metadataSynthesis
   }
 }).$mount('#app')

@@ -24,7 +24,7 @@
       <span>{{value.type}}</span>
       <div class="metadata-format-description">
         <h6 v-if="value.description">{{$t('description')}}:</h6>
-        <aeris-metadata-international-field label="Description" :content="JSON.stringify(value.description)" :lang="lang" no-label-float convertlinks="true"></aeris-metadata-international-field>
+        <aeris-metadata-international-field label="Description" :content="JSON.stringify(value.description)" :lang="lang" no-label-float :convertlinks="true"></aeris-metadata-international-field>
       </div>
     </article>
   </div>
@@ -98,6 +98,13 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 5px 10px;
+  backface-visibility: hidden; 
+}
+
+.aeris-plateform-container header i {
+  margin-left: 20px;
+  color: #999;
+  cursor: pointer
 }
 
 .aeris-plateform-container.showPlateformBody .platform-collapsable-part {
@@ -106,11 +113,11 @@ export default {
 }
 
 .aeris-plateform-container.showPlateformBody .chevron {
-  transform: rotate(180deg)
+  transform: rotate(180deg);
 }
 
 .aeris-plateform-container .chevron {
-  transition: 0.3s
+  transition: 0.3s;
 }
 
 .aeris-plateform-container .platform-collapsable-part {

@@ -107,7 +107,7 @@ export default {
         }
       }))
       var tempString = JSON.stringify(response.data);
-      console.log("tempString: " + tempString)
+      //console.log("tempString: " + tempString)
       tempString = this.replaceAll(tempString, '"fre"', '"fr"');
       tempString = this.replaceAll(tempString, '"eng"', '"en"');
       this.displayableData = tempString;
