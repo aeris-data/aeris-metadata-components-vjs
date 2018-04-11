@@ -14,7 +14,7 @@
       <router-link to="/metadata/bcb74d91-d6ea-4f83-a897-f98f8edc044c">/gmos</router-link>
     </li>
     <li>
-      <router-link to="/metadata/a8d2dfb6-b3e4-7885-9825-e4ea0e0f485e">/escompte</router-link>
+      <router-link to="/metadata/045632bf-fadb-41fa-b09d-e66365b1c08a">/escompte</router-link>
     </li>
     <li>
       <router-link to="/quicklook-gallery">/quicklook-gallery</router-link>
