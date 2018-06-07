@@ -1,7 +1,8 @@
 <template>
 <div>
   <aeris-metadata :identifier="id" lang="fr" service="http://localhost:9080/catalogue/rest/metadatarecette/id">
-    <aeris-metadata-modifications></aeris-metadata-modifications>
+  	<aeris-metadata-instruments></aeris-metadata-instruments>
+  	<aeris-metadata-modifications></aeris-metadata-modifications>
     <aeris-metadata-description markdown=""></aeris-metadata-description>
     <aeris-metadata-datapolicy></aeris-metadata-datapolicy>
     <aeris-metadata-contacts></aeris-metadata-contacts>
