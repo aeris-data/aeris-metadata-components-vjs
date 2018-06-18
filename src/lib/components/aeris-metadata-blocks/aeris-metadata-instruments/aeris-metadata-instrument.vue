@@ -110,11 +110,9 @@ export default {
 		  // this is bad but i'll try to improve it with the store
 		  let metadataService = document.querySelector('aeris-catalog').attributes.getNamedItem('metadata-service').value;
 		  if (metadataService.endsWith("/")) {
-			  console.log('length:' + metadataService.length);
-			  console.log('pos /: ' + metadataService.lastIndexOf("/"));
 			  metadataService = metadataService.substr(0, metadataService.lastIndexOf("/"));
 		  }
-		  if (metadataService.endsWith("metadatarecette/")) {
+		  if (metadataService.endsWith("metadatarecette")) {
 			  this.thesaurusService = metadataService.substr(0, metadataService.lastIndexOf("/")) + "/thesaurusrecette/INSTRUMENT/"
 		  } else {
 			  this.thesaurusService = metadataService.substr(0, metadataService.lastIndexOf("/")) + "/thesaurus/INSTRUMENT/"
@@ -123,7 +121,6 @@ export default {
 	  
 	  searchLabels: function() {
 		  // to manage in the store later
-		  console.log('concat: ' + this.value.thesaurusConcat);
 		  let url = this.thesaurusService + this.value.thesaurusConcat;
 		  this.$http.get(url).then(response => {
 			  	this.handleSuccess(response)

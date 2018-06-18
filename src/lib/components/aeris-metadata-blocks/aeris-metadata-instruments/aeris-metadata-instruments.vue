@@ -62,11 +62,9 @@ export default {
       }
       this.instruments = [];
       if (data.detail.instruments) {
-    	  console.log("999 il y a des instruments");
         this.visible = true;
         this.instruments = data.detail.instruments;
       } else {
-    	  console.log("999 napa des instruments");
         this.visible = false;
       }
     }
