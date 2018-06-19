@@ -30,7 +30,7 @@
       <i class="chevron" :class="openIconClass"></i>
     </header>
     <article class="instrument-collapsable-part">
-      <span>{{className}} > {{codeName}} > {{nameName}}</span>
+      <span>{{thesaurusLabel}}</span>
       <ul class="metadata-format-description">
       	<li><h6 v-if="value.manufacturer">{{$t('manufacturer')}}: </h6>{{value.manufacturer}}</li>
       	<li><h6 v-if="value.model">{{$t('model')}}: </h6>{{value.model}}</li>
@@ -89,6 +89,9 @@ export default {
       } else {
         return JSON.parse(this.instrument);
       }
+    },
+    thesaurusLabel: function() {
+      return this.className + (this.codeName ? " > " +  this.codeName +  (this.nameName ? " > " + this.nameName : "") : (this.nameName ? " > " + this.nameName : ""));
     }
   },
 
@@ -109,7 +112,7 @@ export default {
 	  getThesaurusServiceName: function() {
 		  // this is bad but i'll try to improve it with the store
 		  let metadataService = document.querySelector('aeris-catalog').attributes.getNamedItem('metadata-service').value;
-		  if (metadataService.endsWith("/")) {
+      if (metadataService.endsWith("/")) {
 			  metadataService = metadataService.substr(0, metadataService.lastIndexOf("/"));
 		  }
 		  if (metadataService.endsWith("metadatarecette")) {
