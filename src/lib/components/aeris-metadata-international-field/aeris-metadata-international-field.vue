@@ -57,7 +57,7 @@ export default {
       if (!this.lang) {
         return this.content;
       }
-      console.log("content " + this.content);
+      //console.log("content " + this.content);
       var json = JSON.parse(this.content)
       for (var key in json) {
         if (key === 'DEFAULT_VALUE_KEY') {

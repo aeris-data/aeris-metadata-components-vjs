@@ -77,8 +77,7 @@ export default {
   created: function() {
     console.log("Aeris Metadata Instrument - Creating");
     this.$i18n.locale = this.lang;
-    this.getThesaurusServiceName();
-    this.searchLabels();
+    this.labelHandle();
   },
 
   computed: {
@@ -109,58 +108,31 @@ export default {
   },
   
   methods: {
-	  getThesaurusServiceName: function() {
-		  // this is bad but i'll try to improve it with the store
-		  let metadataService = document.querySelector('aeris-catalog').attributes.getNamedItem('metadata-service').value;
-      if (metadataService.endsWith("/")) {
-			  metadataService = metadataService.substr(0, metadataService.lastIndexOf("/"));
-		  }
-		  if (metadataService.endsWith("metadatarecette")) {
-			  this.thesaurusService = metadataService.substr(0, metadataService.lastIndexOf("/")) + "/thesaurusrecette/INSTRUMENT/"
-		  } else {
-			  this.thesaurusService = metadataService.substr(0, metadataService.lastIndexOf("/")) + "/thesaurus/INSTRUMENT/"
-		  }
-	  },
 	  
-	  searchLabels: function() {
-		  // to manage in the store later
-		  let url = this.thesaurusService + this.value.thesaurusConcat;
-		  this.$http.get(url).then(response => {
-			  	this.handleSuccess(response)
-	         }, response => {
-	            this.handleError(response)
-	         });
-	  },
-	  
-	  handleSuccess: function(response) {
-		  let thesaurus = response.body;
-		  if (thesaurus.thesaurusClassification.code != "") {
-			  this.className = (this.lang == "fr") ? thesaurus.thesaurusClassification.name.fr : thesaurus.thesaurusClassification.name.en;
+	  labelHandle: function() {
+      let metadata = this.value;
+		  if (metadata.thesaurusClass.code != "") {
+			  this.className = (this.lang == "fr") ? metadata.thesaurusClass.name.fr ? metadata.thesaurusClass.name.fr : metadata.thesaurusClass.name.en : metadata.thesaurusClass.name.en;
 		  }
-		  if (thesaurus.thesaurusClassification.thesaurusCode.code != "") {
-			  this.codeName = (this.lang == "fr") ? thesaurus.thesaurusClassification.thesaurusCode.name.fr : thesaurus.thesaurusClassification.thesaurusCode.name.en;
+		  if (metadata.thesaurusClass.thesaurusCode.code != "") {
+        this.codeName = (this.lang == "fr") ? metadata.thesaurusClass.thesaurusCode.name.fr ? metadata.thesaurusClass.thesaurusCode.name.fr : metadata.thesaurusClass.thesaurusCode.name.en : metadata.thesaurusClass.thesaurusCode.name.en;
 		  }
-		  if (thesaurus.thesaurusClassification.thesaurusCode.thesaurusName.code != "") {
+		  if (metadata.thesaurusClass.thesaurusCode.thesaurusName.code != "") {
 			  if (this.codeName == "") {
-				  this.codeName = (this.lang == "fr") ? thesaurus.thesaurusClassification.thesaurusCode.thesaurusName.name.fr : thesaurus.thesaurusClassification.thesaurusCode.thesaurusName.name.en;
+				  this.codeName = (this.lang == "fr") ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
 			  } else {
-				  this.nameName = (this.lang == "fr") ? thesaurus.thesaurusClassification.thesaurusCode.thesaurusName.name.fr : thesaurus.thesaurusClassification.thesaurusCode.thesaurusName.name.en;
+				  this.nameName = (this.lang == "fr") ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
 			  }
 		  }
-		  if (this.value.displayName == "") {
+		  if (metadata.displayName == "") {
 			  this.title = this.className; 
 		  } else {
-			  this.title = this.value.displayName;
+			  this.title = metadata.displayName;
 		  }
-		  if (this.value.resolution) {
-			  this.resolutionDisplay = this.value.resolution.resolutionValue + " " + this.value.resolution.resolutionUnit;
+		  if (metadata.resolution) {
+			  this.resolutionDisplay = metadata.resolution.resolutionValue + " " + metadata.resolution.resolutionUnit;
 		  }
 			  
-	  },
-	  
-	  handleError: function(response) {
-		  console.log(response);
-		  document.dispatchEvent(new CustomEvent('aerisErrorNotificationMessageEvent', { 'detail': {message: this.$t('thesaususSearchError')}}));
 	  }
   }
 
