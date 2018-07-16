@@ -102,8 +102,7 @@ export default {
       codeName: "",
       nameName: "",
       title: "",
-      resolutionDisplay: "",
-      thesaurusService: ""
+      resolutionDisplay: ""
     }
   },
   
