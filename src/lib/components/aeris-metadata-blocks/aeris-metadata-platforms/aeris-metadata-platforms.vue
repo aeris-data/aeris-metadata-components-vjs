@@ -61,9 +61,9 @@ export default {
         return
       }
       this.platforms = [];
-      if (data.detail.plateforms) {
+      if (data.detail.platforms) {
         this.visible = true;
-        this.platforms = data.detail.plateforms;
+        this.platforms = data.detail.platforms;
       } else {
         this.visible = false;
       }
