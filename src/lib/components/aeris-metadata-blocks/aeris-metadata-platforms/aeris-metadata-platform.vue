@@ -108,7 +108,7 @@ export default {
 				  this.nameName = (this.lang == "fr") ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
 			  }
 		  }
-		  if (metadata.displayName == "") {
+		  if (metadata.name == "") {
 			  this.title = this.className; 
 		  } else {
 			  this.title = metadata.name;

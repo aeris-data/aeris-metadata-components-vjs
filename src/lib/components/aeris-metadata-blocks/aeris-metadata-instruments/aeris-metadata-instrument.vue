@@ -97,7 +97,6 @@ export default {
   data() {
     return {
       deployed: false,
-      aerisServicesListener: null,
       className: "",
       codeName: "",
       nameName: "",
