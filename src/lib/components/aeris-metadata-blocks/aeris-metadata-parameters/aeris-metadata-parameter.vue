@@ -57,7 +57,6 @@ export default {
     }
   },
 
-
   created: function() {
     console.log("Aeris Metadata Parameter - Creating");
     this.labelHandle();
