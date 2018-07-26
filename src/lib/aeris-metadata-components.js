@@ -23,12 +23,14 @@ import AerisMetadataPlatforms from './components/aeris-metadata-blocks/aeris-met
 import AerisMetadataPlatform from './components/aeris-metadata-blocks/aeris-metadata-platforms/aeris-metadata-platform.vue'
 import AerisMetadataQuicklookGallery from './components/aeris-metadata-blocks/aeris-metadata-quicklook-gallery/aeris-metadata-quicklook-gallery.vue'
 import AerisMetadataDoi from './components/aeris-metadata-blocks/aeris-metadata-doi/aeris-metadata-doi.vue'
+import AerisMetadataDoiList from './components/aeris-metadata-blocks/aeris-metadata-doi/aeris-metadata-doi-list.vue';
 import AerisMetadataDatapolicy from './components/aeris-metadata-blocks/aeris-metadata-datapolicy/aeris-metadata-datapolicy.vue'
 import AerisMetadataModifications from './components/aeris-metadata-blocks/aeris-metadata-modifications/aeris-metadata-modifications.vue'
 import AerisMetadataSingleFileDownload from './components/aeris-metadata-blocks/aeris-metadata-single-file-download/aeris-metadata-single-file-download.vue';
 import AerisMetadataYearSelectDownload from './components/aeris-metadata-blocks/aeris-metadata-year-select-download/aeris-metadata-year-select-download.vue';
 import AerisMetadataInstrument from './components/aeris-metadata-blocks/aeris-metadata-instruments/aeris-metadata-instrument.vue'
 import AerisMetadataInstruments from './components/aeris-metadata-blocks/aeris-metadata-instruments/aeris-metadata-instruments.vue';
+import AerisMetadataTitle from './components/aeris-metadata-blocks/aeris-metadata-title/aeris-metadata-title.vue';
 import AerisMetadataSynthesis from './components/misc/aeris-metadata-synthesis.vue';
 
 const AerisMetadataComponents = {
@@ -57,13 +59,15 @@ const AerisMetadataComponents = {
   AerisMetadataPlatform,
   AerisMetadataQuicklookGallery,
   AerisMetadataDoi,
+  AerisMetadataDoiList,
   AerisMetadataDatapolicy,
   AerisMetadataModifications,
   AerisMetadataSingleFileDownload,
   AerisMetadataYearSelectDownload,
   AerisMetadataInstruments,
   AerisMetadataInstrument,
-  AerisMetadataSynthesis
+  AerisMetadataSynthesis,
+  AerisMetadataTitle
 };
 
 AerisMetadataComponents.install = (Vue) => {
