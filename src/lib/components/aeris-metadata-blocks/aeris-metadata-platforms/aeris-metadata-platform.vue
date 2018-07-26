@@ -95,20 +95,20 @@ export default {
 	  
 	  labelHandle: function() {
       let metadata = this.value;
-		  if (metadata.thesaurusClass.code != "") {
+		  if (metadata.thesaurusClass.code != "" && metadata.thesaurusClass.code != "NULL") {
 			  this.className = (this.lang == "fr") ? metadata.thesaurusClass.name.fr ? metadata.thesaurusClass.name.fr : metadata.thesaurusClass.name.en : metadata.thesaurusClass.name.en;
 		  }
-		  if (metadata.thesaurusClass.thesaurusCode.code != "") {
+		  if (metadata.thesaurusClass.thesaurusCode.code != "" && metadata.thesaurusClass.thesaurusCode.code != "NULL") {
         this.codeName = (this.lang == "fr") ? metadata.thesaurusClass.thesaurusCode.name.fr ? metadata.thesaurusClass.thesaurusCode.name.fr : metadata.thesaurusClass.thesaurusCode.name.en : metadata.thesaurusClass.thesaurusCode.name.en;
 		  }
-		  if (metadata.thesaurusClass.thesaurusCode.thesaurusName.code != "") {
+		  if (metadata.thesaurusClass.thesaurusCode.thesaurusName.code != "" && metadata.thesaurusClass.thesaurusCode.thesaurusName.code != "NULL") {
 			  if (this.codeName == "") {
 				  this.codeName = (this.lang == "fr") ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
 			  } else {
 				  this.nameName = (this.lang == "fr") ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
 			  }
 		  }
-		  if (metadata.displayName == "") {
+		  if (metadata.name == "") {
 			  this.title = this.className; 
 		  } else {
 			  this.title = metadata.name;
