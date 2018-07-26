@@ -1,13 +1,11 @@
 <i18n>
 {
   "en": {
-    "title": "How to cite this product ?",
     "doi": "DOI",
     "citation": "Citation"
 
   },
   "fr": {
-    "title": "Comment citer ce produit ?",
     "doi": "DOI",
     "citation": "Citation"
   }
@@ -15,11 +13,11 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('title')" icon="fa fa-pencil">
+<aeris-metadata-layout v-if="visible">
   <div class="metadata-doi-description" v-if="doi">
     <h5 v-if="doi">{{$t('doi')}}:</h5>{{doi}}</div>
   <div class="metadata-doi-description" v-if="citation">
-    <h5 v-if="citation">{{$t('citation')}}:</h5>{{citation}}</div>
+    <h5 v-if="citation">{{$t('citation')}}:</h5>1{{citation}}</div>
 </aeris-metadata-layout>
 </template>
 <script>
@@ -31,22 +29,30 @@ export default {
     lang: {
       type: String,
       default: 'en'
-    }
+    },
+    doi: {
+      type: String,
+      default: null
+    },
   },
 
   watch: {
     lang(value) {
       this.$i18n.locale = value
     },
-    doi(value) {
+    doiVal(value) {
+      this.visible = false;
       this.citation = '';
-      if (this.doi) {
+      if (this.doiVal) {
         var url = 'https://data.datacite.org/text/x-bibliography;style=apa/' + this.doi;
+        console.log("url")
+        console.log(url)
         this.$http.get(url).then((response) => {
           this.handleSuccess(response)
         }, (response) => {
           this.handleError(response)
         });
+        this.visible = true;
       }
     }
   },
@@ -57,16 +63,17 @@ export default {
   },
 
   created: function() {
-    console.log("Aeris Metadata doi - Creating");
+    this.doiVal=this.doi
+    console.log("Aeris Metadata Doi - Creating");
     this.$i18n.locale = this.lang
-    this.aerisMetadataListener = this.handleRefresh.bind(this)
+    //this.aerisMetadataListener = this.handleRefresh.bind(this)
     document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
   },
 
   data() {
     return {
       visible: false,
-      doi: null,
+      doiVal: null,
       citation: null,
       aerisMetadataListener: null
     }
@@ -81,9 +88,9 @@ export default {
         return
       }
       this.platforms = [];
-      if (data.detail.doi) {
+      if (this.doi) {
         this.visible = true;
-        this.doi = data.detail.doi;
+        this.doiVal = this.doi;
       } else {
         this.visible = false;
         //this.visible = true;
@@ -92,6 +99,7 @@ export default {
     },
 
     handleSuccess: function(response) {
+      console.log(response.data.trim())
       this.citation = response.data.trim();
     },
 

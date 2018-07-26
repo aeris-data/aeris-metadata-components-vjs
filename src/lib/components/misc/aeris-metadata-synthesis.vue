@@ -14,8 +14,8 @@
   <aeris-metadata :identifier="identifier" :lang="lang" :service="service">
   </aeris-metadata>
   <div class="metadata-container">
+    <aeris-metadata-title :lang="lang" ></aeris-metadata-title>
     <aeris-metadata-description :markdown="true" :lang="lang"></aeris-metadata-description>
-    <aeris-metadata-contacts :lang="lang"></aeris-metadata-contacts>
     <aeris-metadata-temporal-extents :lang="lang"></aeris-metadata-temporal-extents>
     <aeris-metadata-data-links :lang="lang"></aeris-metadata-data-links>
     <aeris-metadata-information-links :lang="lang"></aeris-metadata-information-links>
@@ -23,8 +23,12 @@
     <aeris-metadata-platforms :lang="lang"></aeris-metadata-platforms>
     <aeris-metadata-formats :lang="lang"></aeris-metadata-formats>
     <aeris-metadata-parameters :lang="lang"></aeris-metadata-parameters>
+    <aeris-metadata-doi-list :lang="lang"></aeris-metadata-doi-list> 
     <aeris-metadata-publications :lang="lang"></aeris-metadata-publications>
     <aeris-metadata-quicklook-gallery :lang="lang"></aeris-metadata-quicklook-gallery>
+    <aeris-metadata-spatial-extents></aeris-metadata-spatial-extents>   
+    <aeris-metadata-contacts :lang="lang"></aeris-metadata-contacts>    
+   
   </div>
 </div>
 </div>
