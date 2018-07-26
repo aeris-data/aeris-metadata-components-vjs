@@ -2,14 +2,12 @@
 {
   "en": {
     "thesaususSearchError": "Parameter thesaurus search error",
-    "shortName": "Short name",
     "longName": "Long name",
     "uom": "Unit of measure",
     "description": "Comment"
   },
   "fr": {
     "thesaususSearchError": "Erreur recherche thesaurus paramètre",
-    "shortName": "Nom court",
     "longName": "Nom long",
     "uom": "Unité de mesure",
     "description": "Commentaire"
@@ -28,7 +26,7 @@
       <ul class="metadata-format-description">
       	<li><h6 v-if="value.longName">{{$t('longName')}}: </h6>{{value.longName}}</li>
       	<li><h6 v-if="value.uom">{{$t('uom')}}: </h6>{{value.uom}}</li>
-        <li><h6 v-if="value.comment">Description : </h6>
+        <li><h6 v-if="value.comment">{{$t('description')}}: </h6>
         	<aeris-metadata-international-field :content="JSON.stringify(value.comment)" :lang="lang" no-label-float :convertlinks="true"></aeris-metadata-international-field>
         </li>
       </ul>
@@ -57,8 +55,15 @@ export default {
     }
   },
 
+  watch: {
+    lang(value) {
+      this.$i18n.locale = value
+    }
+  },
+
   created: function() {
     console.log("Aeris Metadata Parameter - Creating");
+    this.$i18n.locale = this.lang;
     this.labelHandle();
   },
 
