@@ -2,14 +2,14 @@
 {
   "en": {
   	"download": "Download",
-  	"explicationText": "To download the data files, add them to the cart by clicking on each year.",
+  	"explicationText": "To download the data files, add them to your downloads by clicking on each year.",
   	"year": "year",
   	"loading": "Loading...",
     "l0instructions": "Only level-2 files can be downloaded directly. If you are interested in getting level-0 data, please contact the investigators"
   },
   "fr": {
   	"download": "Téléchargement",
-  	"explicationText": "Pour télécharger les fichiers de données, ajoutez-les au panier en cliquant sur les différentes années.",
+  	"explicationText": "Pour télécharger les fichiers de données, ajoutez-les à vos téléchargements en cliquant sur les différentes années.",
   	"year": "ann.",
   	"loading": "Chargement...",
   	"l0instructions": "Seuls les fichiers de niveau 2 peuvent être téléchargés directement. Si vous êtes intéressés par les fichier de niveau 0, contactez les responsables."
@@ -47,7 +47,7 @@
 export default {
 
   name: 'aeris-metadata-year-select-download',
-	
+
   props: {
     lang: {
       type: String,
@@ -98,7 +98,7 @@ export default {
     }
   },
   methods: {
-	  
+
     toggleYear: function(item) {
       for (var i = 0; i < this.years.length; i++) {
         if (this.years[i].year == item.year) {
@@ -131,7 +131,7 @@ export default {
         }
       }
     },
-    
+
     isSelected: function(item) {
       for (var i = 0; i < this.years.length; i++) {
         if (this.years[i].year == item.year) {
@@ -143,7 +143,7 @@ export default {
       }
       return ""
     },
-    
+
     selectYear: function(year) {
       if (this.years) {
         for (var i = 0; i < this.years.length; i++) {
@@ -156,7 +156,7 @@ export default {
         }
       }
     },
-    
+
     deselectAll: function() {
       if (this.years) {
         for (var i = 0; i < this.years.length; i++) {
@@ -166,7 +166,7 @@ export default {
         }
       }
     },
-    
+
     cartContentResponse: function(e) {
       this.deselectAll();
       var cartContent = e.detail.cartContent
@@ -183,7 +183,7 @@ export default {
         }
       }
     },
-    
+
     handleRefresh: function(e) {
       console.log("Aeris year select download  - Refreshing");
       this.visible = false;
@@ -232,7 +232,7 @@ export default {
         }
       }
     },
-    
+
     handleSuccess: function(response) {
       var entries = response.body.entries
       console.log("Aeris year select download - Entries : " + entries)
@@ -256,11 +256,11 @@ export default {
           this.visible = true;
       }
     },
-    
+
     getYearCacheKey: function() {
       return this.uuid + "-years"
     },
-    
+
     getFromCache: function(key) {
       if (!window.cacheaeris) {
         return null
@@ -268,14 +268,14 @@ export default {
         return window.cacheaeris[key]
       }
     },
-    
+
     addToCache: function(key, value) {
       if (!window.cacheaeris) {
         window.cacheaeris = {}
       }
       window.cacheaeris[key] = value;
     },
-    
+
     handleError: function(response) {
       this.loading = false;
       this.years = [];
@@ -285,12 +285,12 @@ export default {
       if (!error) message = 'Can\'t connect to the server';
       console.log('Error ' + error + ': ' + message);
     },
-    
+
     handleTheme: function(event) {
         this.theme = event.detail;
         this.ensureTheme();
       },
-      
+
     ensureTheme: function() {
     	if (this.$el && this.$el.querySelector("header h3 i")) {
     		this.$el.querySelector("header h3 i").style.color = this.theme.primary;
@@ -307,35 +307,35 @@ export default {
 	  background: #FAFAFA;
 	  padding: 24px;
 	}
-	
+
 	[aeris-year-download-metadata-layout] p {
 	  padding: 15px 0;
 	}
-	
+
 	[aeris-year-download-metadata-layout] .aeris-year:hover {
 	  background: gainsboro;
 	}
-	
+
 	[aeris-year-download-metadata-layout] .aeris-year {
 	  display: inline-block;
 	  padding: 2px;
 	  margin: 2px;
 	}
-	
+
 	[aeris-year-download-metadata-layout] .aeris-year.selected {
 	  background: gainsboro;
 	}
-	
+
 	[aeris-year-download-metadata-layout] .loadingbar {
 	  background: gainsboro;
 	  padding: 3px;
 	}
-	
+
 	[aeris-year-download-metadata-layout] .year-container {
 	  margin-top: 5px;
 	  margin-bottom: 5px;
 	}
-	
+
 	[aeris-year-download-metadata-layout] .year-value {
 	  display: block;
 	  width: 40px;
@@ -344,7 +344,7 @@ export default {
 	  cursor: pointer;
 	  position: relative;
 	}
-	
+
 	[aeris-year-download-metadata-layout] .year-label {
 	  display: block;
 	  text-align: center;
@@ -354,5 +354,5 @@ export default {
 	  letter-spacing: .7px;
 	  cursor: pointer;
 	}
-	
+
 </style>
