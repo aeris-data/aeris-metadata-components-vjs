@@ -3,12 +3,16 @@
   "en": {
     "thesaususSearchError": "Parameter thesaurus search error",
     "longName": "Long name",
+    "shortName": "Short name",
+    "cfName": "CF standard name",
     "uom": "Unit of measure",
     "description": "Comment"
   },
   "fr": {
     "thesaususSearchError": "Erreur recherche thesaurus paramètre",
     "longName": "Nom long",
+    "shortName": "Nom court",
+    "cfName": "Nom standard CF",
     "uom": "Unité de mesure",
     "description": "Commentaire"
   }
@@ -25,6 +29,8 @@
       <span>{{thesaurusLabel}}</span>
       <ul class="metadata-format-description">
       	<li><h6 v-if="value.longName">{{$t('longName')}}: </h6>{{value.longName}}</li>
+      	<li><h6 v-if="value.shortName">{{$t('shortName')}}: </h6>{{value.shortName}}</li>
+      	<li><h6 v-if="value.cfStandardName">{{$t('cfName')}}: </h6>{{value.cfStandardName}}</li>
       	<li><h6 v-if="value.uom">{{$t('uom')}}: </h6>{{value.uom}}</li>
         <li><h6 v-if="value.comment">{{$t('description')}}: </h6>
         	<aeris-metadata-international-field :content="JSON.stringify(value.comment)" :lang="lang" no-label-float :convertlinks="true"></aeris-metadata-international-field>
@@ -127,11 +133,7 @@ export default {
       
       }
       
-		  if (metadata.shortName == "" && metadata.thesaurusVariable) {
-		   this.title = this.TermName; 
-		  } else {
-		   this.title = metadata.shortName;
-      }
+      this.title = metadata.longName ? metadata.longName : metadata.shortName ? metadata.shortName : metadata.cfStandardName ? metadata.cfStandardName : metadata.thesaurusVariable ? this.TermName : "ND";
 			  
 	  }
   }
