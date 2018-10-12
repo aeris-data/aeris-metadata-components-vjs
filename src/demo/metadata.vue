@@ -1,6 +1,7 @@
 <template>
 <div>
   <aeris-metadata :identifier="id" lang="fr" service="https://sedoo.aeris-data.fr/catalogue/rest/metadatarecette/id">
+    <aeris-metadata-citations></aeris-metadata-citations>
   	<aeris-metadata-instruments></aeris-metadata-instruments>
   	<aeris-metadata-modifications></aeris-metadata-modifications>
     <aeris-metadata-description markdown=""></aeris-metadata-description>

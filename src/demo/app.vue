@@ -17,11 +17,14 @@
       <router-link to="/metadata/045632bf-fadb-41fa-b09d-e66365b1c08a">/escompte</router-link>
     </li>
     <li>
+      <router-link to="/metadata/88343406-2d0b-388e-9cf7-61c020170f3d">/metadata-citations</router-link>
+    </li>
+    <li>
       <router-link to="/quicklook-gallery">/quicklook-gallery</router-link>
     </li>
     <li>
       <router-link to="/aeris-metadata-synthesis">/aeris-metadata-synthesis</router-link>
-	</li>
+	  </li>
   </ul>
   <div>
     <router-view class="view"></router-view>

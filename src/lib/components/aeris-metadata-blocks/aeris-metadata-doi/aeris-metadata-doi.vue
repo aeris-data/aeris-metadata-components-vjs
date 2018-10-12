@@ -82,7 +82,7 @@ export default {
   methods: {
 
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Citation - Refreshing");
+      console.log("Aeris Metadata Doi - Refreshing");
       this.visible = false
       if ((!data) || (!data.detail)) {
         return
