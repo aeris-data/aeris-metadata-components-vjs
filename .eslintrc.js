@@ -33,11 +33,6 @@ module.exports = {
           "allowFirstLine": true
         }
       }],
-      "vue/html-indent": ["error", 3, {
-        "attribute": 1,
-        "closeBracket": 0,
-        "ignores": []
-      }],
       "vue/name-property-casing": ["error", "kebab-case"],
       "prettier/prettier": "error"
       }

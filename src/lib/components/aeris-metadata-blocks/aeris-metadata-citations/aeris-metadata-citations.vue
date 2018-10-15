@@ -11,7 +11,7 @@
 
 <template>
   <aeris-metadata-layout v-if="visible" :title="$t('citationTitle')" icon="fa fa-quote-left">
-    <aeris-metadata-citation v-for="doi in dois" :doi="doi.code" :key="doi.code"></aeris-metadata-citation>
+    <aeris-metadata-citation v-for="doi in dois" :doi="doi.code" :key="doi.code"/>
   </aeris-metadata-layout>
 </template>
 
@@ -37,20 +37,26 @@ export default {
     };
   },
   destroyed: function() {
-    document.removeEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
+    document.removeEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
     this.aerisMetadataListener = null;
   },
   created() {
     console.log("Aeris Metadata Citations - Creating");
     this.$i18n.locale = this.lang;
     this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
+    document.addEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
   },
   methods: {
     handleRefresh(data) {
       console.log("Aeris Metadata Citations - Refreshing");
       this.visible = false;
-      
+
       if (!data || !data.detail) {
         return;
       }
@@ -59,7 +65,6 @@ export default {
         this.visible = true;
         this.dois = data.detail.identifiers;
       }
-
     }
   }
 };

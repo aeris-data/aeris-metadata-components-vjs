@@ -1,39 +1,44 @@
 <template>
-<div data-aeris-metadata-title  v-if="visible">
-  <header>
-    <h3>{{title}}</h3>
-  </header>
-</div>
+  <div v-if="visible" data-aeris-metadata-title>
+    <header>
+      <h3>{{ title }}</h3>
+    </header>
+  </div>
 </template>
 
 <script>
 export default {
-
-  name: 'aeris-metadata-title',
+  name: "aeris-metadata-title",
 
   props: {
     lang: {
       type: String,
-      default: 'en'
+      default: "en"
     }
   },
 
   watch: {
     lang(value) {
-      this.$i18n.locale = value
-    }    
+      this.$i18n.locale = value;
+    }
   },
 
   destroyed: function() {
-    document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    document.removeEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
     this.aerisMetadataListener = null;
   },
 
   created: function() {
     console.log("Aeris Metadata Title - Creating");
-   // this.$i18n.locale = this.lang
-    this.aerisMetadataListener = this.handleRefresh.bind(this)
-    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    // this.$i18n.locale = this.lang
+    this.aerisMetadataListener = this.handleRefresh.bind(this);
+    document.addEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
   },
 
   data() {
@@ -41,23 +46,21 @@ export default {
       visible: false,
       title: null,
       aerisMetadataListener: null
-    }
+    };
   },
 
   methods: {
-
     handleRefresh: function(data) {
       console.log("Aeris Metadata Title - Refreshing");
-      this.visible = false
-      if ((!data) || (!data.detail)) {
-        return
-      }      
+      this.visible = false;
+      if (!data || !data.detail) {
+        return;
+      }
       if (data.detail.resourceTitle) {
         this.visible = true;
         this.title = data.detail.resourceTitle.en;
       } else {
         this.visible = false;
-        
       }
     },
 
@@ -65,9 +68,9 @@ export default {
       this.citation = response.data.trim();
     },
 
-    handleError: function(response) {},
+    handleError: function(response) {}
   }
-}
+};
 </script>
 
 <style>
@@ -75,7 +78,7 @@ export default {
   display: flex;
   flex-direction: column;
   border: none;
-  background: #FAFAFA;
+  background: #fafafa;
   padding: 24px;
 }
 

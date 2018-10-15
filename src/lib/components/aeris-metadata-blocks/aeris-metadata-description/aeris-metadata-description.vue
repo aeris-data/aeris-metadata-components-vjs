@@ -10,26 +10,25 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('description')" icon="fa fa-comment-o">
-  <aeris-metadata-international-field v-if="visible" :html="markdown" :lang="lang" :content="value" no-label-float></aeris-metadata-international-field>
-</aeris-metadata-layout>
+  <aeris-metadata-layout v-if="visible" :title="$t('description')" icon="fa fa-comment-o">
+    <aeris-metadata-international-field v-if="visible" :html="markdown" :lang="lang" :content="value" no-label-float/>
+  </aeris-metadata-layout>
 </template>
 
 <script>
-var marked = require('marked');
+var marked = require("marked");
 export default {
-
-  name: 'aeris-metadata-description',
+  name: "aeris-metadata-description",
 
   props: {
     lang: {
       type: String,
-      default: 'en'
+      default: "en"
     },
     markdown: {
       type: Boolean,
       default: true
-    },
+    }
   },
 
   data() {
@@ -37,25 +36,31 @@ export default {
       visible: false,
       description: null,
       aerisMetadataListener: null
-    }
+    };
   },
 
   watch: {
     lang(value) {
-      this.$i18n.locale = value
+      this.$i18n.locale = value;
     }
   },
 
   destroyed: function() {
-    document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    document.removeEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
     this.aerisMetadataListener = null;
   },
 
   created: function() {
     console.log("Aeris Metadata Description - Creating");
-    this.$i18n.locale = this.lang
-    this.aerisMetadataListener = this.handleRefresh.bind(this)
-    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    this.$i18n.locale = this.lang;
+    this.aerisMetadataListener = this.handleRefresh.bind(this);
+    document.addEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
   },
 
   computed: {
@@ -65,28 +70,27 @@ export default {
   },
 
   methods: {
-
     /* Certaines metadonnées en markdown ne présentent pas d'espace entre le # et la suite du texte. On corrige. */
 
     addSpaces: function(value) {
-      var aux = value.replace(/#/g, '# ')
-      aux = aux.replace(/# #/g, '##')
-      aux = aux.replace(/# #/g, '##')
-      return aux
+      var aux = value.replace(/#/g, "# ");
+      aux = aux.replace(/# #/g, "##");
+      aux = aux.replace(/# #/g, "##");
+      return aux;
     },
 
     handleRefresh: function(data) {
       console.log("Aeris Metadata Description - Refreshing");
       this.visible = false;
 
-      if ((!data)) {
-        return
+      if (!data) {
+        return;
       }
-      if ((!data.detail)) {
-        return
+      if (!data.detail) {
+        return;
       }
-      if ((!data.detail.resourceAbstract)) {
-        return
+      if (!data.detail.resourceAbstract) {
+        return;
       }
 
       if (this.markdown) {
@@ -104,7 +108,6 @@ export default {
       }
       this.visible = true;
     }
-
   }
-}
+};
 </script>

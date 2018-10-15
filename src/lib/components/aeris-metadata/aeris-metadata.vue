@@ -9,23 +9,22 @@
 }
 </i18n>
 <template>
-<div class="aeris-metadata-host" v-if="visible">
-  <div id="aerisMetadataContent" class="aeris-metadata_content grid">
-    {{content}}
-    <slot></slot>
+  <div v-if="visible" class="aeris-metadata-host">
+    <div id="aerisMetadataContent" class="aeris-metadata_content grid">
+      {{ content }}
+      <slot/>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
 export default {
+  name: "aeris-metadata",
 
-  name: 'aeris-metadata',
-  
   props: {
     lang: {
       type: String,
-      default: 'en'
+      default: "en"
     },
     visible: {
       type: Boolean,
@@ -33,22 +32,21 @@ export default {
     },
     service: {
       type: String,
-      default: ''
+      default: ""
     },
     identifier: {
       type: String,
-      default: ''
+      default: ""
     },
     program: {
       type: String,
-      default: ''
+      default: ""
     }
   },
 
-
   watch: {
     lang(value) {
-      this.$i18n.locale = value
+      this.$i18n.locale = value;
     },
 
     identifier() {
@@ -64,35 +62,37 @@ export default {
     this.refresh();
   },
 
-  computed: {
-
-  },
+  computed: {},
 
   methods: {
-
     refresh: function() {
       //Reset
-      var event = new CustomEvent('aerisMetadataRefreshed', {
+      var event = new CustomEvent("aerisMetadataRefreshed", {
         detail: {},
         lang: this.lang
       });
       document.dispatchEvent(event);
 
       if (this.service && this.identifier) {
-        var url = this.service + '/' + this.identifier;
-        if (this.service.endsWith('/')) {
+        var url = this.service + "/" + this.identifier;
+        if (this.service.endsWith("/")) {
           url = this.service + this.identifier;
         }
-        document.dispatchEvent(new CustomEvent('aerisLongActionStartEvent', {
-          'detail': {
-            message: this.$i18n.t('loading')
+        document.dispatchEvent(
+          new CustomEvent("aerisLongActionStartEvent", {
+            detail: {
+              message: this.$i18n.t("loading")
+            }
+          })
+        );
+        this.$http.get(url).then(
+          response => {
+            this.handleSuccess(response);
+          },
+          response => {
+            this.handleError(response);
           }
-        }))
-        this.$http.get(url).then((response) => {
-          this.handleSuccess(response)
-        }, (response) => {
-          this.handleError(response)
-        });
+        );
       }
     },
 
@@ -101,11 +101,13 @@ export default {
     },
 
     handleSuccess: function(response) {
-      document.dispatchEvent(new CustomEvent('aerisLongActionStopEvent', {
-        'detail': {
-          message: this.$i18n.t('loading')
-        }
-      }))
+      document.dispatchEvent(
+        new CustomEvent("aerisLongActionStopEvent", {
+          detail: {
+            message: this.$i18n.t("loading")
+          }
+        })
+      );
       var tempString = JSON.stringify(response.data);
       //console.log("tempString: " + tempString)
       tempString = this.replaceAll(tempString, '"fre"', '"fr"');
@@ -117,44 +119,44 @@ export default {
 
     sendDataToComponents: function(data) {
       console.log("Event sent:refreshed");
-      var event = new CustomEvent('aerisMetadataRefreshed', {
+      var event = new CustomEvent("aerisMetadataRefreshed", {
         detail: data,
         lang: this.lang
       });
       document.dispatchEvent(event);
-
     },
 
     handleError: function(response) {
-      document.dispatchEvent(new CustomEvent('aerisLongActionStopEvent', {
-        'detail': {
-          message: this.$i18n.t('loading')
-        }
-      }))
+      document.dispatchEvent(
+        new CustomEvent("aerisLongActionStopEvent", {
+          detail: {
+            message: this.$i18n.t("loading")
+          }
+        })
+      );
       console.log("Aeris-Metadata - Error while accessing server:");
       var error = response.status;
       var message = response.statusText;
-      if (!error) message = 'Can\'t connect to the server';
-      console.log('Error ' + error + ': ' + message);
+      if (!error) message = "Can't connect to the server";
+      console.log("Error " + error + ": " + message);
     }
-
   },
   data() {
     return {
-      content: '',
-      displayableData: ''
-    }
+      content: "",
+      displayableData: ""
+    };
   }
-}
+};
 </script>
 
 <style>
 .aeris-metadata-host {
   display: block;
-  font-size: 14px
+  font-size: 14px;
 }
 
 .aeris-metadata-host * {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 </style>

@@ -10,26 +10,25 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('datapolicy')" icon="fa fa-copyright">
-  <aeris-metadata-international-field v-if="visible" :html="markdown" :content="value" no-label-float></aeris-metadata-international-field>
-</aeris-metadata-layout>
+  <aeris-metadata-layout v-if="visible" :title="$t('datapolicy')" icon="fa fa-copyright">
+    <aeris-metadata-international-field v-if="visible" :html="markdown" :content="value" no-label-float/>
+  </aeris-metadata-layout>
 </template>
 
 <script>
-var marked = require('marked');
+var marked = require("marked");
 export default {
-
-  name: 'aeris-metadata-datapolicy',
+  name: "aeris-metadata-datapolicy",
 
   props: {
     lang: {
       type: String,
-      default: 'en'
+      default: "en"
     },
     markdown: {
       type: Boolean,
       default: true
-    },
+    }
   },
 
   data() {
@@ -37,7 +36,7 @@ export default {
       visible: false,
       description: null,
       aerisMetadataListener: null
-    }
+    };
   },
 
   computed: {
@@ -48,38 +47,43 @@ export default {
 
   watch: {
     lang(value) {
-      this.$i18n.locale = value
+      this.$i18n.locale = value;
     }
   },
 
   destroyed: function() {
-    document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    document.removeEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
     this.aerisMetadataListener = null;
   },
 
   created: function() {
     console.log("Aeris Metadata Description - Creating");
-    this.$i18n.locale = this.lang
-    this.aerisMetadataListener = this.handleRefresh.bind(this)
-    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    this.$i18n.locale = this.lang;
+    this.aerisMetadataListener = this.handleRefresh.bind(this);
+    document.addEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
   },
 
   methods: {
-
     handleRefresh: function(data) {
       console.log("Aeris Metadata Description - Refreshing");
       this.visible = false;
 
-      if ((!data)) {
-        return
+      if (!data) {
+        return;
       }
 
-      if ((!data.detail.distributionInformation)) {
-        return
+      if (!data.detail.distributionInformation) {
+        return;
       }
 
-      if ((!data.detail.distributionInformation.description)) {
-        return
+      if (!data.detail.distributionInformation.description) {
+        return;
       }
 
       if (this.markdown) {
@@ -97,7 +101,6 @@ export default {
       }
       this.visible = true;
     }
-
   }
-}
+};
 </script>

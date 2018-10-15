@@ -12,36 +12,35 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-platform-host">
+  <div class="aeris-metadata-platform-host">
 
-  <div class="aeris-plateform-container" v-bind:class="{ showPlateformBody: deployed }">
-    <header v-on:click="deployed = !deployed">
-      <h5>{{value.name}}</h5>
-      <i class="chevron" :class="openIconClass"></i>
-    </header>
-    <article class="platform-collapsable-part">
-      <h6>{{$t('type')}}</h6>
-      <span>{{value.type}}</span>
-      <div class="metadata-format-description">
-        <h6 v-if="value.description">{{$t('description')}}:</h6>
-        <aeris-metadata-international-field label="Description" :content="JSON.stringify(value.description)" :lang="lang" no-label-float :convertlinks="true"></aeris-metadata-international-field>
-      </div>
-    </article>
+    <div :class="{ showPlateformBody: deployed }" class="aeris-plateform-container">
+      <header @click="deployed = !deployed">
+        <h5>{{ value.name }}</h5>
+        <i :class="openIconClass" class="chevron"/>
+      </header>
+      <article class="platform-collapsable-part">
+        <h6>{{ $t('type') }}</h6>
+        <span>{{ value.type }}</span>
+        <div class="metadata-format-description">
+          <h6 v-if="value.description">{{ $t('description') }}:</h6>
+          <aeris-metadata-international-field :content="JSON.stringify(value.description)" :lang="lang" :convertlinks="true" label="Description" no-label-float/>
+        </div>
+      </article>
+    </div>
+
+
   </div>
-
-
-</div>
 </template>
 
 <script>
 export default {
-
-  name: 'aeris-metadata-platform',
+  name: "aeris-metadata-platform",
 
   props: {
     lang: {
       type: String,
-      default: 'en'
+      default: "en"
     },
     platform: {
       type: String,
@@ -49,13 +48,13 @@ export default {
     },
     openIconClass: {
       type: String,
-      default: 'fa fa-chevron-down'
+      default: "fa fa-chevron-down"
     }
   },
 
   watch: {
     lang(value) {
-      this.$i18n.locale = value
+      this.$i18n.locale = value;
     }
   },
 
@@ -64,9 +63,7 @@ export default {
     this.$i18n.locale = this.lang;
   },
 
-
   computed: {
-
     value: function() {
       if (this.platform == null) {
         return {};
@@ -74,22 +71,20 @@ export default {
         return JSON.parse(this.platform);
       }
     }
-
   },
 
   data() {
     return {
       deployed: false
-    }
+    };
   }
-
-}
+};
 </script>
 
 <style>
 .aeris-plateform-container .platform-collapsable-part {
   display: none;
-  transition: 0.3s
+  transition: 0.3s;
 }
 
 .aeris-plateform-container header {
@@ -98,18 +93,18 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 5px 10px;
-  backface-visibility: hidden; 
+  backface-visibility: hidden;
 }
 
 .aeris-plateform-container header i {
   margin-left: 20px;
   color: #999;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .aeris-plateform-container.showPlateformBody .platform-collapsable-part {
   display: block;
-  transition: 0.3s
+  transition: 0.3s;
 }
 
 .aeris-plateform-container.showPlateformBody .chevron {

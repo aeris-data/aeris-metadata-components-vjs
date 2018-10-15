@@ -1,24 +1,23 @@
 <template>
-<div data-aeris-metadata-layout data-template="metadata-block">
-  <header>
-    <h3 v-if="title"><i :class="icon"></i>{{title}}</h3>
-    <div class="aeris-icon-group"></div>
-  </header>
-  <main>
-    <slot></slot>
-  </main>
-</div>
+  <div data-aeris-metadata-layout data-template="metadata-block">
+    <header>
+      <h3 v-if="title"><i :class="icon"/>{{ title }}</h3>
+      <div class="aeris-icon-group"/>
+    </header>
+    <main>
+      <slot/>
+    </main>
+  </div>
 </template>
 
 <script>
 export default {
-
-  name: 'aeris-metadata-layout',
+  name: "aeris-metadata-layout",
 
   props: {
     lang: {
       type: String,
-      default: 'en'
+      default: "en"
     },
     title: {
       type: String,
@@ -31,19 +30,19 @@ export default {
   },
 
   mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
+    var event = new CustomEvent("aerisThemeRequest", {});
     document.dispatchEvent(event);
   },
 
   destroyed: function() {
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
+    document.removeEventListener("aerisTheme", this.aerisThemeListener);
     this.aerisThemeListener = null;
   },
 
   created: function() {
     console.log("Aeris metadata layout - Creating");
     this.aerisThemeListener = this.handleTheme.bind(this);
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
+    document.addEventListener("aerisTheme", this.aerisThemeListener);
   },
 
   updated: function() {
@@ -55,11 +54,10 @@ export default {
       theme: null,
       aerisThemeListener: null,
       view: null
-    }
+    };
   },
 
   methods: {
-
     handleTheme: function(event) {
       this.theme = event.detail;
       this.ensureTheme();
@@ -67,14 +65,21 @@ export default {
 
     ensureTheme: function() {
       if (this.$el) {
-        this.$el.querySelector("[data-aeris-metadata-layout] header h3 i") ? this.$el.querySelector("[data-aeris-metadata-layout] header h3 i").style.color = this.theme.primary : null;
-        this.$el.querySelectorAll("[data-aeris-metadata-layout] h5").forEach(el => el.style.color = this.theme.primary);
-        this.$el.querySelectorAll("[data-aeris-metadata-layout] h6").forEach(el => el.style.color = this.theme.primary);
+        this.$el.querySelector("[data-aeris-metadata-layout] header h3 i")
+          ? (this.$el.querySelector(
+              "[data-aeris-metadata-layout] header h3 i"
+            ).style.color = this.theme.primary)
+          : null;
+        this.$el
+          .querySelectorAll("[data-aeris-metadata-layout] h5")
+          .forEach(el => (el.style.color = this.theme.primary));
+        this.$el
+          .querySelectorAll("[data-aeris-metadata-layout] h6")
+          .forEach(el => (el.style.color = this.theme.primary));
       }
     }
-
   }
-}
+};
 </script>
 
 <style>
@@ -82,7 +87,7 @@ export default {
   display: flex;
   flex-direction: column;
   border: none;
-  background: #FAFAFA;
+  background: #fafafa;
   padding: 24px;
 }
 

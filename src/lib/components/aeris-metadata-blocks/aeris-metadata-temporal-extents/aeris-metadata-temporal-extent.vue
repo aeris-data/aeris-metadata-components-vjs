@@ -10,82 +10,83 @@
 </i18n>
 
 <template>
-<div class="aeris-metadata-temporal-extent-host">
-  <div class="metadata-temporal-container">
-    <article class="tempExt">
-      <div class="metadata-temporal">
-        <div>
-          <span>{{formatedBegin}}</span>
-          <i class="fa fa-long-arrow-right"></i>
-          <span>{{formatedEnd}}</span>
+  <div class="aeris-metadata-temporal-extent-host">
+    <div class="metadata-temporal-container">
+      <article class="tempExt">
+        <div class="metadata-temporal">
+          <div>
+            <span>{{ formatedBegin }}</span>
+            <i class="fa fa-long-arrow-right"/>
+            <span>{{ formatedEnd }}</span>
+          </div>
+          <div v-if="comment" class="metadata-temporal-description">
+            <aeris-metadata-international-field :content="comment" :lang="lang" no-label-float/>
+          </div>
         </div>
-        <div class="metadata-temporal-description" v-if="comment">
-          <aeris-metadata-international-field :content="comment" :lang="lang" no-label-float></aeris-metadata-international-field>
-        </div>
-      </div>
-    </article>
+      </article>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
 export default {
-
-  name: 'aeris-metadata-temporal-extent',
+  name: "aeris-metadata-temporal-extent",
 
   props: {
     lang: {
       type: String,
-      default: 'en'
+      default: "en"
     },
     begin: {
       type: String,
-      default: ''
+      default: ""
     },
     end: {
       type: String,
-      default: ''
+      default: ""
     },
     comment: {
       type: String,
-      default: ''
+      default: ""
     }
-
   },
-
 
   watch: {
     lang(value) {
-      this.$i18n.locale = value
+      this.$i18n.locale = value;
     }
   },
 
   mounted: function() {
-    this.$i18n.locale = this.lang
+    this.$i18n.locale = this.lang;
   },
 
   computed: {
     formatedBegin: function() {
-      return this.formatDate(this.begin)
+      return this.formatDate(this.begin);
     },
 
     formatedEnd: function() {
-      return this.formatDate(this.end)
+      return this.formatDate(this.end);
     }
   },
 
   methods: {
     formatDate: function(date) {
-      return date ? (date.toLowerCase() === 'now') ? moment().format('LLL') : moment(date).format('LLL') : '';
+      return date
+        ? date.toLowerCase() === "now"
+          ? moment().format("LLL")
+          : moment(date).format("LLL")
+        : "";
     }
   }
-}
+};
 </script>
 
 <style>
 .aeris-metadata-temporal-extent-host {
   display: block;
-  transition: 0.6s
+  transition: 0.6s;
 }
 
 .metadata-temporal-container {
@@ -93,7 +94,7 @@ export default {
   align-items: center;
   position: relative;
   padding: 0 10px;
-  border-left: 1px solid
+  border-left: 1px solid;
 }
 
 .metadata-temporal-container span {
@@ -105,32 +106,32 @@ export default {
 
 .metadata-temporal-container i {
   margin: 0 2px;
-  color: var(--main-color, #4765A0)
+  color: var(--main-color, #4765a0);
 }
 
 .metadata-temporal-container paper-input {
-  display: inline-block
+  display: inline-block;
 }
 
 .metadata-temporal-container .metadata-temporal-description {
   padding-left: 10px;
   border-left: 1px solid #bbb;
-  font-size: 0.8em
+  font-size: 0.8em;
 }
 
 .tempExt {
   width: 100%;
   display: flex;
   align-items: center;
-  transition: 0.6s
+  transition: 0.6s;
 }
 
 .metadata-icon-btn {
   margin: 0 5px;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .metadata-icon-btn:hover {
-  opacity: 0.6
+  opacity: 0.6;
 }
 </style>

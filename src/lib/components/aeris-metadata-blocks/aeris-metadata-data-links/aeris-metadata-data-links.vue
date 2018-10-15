@@ -16,68 +16,70 @@
 </i18n>
 
 <template>
-<aeris-metadata-layout v-if="visible" :title="$t('dataAccess')" icon="fa fa-database">
-  <div class="aeris-link-category" v-show="httpLinks.length >0">
-    <div class="link-category-header">
-      <h5 class="aeris-metadata-emphasis-text">{{ $t('httpLinks') }}:</h5>
+  <aeris-metadata-layout v-if="visible" :title="$t('dataAccess')" icon="fa fa-database">
+    <div v-show="httpLinks.length >0" class="aeris-link-category">
+      <div class="link-category-header">
+        <h5 class="aeris-metadata-emphasis-text">{{ $t('httpLinks') }}:</h5>
+      </div>
+      <div v-for="link in httpLinks" :key="link">
+        <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"/>
+      </div>
     </div>
-    <div v-for="link in httpLinks">
-      <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
+    <div v-show="ftpLinks.length >0" class="aeris-link-category">
+      <div class="link-category-header">
+        <h5 class="aeris-metadata-emphasis-text">{{ $t('ftpLinks') }}:</h5>
+      </div>
+      <div v-for="link in ftpLinks" :key="link">
+        <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"/>
+      </div>
     </div>
-  </div>
-  <div class="aeris-link-category" v-show="ftpLinks.length >0">
-    <div class="link-category-header">
-      <h5 class="aeris-metadata-emphasis-text">{{ $t('ftpLinks') }}:</h5>
+    <div v-show="orderLinks.length >0" class="aeris-link-category">
+      <div class="link-category-header">
+        <h5 class="aeris-metadata-emphasis-text">{{ $t('orderLinks') }}:</h5>
+      </div>
+      <div v-for="link in orderLinks" :key="link">
+        <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"/>
+      </div>
     </div>
-    <div v-for="link in ftpLinks">
-      <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
-    </div>
-  </div>
-  <div class="aeris-link-category" v-show="orderLinks.length >0">
-    <div class="link-category-header">
-      <h5 class="aeris-metadata-emphasis-text">{{ $t('orderLinks') }}:</h5>
-    </div>
-    <div v-for="link in orderLinks">
-      <aeris-metadata-information-link :lang="lang" :link="JSON.stringify(link)"></aeris-metadata-information-link>
-    </div>
-  </div>
-</aeris-metadata-layout>
+  </aeris-metadata-layout>
 </template>
 
 <script>
 export default {
-
-  name: 'aeris-metadata-data-links',
+  name: "aeris-metadata-data-links",
 
   props: {
     lang: {
       type: String,
-      default: 'fr'
+      default: "fr"
     }
   },
 
-
   watch: {
     lang(value) {
-      this.$i18n.locale = value
+      this.$i18n.locale = value;
     }
   },
 
   destroyed: function() {
-    document.removeEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    document.removeEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
     this.aerisMetadataListener = null;
   },
 
   created: function() {
     console.log("Aeris Metadata Data links - Creating");
-    this.$i18n.locale = this.lang
-    this.aerisMetadataListener = this.handleRefresh.bind(this)
-    document.addEventListener('aerisMetadataRefreshed', this.aerisMetadataListener);
+    this.$i18n.locale = this.lang;
+    this.aerisMetadataListener = this.handleRefresh.bind(this);
+    document.addEventListener(
+      "aerisMetadataRefreshed",
+      this.aerisMetadataListener
+    );
   },
 
-  computed: {
-
-  },
+  computed: {},
   data() {
     return {
       httpLinks: [],
@@ -85,25 +87,26 @@ export default {
       orderLinks: [],
       visible: false,
       aerisMetadataListener: null
-    }
-
+    };
   },
   methods: {
-
-
     handleRefresh: function(data) {
       console.log("Aeris Metadata Data Links - Refreshing");
-      this.visible = false
+      this.visible = false;
       this.links = [];
-      if ((!data) || (!data.detail)) {
-        return
+      if (!data || !data.detail) {
+        return;
       }
       if (data.detail.links) {
         var aux = data.detail.links;
-        this.httpLinks = aux.filter(this.filterByType('HTTP_DOWNLOAD_LINK'));
-        this.ftpLinks = aux.filter(this.filterByType('FTP_DOWNLOAD_LINK'));
-        this.orderLinks = aux.filter(this.filterByType('ORDER_LINK'));
-        if ((this.httpLinks.length > 0) || (this.ftpLinks.length > 0) || (this.orderLinks.length > 0)) {
+        this.httpLinks = aux.filter(this.filterByType("HTTP_DOWNLOAD_LINK"));
+        this.ftpLinks = aux.filter(this.filterByType("FTP_DOWNLOAD_LINK"));
+        this.orderLinks = aux.filter(this.filterByType("ORDER_LINK"));
+        if (
+          this.httpLinks.length > 0 ||
+          this.ftpLinks.length > 0 ||
+          this.orderLinks.length > 0
+        ) {
           this.visible = true;
         }
       }
@@ -115,5 +118,5 @@ export default {
       };
     }
   }
-}
+};
 </script>

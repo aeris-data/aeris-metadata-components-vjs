@@ -1,33 +1,33 @@
 <template>
-<ul data-aeris-metadata-list>
-  <li v-for="item in JSON.parse(items)" v-if="item.value">
+  <ul data-aeris-metadata-list>
+    <li v-for="item in JSON.parse(items)" v-if="item.value" :key="item">
 
-    <h5>{{item.name}}:</h5>
+      <h5>{{ item.name }}:</h5>
 
-    <p v-if="item.img"><img :src="item.img" /></p>
-    <p v-else-if="item.url">{{item}}</p>
+      <p v-if="item.img"><img :src="item.img" ></p>
+      <p v-else-if="item.url">{{ item }}</p>
 
-    <ul v-else-if="Array.isArray(item.value)">
-      <li v-for="subitem in item.value">{{subitem}}</li>
-    </ul>
+      <ul v-else-if="Array.isArray(item.value)">
+        <li v-for="subitem in item.value" :key="subitem">{{ subitem }}</li>
+      </ul>
 
-    <p v-else-if="item.value" v-html="item.value"></p>
+      <p v-else-if="item.value" v-html="item.value"/>
 
-  </li>
-</ul>
+    </li>
+  </ul>
 </template>
 
 <script>
 export default {
-
-  name: 'aeris-metadata-list',
+  name: "aeris-metadata-list",
 
   props: {
     lang: {
       type: String,
-      default: 'en'
+      default: "en"
     },
     items: {
+      type: String,
       required: true
     }
   },
@@ -42,21 +42,20 @@ export default {
   created: function() {
     console.log("Eurochamp derivatized experiment - Creating");
     this.aerisThemeListener = this.handleTheme.bind(this);
-    document.addEventListener('aerisTheme', this.aerisThemeListener);
+    document.addEventListener("aerisTheme", this.aerisThemeListener);
   },
 
   mounted: function() {
-    var event = new CustomEvent('aerisThemeRequest', {});
+    var event = new CustomEvent("aerisThemeRequest", {});
     document.dispatchEvent(event);
   },
 
   destroyed: function() {
-    document.removeEventListener('aerisTheme', this.aerisThemeListener);
+    document.removeEventListener("aerisTheme", this.aerisThemeListener);
     this.aerisThemeListener = null;
   },
 
   methods: {
-
     handleTheme: function(event) {
       this.theme = event.detail;
       this.ensureTheme();
@@ -64,16 +63,15 @@ export default {
 
     ensureTheme: function() {
       if (this.theme) {
-        let elems = this.$el.querySelectorAll('ul li h5');
+        let elems = this.$el.querySelectorAll("ul li h5");
         let length = elems.length;
         for (let index = 0; index < length; index++) {
           elems[index].style.color = this.theme.primary;
         }
       }
     }
-
   }
-}
+};
 </script>
 
 <style>
@@ -89,7 +87,7 @@ export default {
   list-style: none;
 }
 
-[data-aeris-metadata-list]>li {
+[data-aeris-metadata-list] > li {
   padding: 8px 0 0 0px;
 }
 

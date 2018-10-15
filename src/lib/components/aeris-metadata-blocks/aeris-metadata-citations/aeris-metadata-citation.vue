@@ -1,6 +1,6 @@
 <template>
   <div class="aeris-metadata-citation-host">
-    <p>{{citationBody}} <a :href="citationLink">{{citationLink}}</a></p>
+    <p>{{ citationBody }} <a :href="citationLink">{{ citationLink }}</a></p>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
     return {
       citationBody: "",
       citationLink: ""
-    }
+    };
   },
   created() {
     console.log("Aeris Metadata Citation - Creating");
@@ -43,7 +43,7 @@ export default {
       console.log("error citation : ", response);
     },
     parseCitation(citation) {
-      let tmp = citation.split('http');
+      let tmp = citation.split("http");
       this.citationBody = tmp[0].trim();
       this.citationLink = "http" + tmp[1];
     }
