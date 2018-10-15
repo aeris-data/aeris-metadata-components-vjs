@@ -50,17 +50,16 @@ export default {
     handleRefresh(data) {
       console.log("Aeris Metadata Citations - Refreshing");
       this.visible = false;
+      
       if (!data || !data.detail) {
         return;
       }
-      this.identifiers = [];
+
       if (data.detail.identifiers) {
         this.visible = true;
-        this.identifiers = data.detail.identifiers;
-      } else {
-        this.visible = false;
+        this.dois = data.detail.identifiers;
       }
-      this.dois = this.identifiers;
+
     }
   }
 };
