@@ -34,31 +34,32 @@ import AerisMetadataTitle from "./components/aeris-metadata-blocks/aeris-metadat
 import AerisMetadataCitations from "./components/aeris-metadata-blocks/aeris-metadata-citations/aeris-metadata-citations.vue";
 import AerisMetadataCitation from "./components/aeris-metadata-blocks/aeris-metadata-citations/aeris-metadata-citation.vue";
 
-const css = [
+var css = [
   "https://rawgit.com/aeris-data/Photobox/master/dist/css/photobox.min.css",
   "https://unpkg.com/vuelayers/lib/style.css"
 ];
-const js = [
+var js = [
   "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js",
   "https://rawgit.com/aeris-data/Photobox/master/dist/js/photobox.min.js"
 ];
 
-css.forEach(file => {
-  let link = document.createElement("link");
+var i;
+for (i = 0; i < css.length; i++) {
+  var link = document.createElement("link");
   link.setAttribute("type", "text/css");
   link.setAttribute("rel", "stylesheet");
-  link.setAttribute("href", file);
+  link.setAttribute("href", css[i]);
   document.head.appendChild(link);
-});
+}
 
-js.forEach(file => {
-  let script = document.createElement("script");
+for (i = 0; i < js.length; i++) {
+  var script = document.createElement("script");
   script.setAttribute("type", "text/javascript");
-  script.setAttribute("src", file);
+  script.setAttribute("src", js[i]);
   document.head.appendChild(script);
-});
+}
 
-const components = [
+var components = [
   AerisMetadata,
   AerisMetadataList,
   AerisMetadataUiTable,
@@ -97,8 +98,8 @@ const components = [
 ];
 
 export default {
-  install: Vue => {
-    for (let component in components) {
+  install: function(Vue) {
+    for (var component in components) {
       if (components[component]) {
         Vue.component(components[component].name, components[component]);
       }
