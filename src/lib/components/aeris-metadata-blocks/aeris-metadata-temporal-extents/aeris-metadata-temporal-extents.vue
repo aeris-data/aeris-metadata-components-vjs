@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "aeris-metadata-temporal-extents",
 

@@ -26,6 +26,8 @@ e.<i18n>
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "aeris-metadata-information",
 

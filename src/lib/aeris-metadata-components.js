@@ -34,31 +34,6 @@ import AerisMetadataTitle from "./components/aeris-metadata-blocks/aeris-metadat
 import AerisMetadataCitations from "./components/aeris-metadata-blocks/aeris-metadata-citations/aeris-metadata-citations.vue";
 import AerisMetadataCitation from "./components/aeris-metadata-blocks/aeris-metadata-citations/aeris-metadata-citation.vue";
 
-var css = [
-  "https://rawgit.com/aeris-data/Photobox/master/dist/css/photobox.min.css",
-  "https://unpkg.com/vuelayers/lib/style.css"
-];
-var js = [
-  "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js",
-  "https://rawgit.com/aeris-data/Photobox/master/dist/js/photobox.min.js"
-];
-
-var i;
-for (i = 0; i < css.length; i++) {
-  var link = document.createElement("link");
-  link.setAttribute("type", "text/css");
-  link.setAttribute("rel", "stylesheet");
-  link.setAttribute("href", css[i]);
-  document.head.appendChild(link);
-}
-
-for (i = 0; i < js.length; i++) {
-  var script = document.createElement("script");
-  script.setAttribute("type", "text/javascript");
-  script.setAttribute("src", js[i]);
-  document.head.appendChild(script);
-}
-
 var components = [
   AerisMetadata,
   AerisMetadataList,

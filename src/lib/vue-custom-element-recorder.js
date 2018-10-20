@@ -38,11 +38,13 @@ import AerisMetadataCitation from "./components/aeris-metadata-blocks/aeris-meta
 
 const css = [
   "https://rawgit.com/aeris-data/Photobox/master/dist/css/photobox.min.css",
-  "https://unpkg.com/vuelayers/lib/style.css"
+  "https://unpkg.com/vuelayers/lib/style.css",
+  "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 ];
 const js = [
   "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js",
-  "https://rawgit.com/aeris-data/Photobox/master/dist/js/photobox.min.js"
+  "https://rawgit.com/aeris-data/Photobox/master/dist/js/photobox.min.js",
+  "https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.4.1/document-register-element.js"
 ];
 
 css.forEach(file => {
@@ -113,12 +115,20 @@ const VueCustomElementRecorder = {
     function registerComponents() {
       console.info("trying to register aeris metadata components");
       console.info("Début registration des aeris metadata components");
-      console.info("Registred elements at this time: " + window.registredAerisElements);
+      console.info(
+        "Registred elements at this time: " + window.registredAerisElements
+      );
 
       for (let component in components) {
         if (components[component]) {
-          if (window.registredAerisElements.indexOf(components[component].name) < 0) {
-            Vue.customElement(components[component].name, components[component]);
+          if (
+            window.registredAerisElements.indexOf(components[component].name) <
+            0
+          ) {
+            Vue.customElement(
+              components[component].name,
+              components[component]
+            );
             window.registredAerisElements.push(components[component].name);
           }
         }
