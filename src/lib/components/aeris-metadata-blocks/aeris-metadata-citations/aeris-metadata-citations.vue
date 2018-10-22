@@ -61,7 +61,7 @@ export default {
         return;
       }
 
-      if (data.detail.identifiers.code) {
+      if (data.detail.identifiers[0].code) {
         this.visible = true;
         this.dois = data.detail.identifiers;
       }
