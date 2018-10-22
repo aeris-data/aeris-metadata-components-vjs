@@ -1,13 +1,13 @@
 {
   "name": "aeris-metadata-components-vjs",
   "description": "Aeris metadata components. ",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "author": "Aeris",
   "private": false,
   "main": "dist/aeris-metadata-components-vjs-simple.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.dev.conf --progress",
-    "build": "node build/build.js && cp dist/aeris-metadata-components-vjs_0.8.3*.js /var/www/html/aeris"
+    "build": "node build/build.js"
   },
   "dependencies": {
     "aeris-mixins": "latest",
