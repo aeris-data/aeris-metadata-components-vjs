@@ -36,7 +36,7 @@ export default {
       aerisMetadataListener: null
     };
   },
-  destroyed: function() {
+  destroyed() {
     document.removeEventListener(
       "aerisMetadataRefreshed",
       this.aerisMetadataListener
@@ -61,7 +61,7 @@ export default {
         return;
       }
 
-      if (data.detail.identifiers) {
+      if (data.detail.identifiers.code) {
         this.visible = true;
         this.dois = data.detail.identifiers;
       }
