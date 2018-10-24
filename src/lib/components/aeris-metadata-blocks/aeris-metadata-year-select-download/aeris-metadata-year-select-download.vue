@@ -182,7 +182,6 @@ export default {
       this.deselectAll();
       var cartContent = e.detail.cartContent;
       if (cartContent) {
-        console.log(cartContent);
         for (var i = 0; i < cartContent.length; i++) {
           var cartItem = cartContent[i];
           if (cartItem.collectionId == this.uuid) {
@@ -196,7 +195,6 @@ export default {
     },
 
     handleRefresh: function(e) {
-      console.log("Aeris year select download  - Refreshing");
       this.visible = false;
       this.uuid = e.detail.id;
       this.collectionName = e.detail.resourceTitle;

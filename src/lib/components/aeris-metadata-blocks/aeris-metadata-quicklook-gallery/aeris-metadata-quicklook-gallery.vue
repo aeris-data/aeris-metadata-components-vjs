@@ -106,7 +106,6 @@ export default {
     },
 
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Quicklook Gallery - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;

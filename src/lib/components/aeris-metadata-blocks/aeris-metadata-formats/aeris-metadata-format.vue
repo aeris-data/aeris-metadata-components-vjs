@@ -76,7 +76,6 @@ export default {
       if (this.format == null) {
         return {};
       } else {
-        console.log(this.format);
         return JSON.parse(this.format);
       }
     },

@@ -117,7 +117,6 @@ export default {
     },
 
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Contacts - Refreshing");
       if (data.detail) {
         this.contacts = data.detail.contacts;
         this.getRolesToDisplay();

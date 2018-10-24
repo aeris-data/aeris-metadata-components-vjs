@@ -51,7 +51,6 @@ export default {
 
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Title - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;
@@ -62,13 +61,7 @@ export default {
       } else {
         this.visible = false;
       }
-    },
-
-    handleSuccess: function(response) {
-      this.citation = response.data.trim();
-    },
-
-    handleError: function(response) {}
+    }
   }
 };
 </script>

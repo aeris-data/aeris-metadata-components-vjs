@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout :title="$t('spatialextents')" icon="fa fa-globe">
+  <aeris-metadata-layout v-if="visible" :title="$t('spatialextents')" icon="fa fa-globe">
 
     <!-- app map -->
     <vl-map ref="map" :load-tiles-while-animating="true" :load-tiles-while-interacting="true" :controls="controls" class="map">
@@ -116,20 +116,17 @@ export default {
   },
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Spatial extents - Refreshing");
-      console.log("You");
       this.visible = false;
       if (!data || !data.detail) {
         return;
       }
       this.spatialExtents = [];
-      if (data.detail.spatialExtents) {
+      if (data.detail.spatialExtents && data.detail.spatialExtents.length>0) {
         this.visible = true;
         this.spatialExtents = data.detail.spatialExtents;
       } else {
         this.visible = false;
       }
-      console.log("Pi");
     },
 
     polygonCoords: function(extent) {

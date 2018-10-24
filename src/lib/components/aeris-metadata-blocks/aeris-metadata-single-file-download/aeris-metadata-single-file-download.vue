@@ -131,7 +131,6 @@ export default {
       this.isInCart = false;
       var cartContent = e.detail.cartContent;
       if (cartContent) {
-        console.log(cartContent);
         for (var i = 0; i < cartContent.length; i++) {
           var cartItem = cartContent[i];
           if (cartItem.collectionId == this.id) {
@@ -142,8 +141,6 @@ export default {
     },
 
     handleRefresh: function(data) {
-      console.log("Aeris single file download - Refreshing");
-
       this.id = data.detail.id;
       this.collectionName = data.detail.resourceTitle;
 

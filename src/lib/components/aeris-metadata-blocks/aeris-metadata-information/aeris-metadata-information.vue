@@ -95,7 +95,6 @@ export default {
 
   methods: {
     handleRefresh: function(e) {
-      console.log("Aeris Metadata Information - Refreshing");
       this.visible = false;
       if (e.detail) {
         if (

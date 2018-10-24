@@ -91,7 +91,6 @@ export default {
   },
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Data Links - Refreshing");
       this.visible = false;
       this.links = [];
       if (!data || !data.detail) {

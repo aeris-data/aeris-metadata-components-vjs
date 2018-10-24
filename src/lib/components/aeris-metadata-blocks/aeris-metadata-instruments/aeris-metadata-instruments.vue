@@ -59,13 +59,12 @@ export default {
   },
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Instrument - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;
       }
       this.instruments = [];
-      if (data.detail.instruments) {
+      if (data.detail.instruments && data.detail.instruments.length>0) {
         this.visible = true;
         this.instruments = data.detail.instruments;
       } else {

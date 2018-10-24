@@ -60,15 +60,13 @@ export default {
   },
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Publications - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;
       }
       this.publications = [];
-      if (data.detail.publications) {
+      if (data.detail.publications && data.detail.publications.length>0) {
         this.visible = true;
-        console.log(data.detail.publications);
         this.publications = data.detail.publications;
       } else {
         this.visible = false;

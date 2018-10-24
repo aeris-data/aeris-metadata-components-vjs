@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Platform - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;

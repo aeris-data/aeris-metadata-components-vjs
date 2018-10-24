@@ -43,10 +43,7 @@ export default {
       this.visible = false;
       this.citation = "";
       if (this.doiVal) {
-        var url =
-          "https://data.datacite.org/text/x-bibliography;style=apa/" + this.doi;
-        console.log("url");
-        console.log(url);
+        var url = "https://data.datacite.org/text/x-bibliography;style=apa/" + this.doi;
         this.$http.get(url).then(
           response => {
             this.handleSuccess(response);
@@ -90,7 +87,6 @@ export default {
 
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Doi - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;
@@ -101,13 +97,10 @@ export default {
         this.doiVal = this.doi;
       } else {
         this.visible = false;
-        //this.visible = true;
-        //this.doi = "10.25326/1";
       }
     },
 
     handleSuccess: function(response) {
-      console.log(response.data.trim());
       this.citation = response.data.trim();
     },
 

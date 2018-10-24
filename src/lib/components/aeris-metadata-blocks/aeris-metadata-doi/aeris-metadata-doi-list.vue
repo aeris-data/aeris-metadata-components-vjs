@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Doi List - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;
@@ -68,7 +67,6 @@ export default {
       this.publications = [];
       if (data.detail.publications) {
         this.visible = true;
-        console.log(data.detail.publications);
         this.publications = data.detail.publications;
       } else {
         this.visible = false;

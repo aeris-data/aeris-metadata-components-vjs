@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Links - Refreshing");
       this.visible = false;
       this.links = [];
       if (!data || !data.detail) {
@@ -70,7 +69,6 @@ export default {
         var allLinks = data.detail.links;
         var informationLinks = [];
         allLinks.forEach(function(item) {
-          console.log("Type: " + item.type);
           if (item.type === "INFORMATION_LINK") {
             informationLinks.push(item);
           }

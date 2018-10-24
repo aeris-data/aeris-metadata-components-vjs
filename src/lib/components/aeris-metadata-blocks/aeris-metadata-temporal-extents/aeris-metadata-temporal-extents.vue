@@ -73,15 +73,13 @@ export default {
     },
 
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Temporal Extents - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;
       }
       this.temporalExtents = [];
-      if (data.detail.temporalExtents) {
+      if (data.detail.temporalExtents && data.detail.temporalExtents.length>0) {
         this.visible = true;
-        console.log(data.detail.temporalExtents);
         var temporalExtents = data.detail.temporalExtents;
         temporalExtents.sort(this.sort);
         this.temporalExtents = temporalExtents;

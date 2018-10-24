@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     handleRefresh(data) {
-      console.log("Aeris Metadata Citations - Refreshing");
       this.visible = false;
 
       if (!data || !data.detail) {

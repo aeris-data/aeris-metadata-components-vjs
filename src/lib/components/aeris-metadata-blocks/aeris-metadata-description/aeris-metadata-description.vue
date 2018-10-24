@@ -80,7 +80,6 @@ export default {
     },
 
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Description - Refreshing");
       this.visible = false;
 
       if (!data) {

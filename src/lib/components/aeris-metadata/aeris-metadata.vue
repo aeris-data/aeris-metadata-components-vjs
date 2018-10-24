@@ -109,7 +109,6 @@ export default {
         })
       );
       var tempString = JSON.stringify(response.data);
-      //console.log("tempString: " + tempString)
       tempString = this.replaceAll(tempString, '"fre"', '"fr"');
       tempString = this.replaceAll(tempString, '"eng"', '"en"');
       this.displayableData = tempString;
@@ -118,7 +117,6 @@ export default {
     },
 
     sendDataToComponents: function(data) {
-      console.log("Event sent:refreshed");
       var event = new CustomEvent("aerisMetadataRefreshed", {
         detail: data,
         lang: this.lang

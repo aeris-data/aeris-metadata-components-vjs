@@ -59,13 +59,12 @@ export default {
   },
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Platform - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;
       }
       this.platforms = [];
-      if (data.detail.platforms) {
+      if (data.detail.platforms && data.detail.platforms.length>0) {
         this.visible = true;
         this.platforms = data.detail.platforms;
       } else {

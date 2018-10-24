@@ -61,15 +61,13 @@ export default {
   },
   methods: {
     handleRefresh: function(data) {
-      console.log("Aeris Metadata Parameters - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;
       }
       this.parameters = [];
-      if (data.detail.parameters) {
+      if (data.detail.parameters && data.detail.parameters.length>0) {
         this.visible = true;
-        console.log(data.detail.parameters);
         this.parameters = data.detail.parameters;
       } else {
         this.visible = false;

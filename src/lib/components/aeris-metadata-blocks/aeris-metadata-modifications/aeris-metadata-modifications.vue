@@ -104,7 +104,6 @@ export default {
     },
 
     handleRefresh: function(data) {
-      console.log("Aeris Modifications - Refreshing");
       this.visible = false;
       if (!data || !data.detail) {
         return;
