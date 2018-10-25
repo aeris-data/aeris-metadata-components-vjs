@@ -1,13 +1,14 @@
 <template>
-  <div data-aeris-metadata-layout data-template="metadata-block">
-    <header>
-      <h3 v-if="title"><i :class="icon"/>{{ title }}</h3>
-      <div class="aeris-icon-group"/>
-    </header>
-    <main>
-      <slot/>
-    </main>
-  </div>
+
+<div data-aeris-metadata-layout data-template="metadata-block">
+  <header v-if="showTitle">
+    <h3><i :class="icon"></i>{{title}}</h3>
+    <div class="aeris-icon-group"></div>
+  </header>
+  <main>
+    <slot></slot>
+  </main>
+</div>
 </template>
 
 <script>
@@ -26,6 +27,10 @@ export default {
     icon: {
       type: String,
       required: true
+    },
+    showTitle:{
+      type:Boolean,
+      default: true
     }
   },
 

@@ -10,9 +10,10 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('description')" icon="fa fa-comment-o">
-    <aeris-metadata-international-field v-if="visible" :html="markdown" :lang="lang" :content="value" no-label-float/>
-  </aeris-metadata-layout>
+
+<aeris-metadata-layout v-if="visible" :title="$t('description')" icon="fa fa-comment-o" :showTitle="showTitle">
+  <aeris-metadata-international-field v-if="visible" :html="markdown" :lang="lang" :content="value" no-label-float></aeris-metadata-international-field>
+</aeris-metadata-layout>
 </template>
 
 <script>
@@ -28,6 +29,10 @@ export default {
     markdown: {
       type: Boolean,
       default: true
+    },
+    showTitle:{
+      type: Boolean,
+      default:true
     }
   },
 
