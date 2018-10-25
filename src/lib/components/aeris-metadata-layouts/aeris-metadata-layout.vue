@@ -1,6 +1,6 @@
 <template>
 <div data-aeris-metadata-layout data-template="metadata-block">
-  <header>
+  <header v-if="showTitle">
     <h3><i :class="icon"></i>{{title}}</h3>
     <div class="aeris-icon-group"></div>
   </header>
@@ -27,6 +27,10 @@ export default {
     icon: {
       type: String,
       required: true
+    },
+    showTitle:{
+      type:Boolean,
+      default: true
     }
   },
 
