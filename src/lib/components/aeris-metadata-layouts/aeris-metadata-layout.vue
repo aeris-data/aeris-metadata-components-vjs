@@ -5,7 +5,7 @@
     <h3><i :class="icon"></i>{{title}}</h3>
     <div class="aeris-icon-group"></div>
   </header>
-  <main>
+  <main :class="{main:showTitle}">
     <slot></slot>
   </main>
 </div>
@@ -106,7 +106,7 @@ export default {
   margin-right: 12px;
 }
 
-[data-aeris-metadata-layout] main {
+[data-aeris-metadata-layout] .main {
   padding: 16px 0 0 0px;
 }
 
