@@ -11,7 +11,7 @@
 
 <template>
 
-<aeris-metadata-layout v-if="visible" :title="$t('description')" icon="fa fa-comment-o" :showTitle="showTitle">
+<aeris-metadata-layout v-if="visible" :title="$t('description')" icon="fa fa-comment-o" :showTitle="isShowTitle">
   <aeris-metadata-international-field v-if="visible" :html="markdown" :lang="lang" :content="value" no-label-float></aeris-metadata-international-field>
 </aeris-metadata-layout>
 </template>
@@ -31,8 +31,8 @@ export default {
       default: true
     },
     showTitle:{
-      type: Boolean,
-      default:true
+      type: String,
+      default:"true"
     }
   },
 
@@ -40,7 +40,8 @@ export default {
     return {
       visible: false,
       description: null,
-      aerisMetadataListener: null
+      aerisMetadataListener: null,
+     
     };
   },
 
@@ -71,7 +72,11 @@ export default {
   computed: {
     value: function() {
       return JSON.stringify(this.description);
+    },
+    isShowTitle(){
+       return (this.showTitle==="true");
     }
+
   },
 
   methods: {
