@@ -41,7 +41,6 @@ const css = [
   "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 ];
 const js = [
-  "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js",
   "https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.4.1/document-register-element.js"
 ];
 
