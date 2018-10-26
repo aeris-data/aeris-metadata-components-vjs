@@ -37,13 +37,11 @@ import AerisMetadataCitations from "./components/aeris-metadata-blocks/aeris-met
 import AerisMetadataCitation from "./components/aeris-metadata-blocks/aeris-metadata-citations/aeris-metadata-citation.vue";
 
 const css = [
-  "https://rawgit.com/aeris-data/Photobox/master/dist/css/photobox.min.css",
   "https://unpkg.com/vuelayers/lib/style.css",
   "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
 ];
 const js = [
   "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js",
-  "https://rawgit.com/aeris-data/Photobox/master/dist/js/photobox.min.js",
   "https://cdnjs.cloudflare.com/ajax/libs/document-register-element/1.4.1/document-register-element.js"
 ];
 

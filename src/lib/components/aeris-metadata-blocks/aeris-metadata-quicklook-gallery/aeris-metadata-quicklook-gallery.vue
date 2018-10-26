@@ -15,7 +15,7 @@
       <div class="ql-gallery-container style-scope">
         <div class="ql-gallery-img-container style-scope">
           <article v-for="item in quicklooks" :key="item.url" class="ql-gallery-image">
-            <a :href="item.url" :title="computeDescription(item.description)" :data-pb-album="guid" rel="photobox">
+            <a :href="item.url" :title="computeDescription(item.description)" :data-pb-album="guid">
               <img :src="item.url" alt="Quicklook">
             </a>
           </article>
@@ -68,7 +68,6 @@ export default {
         self.$el.querySelector("img").complete
       ) {
         clearInterval(imgCompletedInterval);
-        self.photoboxInit();
       }
     }, 500);
   },
@@ -93,12 +92,6 @@ export default {
     };
   },
   methods: {
-    photoboxInit: function() {
-      Photobox.init({
-        opacity: 0.8
-      });
-    },
-
     computeDescription: function(internationalString) {
       return internationalString && internationalString[this.lang]
         ? internationalString[this.lang]
