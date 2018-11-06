@@ -129,9 +129,9 @@ export default {
         if(this.isThesaurusNameExist && this.getInternationalFieldValue(this.getThesaurusName)){
             return this.getInternationalFieldValue(this.getThesaurusName);
         }else if(this.isThesaurusCodeExist){
-            return this.getThesaurusCodeName;
+            return this.getInternationalFieldValue(this.getThesaurusCodeName);
         }else if(this.isThesaurusClassExist){
-            return this.getThesaurusClassName;
+            return this.getInternationalFieldValue(this.getThesaurusClassName);
         }
         return "";
       }
