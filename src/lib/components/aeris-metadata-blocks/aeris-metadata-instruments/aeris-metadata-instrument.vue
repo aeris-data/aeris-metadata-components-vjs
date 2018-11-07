@@ -39,7 +39,7 @@
           <li><h6 v-if="value.serialNumber">{{ $t('serialNumber') }}: </h6>{{ value.serialNumber }}</li>
           <li><h6 v-if="value.calibration">{{ $t('calibration') }}: </h6>{{ value.calibration }}</li>
           <li><h6 v-if="value.resolution">{{ $t('resolution') }}: </h6>{{ resolutionDisplay }}</li>
-          <li><h6 v-if="value.description && value.description.localeCompare('null')!==0">{{ $t('description') }}: </h6>
+          <li><h6 v-if="value.description && value.description!==null">{{ $t('description') }}: </h6>
             <aeris-metadata-international-field :content="JSON.stringify(value.description)" :lang="lang" :convertlinks="true" label="Description" no-label-float/>
           </li>
         </ul>
