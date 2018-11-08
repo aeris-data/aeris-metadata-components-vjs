@@ -111,7 +111,7 @@ export default {
         return;
       }
       this.quicklooks = [];
-      if (data.detail.quicklooks) {
+      if (data.detail.quicklooks && data.detail.quicklooks.length>0) {
         this.visible = true;
         this.quicklooks = data.detail.quicklooks;
       } else {

@@ -7,7 +7,8 @@
     "serialNumber": "Serial number",
     "calibration": "Calibration",
     "resolution": "Resolution",
-    "description": "Description"
+    "description": "Description",
+     "name" : "Name"
   },
   "fr": {
     "thesaususSearchError": "Erreur recherche thesaurus instrument",
@@ -16,35 +17,34 @@
     "serialNumber": "Numéro de série",
     "calibration": "Etalonnage",
     "resolution": "Résolution",
-    "description": "Description"
+    "description": "Description",
+    "name": "Nom"
   }
 }
 </i18n>
 
 <template>
   <div class="aeris-metadata-instrument-host">
-
     <div :class="{ showInstrumentBody: deployed }" class="aeris-instrument-container">
       <header @click="deployed = !deployed">
         <h5>{{ title }}</h5>
         <i :class="openIconClass" class="chevron"/>
       </header>
       <article class="instrument-collapsable-part">
-        <span>{{ thesaurusLabel }}</span>
+        <span>{{ thesaurusLabel}}</span>
+        <span v-if="this.getInternationalFieldValue(this.getThesaurusLongName)">({{this.getInternationalFieldValue(this.getThesaurusLongName)}})</span>
         <ul class="metadata-format-description">
           <li><h6 v-if="value.manufacturer">{{ $t('manufacturer') }}: </h6>{{ value.manufacturer }}</li>
           <li><h6 v-if="value.model">{{ $t('model') }}: </h6>{{ value.model }}</li>
           <li><h6 v-if="value.serialNumber">{{ $t('serialNumber') }}: </h6>{{ value.serialNumber }}</li>
           <li><h6 v-if="value.calibration">{{ $t('calibration') }}: </h6>{{ value.calibration }}</li>
           <li><h6 v-if="value.resolution">{{ $t('resolution') }}: </h6>{{ resolutionDisplay }}</li>
-          <li><h6 v-if="value.description">{{ $t('description') }}: </h6>
+          <li><h6 v-if="value.description && value.description!==null">{{ $t('description') }}: </h6>
             <aeris-metadata-international-field :content="JSON.stringify(value.description)" :lang="lang" :convertlinks="true" label="Description" no-label-float/>
           </li>
         </ul>
       </article>
     </div>
-
-
   </div>
 </template>
 
@@ -96,7 +96,45 @@ export default {
             ? " > " + this.nameName
             : "")
       );
-    }
+    },
+      isThesaurusNameExist(){
+        return this.value.thesaurusClass.thesaurusCode.thesaurusName.code.localeCompare('NULL')!==0;
+      },
+      isThesaurusCodeExist(){
+        return this.value.thesaurusClass.thesaurusCode.code.localeCompare('NULL')!==0;
+      },
+      isThesaurusClassExist(){
+        return this.value.thesaurusClass.code.localeCompare('NULL')!==0;
+      },
+      getThesaurusName(){
+        return this.value.thesaurusClass.thesaurusCode.thesaurusName.name;
+      },
+      getThesaurusLongName(){
+          return this.value.thesaurusClass.thesaurusCode.thesaurusName.longName;
+      },
+      getThesaurusCodeName(){
+        return this.value.thesaurusClass.thesaurusCode.name;
+      },
+      getThesaurusClassName(){
+        return this.value.thesaurusClass.name;
+      },
+      getManufacturerAndModel(){
+        if(this.value.manufacturer && this.value.model){
+            return this.value.manufacturer +"/"+ this.value.model;
+        }else{
+            return "";
+        }
+      },
+      getLastLevelOfThesaurusValue(){
+        if(this.isThesaurusNameExist && this.getInternationalFieldValue(this.getThesaurusName)){
+            return this.getInternationalFieldValue(this.getThesaurusName);
+        }else if(this.isThesaurusCodeExist){
+            return this.getInternationalFieldValue(this.getThesaurusCodeName);
+        }else if(this.isThesaurusClassExist){
+            return this.getInternationalFieldValue(this.getThesaurusClassName);
+        }
+        return "";
+      }
   },
 
   data() {
@@ -155,18 +193,38 @@ export default {
               : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
         }
       }
-      if (metadata.displayName == "") {
-        this.title = this.className;
-      } else {
-        this.title = metadata.displayName;
+
+      if (metadata.displayName && metadata.displayName.localeCompare("null")!==0) {
+          this.title = metadata.displayName;
+      } else if(this.getManufacturerAndModel){
+          this.title = this.getManufacturerAndModel;
+      }else{
+          this.title = this.getLastLevelOfThesaurusValue;
       }
+
       if (metadata.resolution) {
         this.resolutionDisplay =
           metadata.resolution.resolutionValue +
           " " +
           metadata.resolution.resolutionUnit;
       }
-    }
+    },
+      getInternationalFieldValue(field) {
+          if (!field || field == "null") {
+              return "";
+          }
+          else if (!this.lang) {
+              return field;
+          }else {
+              if(field[this.lang]) {
+                  return field[this.lang];
+              }else if(field["DEFAULT_VALUE_KEY"]){
+                  return field["DEFAULT_VALUE_KEY"];
+              }else{
+                  return "";
+              }
+          }
+      }
   }
 };
 </script>
