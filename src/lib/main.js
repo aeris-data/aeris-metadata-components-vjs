@@ -6,8 +6,10 @@ Vue.use(vueCustomElement);
 import VueI18n from "vue-i18n";
 Vue.use(VueI18n);
 
-import VueResource from "vue-resource";
-Vue.use(VueResource);
+import axios from "axios";
+import VueAxios from "vue-axios";
+
+Vue.use(VueAxios, axios);
 
 import VueLayers from "vuelayers";
 Vue.use(VueLayers);

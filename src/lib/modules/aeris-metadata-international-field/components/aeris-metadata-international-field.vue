@@ -1,9 +1,11 @@
 <template>
   <div v-if="visible" class="aeris-metadata-internatinal-field-host">
     <div class="intl-field-display">
-      <span v-if="html" v-html="text"/>
+      <span v-if="html" v-html="text" />
       <span v-else>
-        <span v-if="isLink"><a :href="text" target="_blank" >{{ _truncate(text) }}</a></span>
+        <span v-if="isLink">
+          <a :href="text" target="_blank">{{ _truncate(text) }}</a>
+        </span>
         <span v-else>{{ text }}</span>
       </span>
     </div>
@@ -32,8 +34,8 @@ export default {
       default: true
     },
     content: {
-      type: String,
-      default: ""
+      type: Object,
+      default: null
     }
   },
   data() {
@@ -55,21 +57,19 @@ export default {
       if (!this.lang) {
         return this.content;
       }
-      var json = JSON.parse(this.content);
-      for (var key in json) {
+
+      for (var key in this.content) {
         if (key === "DEFAULT_VALUE_KEY") {
-          /* If there's only a default language */
-          return json["DEFAULT_VALUE_KEY"];
+          return this.content["DEFAULT_VALUE_KEY"];
         } else if (key.length > 2) {
-          /* key = String language in the object */
           newKey = key.substr(0, 2);
-          json[newKey] = json[key];
-          delete json[key];
+          this.content[newKey] = this.content[key];
+          delete this.content[key];
         }
       }
 
-      if (json[this.lang]) {
-        return json[this.lang];
+      if (this.content[this.lang]) {
+        return this.content[this.lang];
       }
       return "";
     }
