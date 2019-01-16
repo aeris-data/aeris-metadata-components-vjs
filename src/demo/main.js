@@ -24,6 +24,7 @@ import quicklookGallery from "./modules/quicklook-gallery.vue";
 import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
 
 import AerisMetadataContactsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/aeris-metadata-contacts-test";
+import AerisMetadataDataLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-data-links/aeris-metadata-data-links-test";
 
 const router = new VueRouter({
   mode: "history",
@@ -31,6 +32,10 @@ const router = new VueRouter({
     {
       path: "/contacts",
       component: AerisMetadataContactsTest
+    },
+    {
+      path: "/data-links",
+      component: AerisMetadataDataLinksTest
     },
     {
       path: "/metadata/:id",
