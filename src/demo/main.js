@@ -25,6 +25,7 @@ import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
 
 import AerisMetadataContactsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/aeris-metadata-contacts-test";
 import AerisMetadataDataLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-data-links/aeris-metadata-data-links-test";
+import AerisMetadataInformationLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information-links/aeris-metadata-information-links-test";
 
 const router = new VueRouter({
   mode: "history",
@@ -36,6 +37,10 @@ const router = new VueRouter({
     {
       path: "/data-links",
       component: AerisMetadataDataLinksTest
+    },
+    {
+      path: "/information-links",
+      component: AerisMetadataInformationLinksTest
     },
     {
       path: "/metadata/:id",
