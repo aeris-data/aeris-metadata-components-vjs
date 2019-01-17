@@ -1,15 +1,15 @@
 <template>
-  <div v-if="visible" class="aeris-metadata-internatinal-field-host">
-    <div class="intl-field-display">
-      <span v-if="html" v-html="text" />
+  <section v-if="visible" class="aeris-metadata-internatinal-field-host">
+    <article class="intl-field-display">
+      <span v-if="html" v-html="getContent" />
       <span v-else>
         <span v-if="isLink">
-          <a :href="text" target="_blank">{{ _truncate(text) }}</a>
+          <a :href="getContent" target="_blank">{{ _truncate(getContent) }}</a>
         </span>
-        <span v-else>{{ text }}</span>
+        <span v-else>{{ getContent }}</span>
       </span>
-    </div>
-  </div>
+    </article>
+  </section>
 </template>
 
 <script>
@@ -38,52 +38,42 @@ export default {
       default: null
     }
   },
-  data() {
-    return {};
-  },
 
   computed: {
-    isLink: function() {
-      return this.text.startsWith("http") && this.convertlinks ? true : false;
+    isLink() {
+      return this.getContent.startsWith("http") && this.convertlinks ? true : false;
     },
 
-    text: function() {
-      if (!this.content) {
-        return "";
-      }
-      if (this.content == "null") {
-        return "";
-      }
-      if (!this.lang) {
-        return this.content;
-      }
-
-      for (var key in this.content) {
-        if (key === "DEFAULT_VALUE_KEY") {
-          return this.content["DEFAULT_VALUE_KEY"];
-        } else if (key.length > 2) {
-          newKey = key.substr(0, 2);
-          this.content[newKey] = this.content[key];
-          delete this.content[key];
+    getContent() {
+      let contentTmp = this.content;
+      if (contentTmp) {
+        for (let key in contentTmp) {
+          if (key.localeCompare("DEFAULT_VALUE_KEY") !== 0 && key.length > 2) {
+            let newKey = key.substr(0, 2);
+            contentTmp[newKey] = contentTmp[key];
+            delete contentTmp[key];
+          }
         }
-      }
 
-      if (this.content[this.lang]) {
-        return this.content[this.lang];
+        if (contentTmp[this.lang]) {
+          return contentTmp[this.lang];
+        } else if (contentTmp["DEFAULT_VALUE_KEY"]) {
+          return contentTmp["DEFAULT_VALUE_KEY"];
+        }
       }
       return "";
     }
   },
 
   methods: {
-    _truncate: function(str) {
+    _truncate(str) {
       return str.length > 50 ? str.substr(0, 47) + "..." : str;
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 aeris-metadata-internatinal-field-host {
   display: block;
 }

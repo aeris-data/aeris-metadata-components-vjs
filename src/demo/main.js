@@ -28,6 +28,7 @@ import AerisMetadataDataLinksTest from "./modules/aeris-metadata-blocks/submodul
 import AerisMetadataInformationLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information-links/aeris-metadata-information-links-test";
 import AerisMetadataDatapolicyTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-datapolicy/aeris-metadata-datapolicy-test";
 import AerisMetadataDescriptionTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-description/aeris-metadata-description-test";
+import AerisMetadataInternationalFieldTest from "./modules/aeris-metadata-international-field/aeris-metadata-international-field-test";
 
 const router = new VueRouter({
   mode: "history",
@@ -51,6 +52,10 @@ const router = new VueRouter({
     {
       path: "/information-links",
       component: AerisMetadataInformationLinksTest
+    },
+    {
+      path: "/international-field",
+      component: AerisMetadataInternationalFieldTest
     },
     {
       path: "/metadata/:id",
