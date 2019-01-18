@@ -1,14 +1,16 @@
 <template>
-
-<div data-aeris-metadata-layout data-template="metadata-block">
-  <header v-if="showTitle">
-    <h3><i :class="icon"></i>{{title}}</h3>
-    <div class="aeris-icon-group"></div>
-  </header>
-  <main :class="{main:showTitle}">
-    <slot></slot>
-  </main>
-</div>
+  <div class="data-aeris-metadata-layout" data-template="metadata-block" :style="applyTheme">
+    <header v-if="showTitle">
+      <h3>
+        <i :class="icon"></i>
+        {{ title }}
+      </h3>
+      <div class="aeris-icon-group"></div>
+    </header>
+    <section :class="{main:showTitle}">
+      <slot></slot>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -16,10 +18,6 @@ export default {
   name: "aeris-metadata-layout",
 
   props: {
-    lang: {
-      type: String,
-      default: "en"
-    },
     title: {
       type: String,
       required: true
@@ -28,67 +26,39 @@ export default {
       type: String,
       required: true
     },
-    showTitle:{
-      type:Boolean,
+    showTitle: {
+      type: Boolean,
       default: true
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
 
-  mounted: function() {
-    var event = new CustomEvent("aerisThemeRequest", {});
-    document.dispatchEvent(event);
-  },
-
-  destroyed: function() {
-    document.removeEventListener("aerisTheme", this.aerisThemeListener);
-    this.aerisThemeListener = null;
-  },
-
-  created: function() {
-    console.log("Aeris metadata layout - Creating");
-    this.aerisThemeListener = this.handleTheme.bind(this);
-    document.addEventListener("aerisTheme", this.aerisThemeListener);
-  },
-
-  updated: function() {
-    this.ensureTheme();
-  },
-
-  data() {
-    return {
-      theme: null,
-      aerisThemeListener: null,
-      view: null
-    };
-  },
-
-  methods: {
-    handleTheme: function(event) {
-      this.theme = event.detail;
-      this.ensureTheme();
+  computed: {
+    getPrimaryColor() {
+      return this.theme.primary || this.$store.getters.getPrimaryColor;
     },
+    applyTheme() {
+      return {
+        "--primary": this.getPrimaryColor
+      };
+    }
+  },
 
-    ensureTheme: function() {
-      if (this.$el) {
-        this.$el.querySelector("[data-aeris-metadata-layout] header h3 i")
-          ? (this.$el.querySelector(
-              "[data-aeris-metadata-layout] header h3 i"
-            ).style.color = this.theme.primary)
-          : null;
-        this.$el
-          .querySelectorAll("[data-aeris-metadata-layout] h5")
-          .forEach(el => (el.style.color = this.theme.primary));
-        this.$el
-          .querySelectorAll("[data-aeris-metadata-layout] h6")
-          .forEach(el => (el.style.color = this.theme.primary));
-      }
+  watch: {
+    getPrimaryColor(value) {
+      this.getPrimaryColor = value;
     }
   }
 };
 </script>
 
-<style>
-[data-aeris-metadata-layout] {
+<style scoped>
+.data-aeris-metadata-layout {
   display: flex;
   flex-direction: column;
   border: none;
@@ -96,33 +66,39 @@ export default {
   padding: 24px;
 }
 
-[data-aeris-metadata-layout] header h3 {
+.data-aeris-metadata-layout header h3 i,
+.data-aeris-metadata-layout header h5,
+.data-aeris-metadata-layout header h6 {
+  color: var(--primary);
+}
+
+.data-aeris-metadata-layout header h3 {
   font-size: 1.5rem;
   font-weight: 300;
   margin: 0;
 }
 
-[data-aeris-metadata-layout] header i {
+.data-aeris-metadata-layout header i {
   margin-right: 12px;
 }
 
-[data-aeris-metadata-layout] .main {
+.data-aeris-metadata-layout .main {
   padding: 16px 0 0 0px;
 }
 
-[data-aeris-metadata-layout] h5 {
+.data-aeris-metadata-layout h5 {
   font-size: 1rem;
   font-weight: 400;
   margin: 0;
 }
 
-[data-aeris-metadata-layout] h6 {
+.data-aeris-metadata-layout h6 {
   font-size: 0.9rem;
   font-weight: 600;
   margin: 0 0 15px 0;
 }
 
-[data-aeris-metadata-layout] article {
+.data-aeris-metadata-layout article {
   margin-left: 10px;
 }
 </style>

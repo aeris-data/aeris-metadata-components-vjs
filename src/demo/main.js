@@ -1,64 +1,109 @@
-import Vue from 'vue'
+import Vue from "vue";
 
-import vueCustomElement from 'vue-custom-element'
-Vue.use(vueCustomElement);
+import Vuex from "vuex";
+Vue.use(Vuex);
 
-import VueI18n from 'vue-i18n'
+import VueI18n from "vue-i18n";
 Vue.use(VueI18n);
 
-import VueResource from 'vue-resource';
-Vue.use(VueResource);
-
-import VueRouter from 'vue-router'
+import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-import VueLayers from 'vuelayers'
-Vue.use(VueLayers)
+import axios from "axios";
+import VueAxios from "vue-axios";
 
-import {
-  VueColorPlugin,
-  VueAerisLanguagePlugin
-} from 'aeris-mixins'
-Vue.use(VueColorPlugin)
-Vue.use(VueAerisLanguagePlugin)
+Vue.use(VueAxios, axios);
 
-import AerisMetadataComponents from '../lib/aeris-metadata-components.js'
-Vue.use(AerisMetadataComponents);
+import VueLayers from "vuelayers";
+Vue.use(VueLayers);
 
-import VueCustomElementRecorder from '../lib/vue-custom-element-recorder.js'
-VueCustomElementRecorder.run();
+import { VueColorPlugin, VueAerisLanguagePlugin } from "aeris-mixins";
+Vue.use(VueColorPlugin);
+Vue.use(VueAerisLanguagePlugin);
 
-import app from './app.vue'
-import metadata from './metadata.vue'
-import quicklookGallery from './quicklook-gallery.vue'
-import metadataSynthesis from './aeris-metadata-synthesis.vue'
+import app from "./app.vue";
+import metadata from "./modules/metadata.vue";
+import quicklookGallery from "./modules/quicklook-gallery.vue";
+import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
+
+import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
+
+const LanguageStore = {
+  state: {
+    language: "en"
+  },
+
+  getters: {
+    getLanguage: state => state.language
+  },
+
+  mutations: {
+    setLanguage(state, language) {
+      state.language = language;
+    }
+  }
+};
+
+const ThemeStore = {
+  state: {
+    primaryColor: "#0b6bb3",
+    secondaryColor: "#f39c12"
+  },
+
+  getters: {
+    getPrimaryColor: state => state.primaryColor,
+    getSecondaryColor: state => state.secondaryColor
+  },
+
+  mutations: {
+    setPrimaryColor(state, primaryColor) {
+      state.primaryColor = primaryColor;
+    },
+    setSecondaryColor(state, secondaryColor) {
+      state.secondaryColor = secondaryColor;
+    }
+  }
+};
+
+const store = new Vuex.Store({
+  modules: {
+    LanguageStore,
+    ThemeStore
+  }
+});
 
 const router = new VueRouter({
-  mode: 'history',
-  routes: [{
-      path: '/metadata/:id',
+  mode: "history",
+  routes: [
+    {
+      path: "/metadata/:id",
       component: metadata,
       props: true
     },
     {
-      path: '/quicklook-gallery',
+      path: "/quicklook-gallery",
       component: quicklookGallery
     },
     {
-      path: '/aeris-metadata-synthesis',
+      path: "/aeris-metadata-synthesis",
       component: metadataSynthesis
+    },
+    {
+      path: "/information",
+      component: AerisMetadataInformationTest
     }
   ]
-})
+});
 
 new Vue({
   el: "#app",
+  store,
   router,
-  template: '<app/>',
+  template: "<app/>",
   components: {
     app,
     metadata,
     quicklookGallery,
     metadataSynthesis
   }
-}).$mount('#app')
+}).$mount("#app");
