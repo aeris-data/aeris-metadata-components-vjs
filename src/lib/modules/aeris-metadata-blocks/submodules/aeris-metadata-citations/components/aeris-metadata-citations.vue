@@ -10,61 +10,43 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('citationTitle')" icon="fa fa-quote-left">
-    <aeris-metadata-citation v-for="doi in dois" :doi="doi.code" :key="doi.code"/>
+  <aeris-metadata-layout v-if="isVisible" :title="$t('citationTitle')" icon="fa fa-quote-left">
+    <aeris-metadata-citation v-for="identifier in identifiers" :doi="identifier.code" :key="identifier.code"/>
   </aeris-metadata-layout>
 </template>
 
 <script>
+import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout"
+import AerisMetadataCitation from "../../../../aeris-metadata-blocks/submodules/aeris-metadata-citations/components/aeris-metadata-citation"
+
 export default {
   name: "aeris-metadata-citations",
+  components : { AerisMetadataLayout, AerisMetadataCitation },
   props: {
-    lang: {
+    language: {
       type: String,
-      default: "en"
+      default: ""
+    },
+    identifiers: {
+      type: Array,
+      default: []
     }
   },
   watch: {
-    lang(value) {
+    getLanguage(value) {
       this.$i18n.locale = value;
     }
   },
-  data() {
-    return {
-      dois: [],
-      visible: true,
-      aerisMetadataListener: null
-    };
-  },
-  destroyed() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    this.aerisMetadataListener = null;
+  computed: {
+    getLanguage() {
+      return this.$store.getters.getLanguage
+    },
+    isVisible() {
+      return this.identifiers.length >= 1
+    }
   },
   created() {
-    console.log("Aeris Metadata Citations - Creating");
-    this.$i18n.locale = this.lang;
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
+    this.$i18n.locale = this.language || this.getLanguage;
   },
-  methods: {
-    handleRefresh(data) {
-      this.visible = false;
-
-      if (!data || !data.detail) {
-        return;
-      }
-
-      if (data.detail.identifiers[0].code) {
-        this.visible = true;
-        this.dois = data.detail.identifiers;
-      }
-    }
-  }
 };
 </script>

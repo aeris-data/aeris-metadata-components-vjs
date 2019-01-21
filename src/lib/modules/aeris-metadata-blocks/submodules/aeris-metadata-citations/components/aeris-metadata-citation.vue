@@ -20,7 +20,6 @@ export default {
     };
   },
   created() {
-    console.log("Aeris Metadata Citation - Creating");
     this.getCitation();
   },
   methods: {
@@ -44,8 +43,13 @@ export default {
     },
     parseCitation(citation) {
       let tmp = citation.split("http");
-      this.citationBody = tmp[0].trim();
+      this.citationBody = this.decodeString(tmp[0].trim());
       this.citationLink = "http" + tmp[1];
+    },
+    decodeString(str) {
+      const parser = new DOMParser;
+      const dom = parser.parseFromString(str,"text/html")
+      return dom.body.textContent
     }
   }
 };
