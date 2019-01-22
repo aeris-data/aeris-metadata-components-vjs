@@ -1,6 +1,5 @@
 function registerVueComponents(Vue, components) {
   for (let component in components) {
-    console.log(component)
     if (components[component]) {
       Vue.component(components[component]);
     }
@@ -12,6 +11,5 @@ function registerStore(store, components) {
 }
 
 export default {
-  registerVueComponents,
-  registerStore
+  registerVueComponents
 };

@@ -9,3 +9,16 @@ Vue.use(AerisMetadataSynthesis);
 Vue.use(AerisMetadataList);
 Vue.use(AerisMetadataLayout);
 Vue.use(AerisMetadataUiTable);
+
+
+function registerVueComponents(Vue, components) {
+    for (let component in components) {
+      if (components[component]) {
+        Vue.component(components[component]);
+      }
+    }
+  }
+  
+  export default {
+    registerVueComponents,
+  };

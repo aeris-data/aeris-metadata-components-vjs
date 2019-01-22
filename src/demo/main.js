@@ -1,37 +1,29 @@
-import Vue from 'vue'
-
+import Vue from "vue";
+import Vuex from "vuex";
+import VueI18n from "vue-i18n";
+import VueRouter from "vue-router";
 import vueCustomElement from 'vue-custom-element'
-Vue.use(vueCustomElement);
 
-import VueI18n from 'vue-i18n'
-Vue.use(VueI18n);
+//import VueLayers from 'vuelayers'
+import { VueColorPlugin, VueAerisLanguagePlugin } from "aeris-mixins";
 
 import VueResource from 'vue-resource';
-Vue.use(VueResource);
-
-import VueRouter from 'vue-router'
-Vue.use(VueRouter);
-
-import VueLayers from 'vuelayers'
-Vue.use(VueLayers)
-
-import {
-  VueColorPlugin,
-  VueAerisLanguagePlugin
-} from 'aeris-mixins'
-Vue.use(VueColorPlugin)
-Vue.use(VueAerisLanguagePlugin)
-
-import AerisMetadataComponents from '../lib/aeris-metadata-components.js'
-Vue.use(AerisMetadataComponents);
-
-import VueCustomElementRecorder from '../lib/vue-custom-element-recorder.js'
-VueCustomElementRecorder.run();
 
 import app from './app.vue'
-import metadata from './metadata.vue'
-import quicklookGallery from './quicklook-gallery.vue'
-import metadataSynthesis from './aeris-metadata-synthesis.vue'
+import metadata from './modules/metadata.vue'
+import quicklookGallery from './modules/quicklook-gallery.vue'
+import metadataSynthesis from './modules/aeris-metadata-synthesis.vue'
+
+Vue.use(vueCustomElement);
+Vue.use(VueResource);
+Vue.use(VueI18n);
+Vue.use(VueRouter);
+Vue.use(Vuex)
+Vue.use(VueColorPlugin);
+Vue.use(VueAerisLanguagePlugin);
+//Vue.use(VueLayers) 
+
+
 
 const router = new VueRouter({
   mode: 'history',

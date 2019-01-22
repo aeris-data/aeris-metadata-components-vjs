@@ -1,17 +1,6 @@
-<style>
-.aeris-metadata-synthesis-host .metadata-container {
-  margin: 0 auto;
-  max-width: 1000px;
-}
-
-.aeris-metadata-synthesis-host .component-container {
-  margin-bottom: 10px;
-}
-</style>
-
 <template>
   <div class="aeris-metadata-synthesis-host">
-    <aeris-metadata :identifier="identifier" :lang="lang" :service="service"/>
+    <aeris-metadata-services :identifier="identifier" :lang="lang" :service="service"/>
     <div class="metadata-container">
       <aeris-metadata-title :lang="lang" />
       <aeris-metadata-description :markdown="true" :lang="lang"/>
@@ -68,3 +57,14 @@ export default {
   }
 };
 </script>
+
+<style>
+.aeris-metadata-synthesis-host .metadata-container {
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+.aeris-metadata-synthesis-host .component-container {
+  margin-bottom: 10px;
+}
+</style>

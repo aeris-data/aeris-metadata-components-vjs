@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "aeris-metadata",
+  name: "aeris-metadata-service",
 
   props: {
     lang: {

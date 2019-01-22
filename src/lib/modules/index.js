@@ -1,4 +1,4 @@
-import Vue from "vue";
+
 //aeris-metadata-block
 import AerisMetadataCitation from "./aeris-metadata-blocks/submodules/aeris-metadata-citations/components/aeris-metadata-citations-register.js";
 import AerisMetadataContacts from "./aeris-metadata-blocks/submodules/aeris-metadata-contacts/components/aeris-metadata-contacts-register.js";
@@ -16,7 +16,7 @@ import AerisMetadataPlatforms from "./aeris-metadata-blocks/submodules/aeris-met
 import AerisMetadataPublications from "./aeris-metadata-blocks/submodules/aeris-metadata-publications/components/aeris-metadata-publications-register.js";
 import AerisMetadataQuicklookGallery from "./aeris-metadata-blocks/submodules/aeris-metadata-quicklook-gallery/components/aeris-metadata-quicklook-gallery-register.js";
 import AerisMetadataSingleFileDonwload from "./aeris-metadata-blocks/submodules/aeris-metadata-single-file-download/components/aeris-metadata-single-file-download-register.js";
-import AerisMetadataSpatialExtents from "./aeris-metadata-blocks/submodules/aeris-metadata-spatial-extents/components/aeris-metadata-spatial-extents-register.js";
+//import AerisMetadataSpatialExtents from "./aeris-metadata-blocks/submodules/aeris-metadata-spatial-extents/components/aeris-metadata-spatial-extents-register.js";
 import AerisMetadataTemporalExtents from "./aeris-metadata-blocks/submodules/aeris-metadata-temporal-extents/components/aeris-metadata-temporal-extents-register.js";
 import AerisMetadataTitle from "./aeris-metadata-blocks/submodules/aeris-metadata-title/components/aeris-metadata-title-register.js";
 import AerisMetadataYearSelectDownload from "./aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/components/aeris-metadata-year-select-download-register.js";
@@ -33,29 +33,43 @@ import AerisMetadataLayout from "./aeris-metadata-ui/submodules/aeris-metadata-l
 import AerisMetadataList from "./aeris-metadata-ui/submodules/aeris-metadata-list/components/aeris-metadata-list-register.js";
 import AerisMetadataSynthesis from "./aeris-metadata-ui/submodules/aeris-metadata-synthesis/components/aeris-metadata-synthesis-register.js";
 
-Vue.use(AerisMetadataSynthesis);
-Vue.use(AerisMetadataList);
-Vue.use(AerisMetadataLayout);
-Vue.use(AerisMetadataUiTable);
-Vue.use(AerisMetadataServices);
-Vue.use(AerisMetadataInternationalField);
-Vue.use(AerisMetadataYearSelectDownload);
-Vue.use(AerisMetadataTitle);
-Vue.use(AerisMetadataTemporalExtents);
-Vue.use(AerisMetadataSpatialExtents);
-Vue.use(AerisMetadataSingleFileDonwload);
-Vue.use(AerisMetadataQuicklookGallery);
-Vue.use(AerisMetadataPublications);
-Vue.use(AerisMetadataPlatforms);
-Vue.use(AerisMetadataParameters);
-Vue.use(AerisMetadataModifications);
-Vue.use(AerisMetadataInstruments);
-Vue.use(AerisMetadataInformationLink);
-Vue.use(AerisMetadataInformations);
-Vue.use(AerisMetadataFormats);
-Vue.use(AerisMetadataDoi);
-Vue.use(AerisMetadataDescription);
-Vue.use(AerisMetadataDataLinks);
-Vue.use(AerisMetadataDataPolicy);
-Vue.use(AerisMetadataContacts);
-Vue.use(AerisMetadataCitation);
+var components = [
+AerisMetadataSynthesis,
+AerisMetadataList,
+AerisMetadataLayout,
+AerisMetadataUiTable,
+AerisMetadataServices,
+AerisMetadataInternationalField,
+AerisMetadataYearSelectDownload,
+AerisMetadataTitle,
+AerisMetadataTemporalExtents,
+//AerisMetadataSpatialExtents,
+AerisMetadataSingleFileDonwload,
+AerisMetadataQuicklookGallery,
+AerisMetadataPublications,
+AerisMetadataPlatforms,
+AerisMetadataParameters,
+AerisMetadataModifications,
+AerisMetadataInstruments,
+AerisMetadataInformationLink,
+AerisMetadataInformations,
+AerisMetadataFormats,
+AerisMetadataDoi,
+AerisMetadataDescription,
+AerisMetadataDataLinks,
+AerisMetadataDataPolicy,
+AerisMetadataContacts,
+AerisMetadataCitation,]
+
+
+function registerVueComponents(Vue, components) {
+    for (let component in components) {
+      if (components[component]) {
+        Vue.component(components[component]);
+      }
+    }
+  }
+  
+  export default {
+    registerVueComponents,
+  };

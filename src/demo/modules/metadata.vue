@@ -7,7 +7,7 @@
     <aeris-metadata-description markdown=""></aeris-metadata-description>
     <aeris-metadata-datapolicy></aeris-metadata-datapolicy>
     <aeris-metadata-contacts></aeris-metadata-contacts>
-    <aeris-metadata-spatial-extents></aeris-metadata-spatial-extents>
+   <!--  <aeris-metadata-spatial-extents></aeris-metadata-spatial-extents> -->
     <aeris-metadata-temporal-extents></aeris-metadata-temporal-extents>
     <aeris-metadata-information-links></aeris-metadata-information-links>
     <aeris-metadata-data-links></aeris-metadata-data-links>

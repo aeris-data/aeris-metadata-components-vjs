@@ -26,7 +26,13 @@
 </template>
 
 <script>
+import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout.vue"
+
 export default {
+
+components: {
+    AerisMetadataLayout,
+  },
   name: "aeris-metadata-quicklook-gallery",
 
   props: {

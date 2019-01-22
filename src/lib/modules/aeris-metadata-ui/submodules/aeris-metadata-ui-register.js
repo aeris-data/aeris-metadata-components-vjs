@@ -12,5 +12,4 @@ function registerVueComponents(Vue, components) {
   
   export default {
     registerVueComponents,
-    registerStore
   };

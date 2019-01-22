@@ -18,7 +18,7 @@
 <script>
 var marked = require("marked");
 export default {
-  name: "aeris-metadata-datapolicy",
+name: "aeris-metadata-datapolicy",
 
   props: {
     lang: {
