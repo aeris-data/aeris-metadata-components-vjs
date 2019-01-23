@@ -63,6 +63,8 @@ import AerisMetadataContact from "./aeris-metadata-contact";
 export default {
   name: "aeris-metadata-contacts",
 
+  components: { AerisMetadataLayout, AerisMetadataContact },
+
   props: {
     lang: {
       type: String,
@@ -73,7 +75,16 @@ export default {
       default: null
     }
   },
-  components: { AerisMetadataLayout, AerisMetadataContact },
+
+  computed: {
+    roles() {
+      return this.getRolesToDisplay();
+    },
+    visible() {
+      return this.contacts ? Object.keys(this.contacts).some(d => d != null) : false;
+    }
+  },
+
   watch: {
     lang(value) {
       this.$i18n.locale = value;
@@ -83,15 +94,6 @@ export default {
   created() {
     console.log("Aeris Metadata Contacts - Creating");
     this.$i18n.locale = this.lang;
-  },
-
-  computed: {
-    roles() {
-      return this.getRolesToDisplay();
-    },
-    visible() {
-      return this.contacts ? Object.keys(this.contacts).some(d => d != null) : false;
-    }
   },
 
   methods: {
