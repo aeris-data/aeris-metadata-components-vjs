@@ -28,6 +28,8 @@ var marked = require("marked");
 export default {
   name: "aeris-metadata-description",
 
+  components: { AerisMetadataInternationalField, AerisMetadataLayout },
+
   props: {
     lang: {
       type: String,
@@ -47,19 +49,6 @@ export default {
     }
   },
 
-  components: { AerisMetadataInternationalField, AerisMetadataLayout },
-
-  watch: {
-    lang(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
-  created() {
-    console.log("Aeris Metadata Description - Creating");
-    this.$i18n.locale = this.lang;
-  },
-
   computed: {
     isVisible() {
       return this.getResourceAbstract ? true : false;
@@ -77,6 +66,17 @@ export default {
       }
       return resourceAbstract;
     }
+  },
+
+  watch: {
+    lang(value) {
+      this.$i18n.locale = value;
+    }
+  },
+
+  created() {
+    console.log("Aeris Metadata Description - Creating");
+    this.$i18n.locale = this.lang;
   },
 
   methods: {
