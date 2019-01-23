@@ -22,6 +22,8 @@ import AerisMetadataInternationalField from "../../../../aeris-metadata-internat
 export default {
   name: "aeris-metadata-information-link",
 
+  components: { AerisMetadataInternationalField },
+
   props: {
     lang: {
       type: String,
@@ -32,8 +34,6 @@ export default {
       default: null
     }
   },
-
-  components: { AerisMetadataInternationalField },
 
   methods: {
     truncate(str) {

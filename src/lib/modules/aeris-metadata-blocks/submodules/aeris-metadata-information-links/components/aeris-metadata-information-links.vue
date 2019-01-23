@@ -26,6 +26,8 @@ import AerisMetadataInformationLink from "./aeris-metadata-information-link";
 export default {
   name: "aeris-metadata-information-links",
 
+  components: { AerisMetadataLayout, AerisMetadataInformationLink },
+
   props: {
     lang: {
       type: String,
@@ -37,7 +39,18 @@ export default {
     }
   },
 
-  components: { AerisMetadataLayout, AerisMetadataInformationLink },
+  data() {
+    return {
+      informationLinks: []
+    };
+  },
+
+  computed: {
+    isVisible() {
+      let visible = this.informationLinks.length > 0;
+      return visible;
+    }
+  },
 
   watch: {
     lang(value) {
@@ -54,17 +67,6 @@ export default {
     this.getLinks(this.links);
   },
 
-  computed: {
-    isVisible() {
-      let visible = this.informationLinks.length > 0;
-      return visible;
-    }
-  },
-  data() {
-    return {
-      informationLinks: []
-    };
-  },
   methods: {
     getLinks(links) {
       if (links && links.length > 0) {
