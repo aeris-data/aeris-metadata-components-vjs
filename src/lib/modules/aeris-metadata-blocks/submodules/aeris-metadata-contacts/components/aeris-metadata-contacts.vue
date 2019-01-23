@@ -71,7 +71,7 @@ export default {
       default: "en"
     },
     contacts: {
-      type: Object,
+      type: Array,
       default: null
     }
   },

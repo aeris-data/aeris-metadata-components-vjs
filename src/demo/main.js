@@ -19,7 +19,7 @@ Vue.use(VueColorPlugin);
 Vue.use(VueAerisLanguagePlugin);
 
 import app from "./app.vue";
-import metadata from "./modules/metadata.vue";
+import AerisMetadataServicesTest from "./modules/aeris-metadata-services/aeris-metadata-services-test.vue";
 import quicklookGallery from "./modules/quicklook-gallery.vue";
 import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
 
@@ -59,7 +59,7 @@ const router = new VueRouter({
     },
     {
       path: "/metadata/:id",
-      component: metadata,
+      component: AerisMetadataServicesTest,
       props: true
     },
     {
