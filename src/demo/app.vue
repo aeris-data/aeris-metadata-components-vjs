@@ -28,6 +28,9 @@
       <li>
         <router-link to="/aeris-metadata-citations">/citations</router-link>
       </li>
+      <li>
+        <router-link to="/aeris-metadata-publications">/publications</router-link>
+      </li>
     </ul>
     <div>
       <router-view class="view"></router-view>

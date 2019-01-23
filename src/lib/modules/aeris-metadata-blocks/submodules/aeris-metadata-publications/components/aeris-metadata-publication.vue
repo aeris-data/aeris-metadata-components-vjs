@@ -43,7 +43,7 @@
         <div>
           <h5>{{ $t('journal') }}:</h5>
           <p>
-            <span>{{ value.journalName }}</span>
+            <span>{{ value.journal }}</span>
             <span> {{ value.journalSection }}</span>
           </p>
         </div>
@@ -65,7 +65,7 @@ export default {
   name: "aeris-metadata-publication",
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -76,13 +76,13 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    getLanguage(value) {
       this.$i18n.locale = value;
     }
   },
 
-  mounted: function() {
-    this.$i18n.locale = this.lang;
+  mounted() {
+    this.$i18n.locale = this.language || this.getLanguage;
   },
 
   created: function() {
@@ -116,6 +116,7 @@ export default {
     },
 
     value: function() {
+      console.log("String",JSON.parse(this.publication))
       if (this.publication == null) {
         return {};
       } else {
