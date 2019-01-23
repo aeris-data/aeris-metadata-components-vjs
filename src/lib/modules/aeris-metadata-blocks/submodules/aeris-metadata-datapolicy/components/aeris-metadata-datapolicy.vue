@@ -10,12 +10,18 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('datapolicy')" icon="fa fa-copyright">
-    <aeris-metadata-international-field v-if="visible" :html="markdown" :content="value" no-label-float/>
+  <aeris-metadata-layout v-if="isVisible" :title="$t('datapolicy')" icon="fa fa-copyright">
+    <aeris-metadata-international-field
+      :html="markdown"
+      :content="description"
+      no-label-float
+    ></aeris-metadata-international-field>
   </aeris-metadata-layout>
 </template>
 
 <script>
+import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field";
+import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
 var marked = require("marked");
 export default {
   name: "aeris-metadata-datapolicy",
@@ -28,77 +34,57 @@ export default {
     markdown: {
       type: Boolean,
       default: true
+    },
+    distributionInformation: {
+      type: Object,
+      default: null
     }
   },
 
+  components: { AerisMetadataInternationalField, AerisMetadataLayout },
+
   data() {
     return {
-      visible: false,
-      description: null,
-      aerisMetadataListener: null
+      description: null
     };
   },
 
   computed: {
-    value: function() {
-      return JSON.stringify(this.description);
+    isVisible() {
+      return this.description !== null;
     }
   },
 
   watch: {
     lang(value) {
       this.$i18n.locale = value;
+    },
+    distributionInformation(value) {
+      this.getDescription(value);
     }
   },
 
-  destroyed: function() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    this.aerisMetadataListener = null;
-  },
-
-  created: function() {
+  created() {
     console.log("Aeris Metadata Description - Creating");
     this.$i18n.locale = this.lang;
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
+    this.getDescription(this.distributionInformation);
   },
 
   methods: {
-    handleRefresh: function(data) {
-      this.visible = false;
-
-      if (!data) {
-        return;
-      }
-
-      if (!data.detail.distributionInformation) {
-        return;
-      }
-
-      if (!data.detail.distributionInformation.description) {
-        return;
-      }
-
-      if (this.markdown) {
-        var descriptions = data.detail.distributionInformation.description;
-
-        /* Convert markdown description to html for each language */
-        for (var item in descriptions) {
-          if (descriptions.hasOwnProperty(item)) {
-            descriptions[item] = marked(descriptions[item]);
+    getDescription(distributionInformation) {
+      if (distributionInformation && distributionInformation.description) {
+        let description = this.distributionInformation.description;
+        if (this.markdown) {
+          for (let item in description) {
+            if (description.hasOwnProperty(item)) {
+              description[item] = marked(description[item]);
+            }
           }
         }
-        this.description = descriptions;
+        this.description = description;
       } else {
-        this.description = data.detail.distributionInformation.description;
+        this.description = null;
       }
-      this.visible = true;
     }
   }
 };
