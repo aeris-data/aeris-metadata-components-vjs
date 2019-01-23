@@ -50,6 +50,8 @@ import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-
 export default {
   name: "aeris-metadata-data-links",
 
+  components: { AerisMetadataInformationLink, AerisMetadataLayout },
+
   props: {
     lang: {
       type: String,
@@ -61,7 +63,20 @@ export default {
     }
   },
 
-  components: { AerisMetadataInformationLink, AerisMetadataLayout },
+  data() {
+    return {
+      httpLinks: [],
+      ftpLinks: [],
+      orderLinks: []
+    };
+  },
+
+  computed: {
+    isVisible() {
+      let visible = this.httpLinks.length > 0 || this.ftpLinks.length > 0 || this.orderLinks.length > 0;
+      return visible;
+    }
+  },
 
   watch: {
     lang(value) {
@@ -71,12 +86,6 @@ export default {
       this.getLinks(value);
     }
   },
-  computed: {
-    isVisible() {
-      let visible = this.httpLinks.length > 0 || this.ftpLinks.length > 0 || this.orderLinks.length > 0;
-      return visible;
-    }
-  },
 
   created() {
     console.log("Aeris Metadata Data links - Creating");
@@ -84,13 +93,6 @@ export default {
     this.getLinks(this.links);
   },
 
-  data() {
-    return {
-      httpLinks: [],
-      ftpLinks: [],
-      orderLinks: []
-    };
-  },
   methods: {
     getLinks(links) {
       if (links && links.length > 0) {
