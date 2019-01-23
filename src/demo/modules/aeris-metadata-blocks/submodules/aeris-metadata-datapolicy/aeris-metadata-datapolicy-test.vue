@@ -9,7 +9,9 @@ import AerisMetadataDatapolicy from "../../../../../lib/modules/aeris-metadata-b
 
 export default {
   name: "aeris-metadata-datapolicy-test",
+
   components: { AerisMetadataDatapolicy },
+
   data() {
     return {
       distributionInformation: {

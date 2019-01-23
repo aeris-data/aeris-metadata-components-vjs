@@ -7,7 +7,9 @@ import AerisMetadataDescription from "../../../../../lib/modules/aeris-metadata-
 
 export default {
   name: "aeris-metadata-description-test",
+
   components: { AerisMetadataDescription },
+
   data() {
     return {
       resourceAbstract: {

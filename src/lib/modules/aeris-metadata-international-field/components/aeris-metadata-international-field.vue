@@ -4,7 +4,7 @@
       <span v-if="html" v-html="getContent" />
       <span v-else>
         <span v-if="isLink">
-          <a :href="getContent" target="_blank">{{ _truncate(getContent) }}</a>
+          <a :href="getContent" target="_blank">{{ truncate(getContent) }}</a>
         </span>
         <span v-else>{{ getContent }}</span>
       </span>
@@ -66,7 +66,7 @@ export default {
   },
 
   methods: {
-    _truncate(str) {
+    truncate(str) {
       return str.length > 50 ? str.substr(0, 47) + "..." : str;
     }
   }

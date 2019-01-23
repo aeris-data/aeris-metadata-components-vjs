@@ -6,7 +6,9 @@
 import AerisMetadataContacts from "../../../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/components/aeris-metadata-contacts.vue";
 export default {
   name: "aeris-metadata-contacts-test",
+
   components: { AerisMetadataContacts },
+
   data() {
     return {
       contacts: [

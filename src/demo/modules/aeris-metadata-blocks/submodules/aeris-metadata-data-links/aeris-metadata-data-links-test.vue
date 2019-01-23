@@ -7,7 +7,9 @@ import AerisMetadataDataLinks from "../../../../../lib/modules/aeris-metadata-bl
 
 export default {
   name: "aeris-metadata-data-links-test",
+
   components: { AerisMetadataDataLinks },
+
   data() {
     return {
       links: [

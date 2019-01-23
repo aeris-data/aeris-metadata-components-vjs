@@ -11,7 +11,9 @@
 import AerisMetadataInternationalField from "../../../lib/modules/aeris-metadata-international-field/components/aeris-metadata-international-field";
 export default {
   name: "aeris-metadata-international-field-test",
+
   components: { AerisMetadataInternationalField },
+
   data() {
     return {
       content1: {
