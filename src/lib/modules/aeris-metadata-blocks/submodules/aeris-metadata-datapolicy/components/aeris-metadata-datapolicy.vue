@@ -26,6 +26,8 @@ var marked = require("marked");
 export default {
   name: "aeris-metadata-datapolicy",
 
+  components: { AerisMetadataInternationalField, AerisMetadataLayout },
+
   props: {
     lang: {
       type: String,
@@ -40,8 +42,6 @@ export default {
       default: null
     }
   },
-
-  components: { AerisMetadataInternationalField, AerisMetadataLayout },
 
   data() {
     return {
