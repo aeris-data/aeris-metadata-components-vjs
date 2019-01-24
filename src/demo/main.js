@@ -31,6 +31,7 @@ import quicklookGallery from "./modules/quicklook-gallery.vue";
 import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
 import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-citations/aeris-metadata-citations-test";
 import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-publications/aeris-metadata-publications-test";
+import AerisMetadataPlatformsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-platforms/aeris-metadata-platforms-test";
 
 const router = new VueRouter({
   mode: "history",
@@ -54,6 +55,10 @@ const router = new VueRouter({
     {
       path: "/aeris-metadata-publications",
       component: AerisMetadataPublicationsTest
+    },
+    {
+      path: "/aeris-metadata-platforms",
+      component: AerisMetadataPlatformsTest
     }
   ]
 });
@@ -91,6 +96,7 @@ new Vue({
     quicklookGallery,
     metadataSynthesis,
     AerisMetadataCitationsTest,
-    AerisMetadataPublicationsTest
+    AerisMetadataPublicationsTest,
+    AerisMetadataPlatformsTest
   }
 }).$mount("#app");

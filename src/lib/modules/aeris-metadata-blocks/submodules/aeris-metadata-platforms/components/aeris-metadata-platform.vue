@@ -16,14 +16,14 @@
 
     <div :class="{ showPlateformBody: deployed }" class="aeris-plateform-container">
       <header @click="deployed = !deployed">
-        <h5>{{ title }}</h5>
+        <h5>{{ value.title }}</h5>
         <i :class="openIconClass" class="chevron"/>
       </header>
       <article class="platform-collapsable-part">
-        <span>{{ thesaurusLabel }}</span>
+        <span>{{ value.thesaurusLabel }}</span>
         <ul class="metadata-format-description">
-          <li><h6 v-if="value.description">{{ $t('description') }}: </h6>
-            <aeris-metadata-international-field :content="JSON.stringify(value.description)" :lang="lang" :convertlinks="true" label="Description" no-label-float/>
+          <li><h6 v-if="value.description">{{ value.description }}</h6>
+            <aeris-metadata-international-field :content="JSON.stringify(value.description)" :language="language" :convertlinks="true" label="Description" no-label-float/>
           </li>
         </ul>
       </article>
@@ -38,7 +38,7 @@ export default {
   name: "aeris-metadata-platform",
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -53,26 +53,26 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    getLanguage(value) {
       this.$i18n.locale = value;
     }
   },
 
-  created: function() {
+  created() {
     console.log("Aeris Metadata Platform - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
     this.labelHandle();
   },
 
   computed: {
-    value: function() {
+    value() {
       if (this.platform == null) {
         return {};
       } else {
         return JSON.parse(this.platform);
       }
     },
-    thesaurusLabel: function() {
+    thesaurusLabel() {
       return (
         this.className +
         (this.codeName
@@ -95,14 +95,14 @@ export default {
   },
 
   methods: {
-    labelHandle: function() {
+    labelHandle() {
       let metadata = this.value;
       if (
         metadata.thesaurusClass.code != "" &&
         metadata.thesaurusClass.code != "NULL"
       ) {
         this.className =
-          this.lang == "fr"
+          this.language == "fr"
             ? metadata.thesaurusClass.name.fr
               ? metadata.thesaurusClass.name.fr
               : metadata.thesaurusClass.name.en
@@ -113,7 +113,7 @@ export default {
         metadata.thesaurusClass.thesaurusCode.code != "NULL"
       ) {
         this.codeName =
-          this.lang == "fr"
+          this.language == "fr"
             ? metadata.thesaurusClass.thesaurusCode.name.fr
               ? metadata.thesaurusClass.thesaurusCode.name.fr
               : metadata.thesaurusClass.thesaurusCode.name.en
@@ -125,14 +125,14 @@ export default {
       ) {
         if (this.codeName == "") {
           this.codeName =
-            this.lang == "fr"
+            this.language == "fr"
               ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
                 ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
                 : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en
               : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
         } else {
           this.nameName =
-            this.lang == "fr"
+            this.language == "fr"
               ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
                 ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
                 : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en
