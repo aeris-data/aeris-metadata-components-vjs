@@ -31,6 +31,7 @@ import AerisMetadataDescriptionTest from "./modules/aeris-metadata-blocks/submod
 import AerisMetadataInternationalFieldTest from "./modules/aeris-metadata-international-field/aeris-metadata-international-field-test";
 import AerisMetadataTemporalExtentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-temporal-extents/aeris-metadata-temporal-extents-test";
 import AerisMetadataFormatsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-formats/aeris-metadata-formats-test";
+import AerisMetadataModificationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-modifications/aeris-metadata-modifications-test";
 
 const router = new VueRouter({
   mode: "history",
@@ -66,6 +67,10 @@ const router = new VueRouter({
     {
       path: "/formats",
       component: AerisMetadataFormatsTest
+    },
+    {
+      path: "/modifications",
+      component: AerisMetadataModificationsTest
     },
     {
       path: "/metadata/:id",

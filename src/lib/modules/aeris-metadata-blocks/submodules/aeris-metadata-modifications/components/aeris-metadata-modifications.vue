@@ -12,8 +12,8 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('modifications')" icon="fa fa-history">
-    <div v-for="modification in modifications" :key="modification.date">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('modifications')" icon="fa fa-history">
+    <section v-for="modification in currentModifications" :key="modification.date">
       <article class="tempExt">
         <div class="metadata-temporal">
           <div>
@@ -21,123 +21,119 @@
           </div>
           <div class="metadata-author-description">
             <i class="fa fa-user" /> : {{ modification.author }}
-            <div v-if="modification.name">
-              ( {{ modification.name }} )
-            </div>
+            <div v-if="modification.name">( {{ modification.name }} )</div>
           </div>
         </div>
       </article>
-    </div>
+    </section>
   </aeris-metadata-layout>
 </template>
 
 <script>
 import moment from "moment";
+import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
 
 export default {
   name: "aeris-metadata-modifications",
+
+  components: { AerisMetadataLayout },
 
   props: {
     lang: {
       type: String,
       default: "en"
+    },
+    modifications: {
+      type: Array,
+      default: null
+    },
+    orcidService: {
+      type: String,
+      default: "https://sedoo.aeris-data.fr/aeris-rest-services/rest/orcid/name/"
+    }
+  },
+
+  data() {
+    return {
+      currentModifications: null
+    };
+  },
+
+  computed: {
+    isVisible() {
+      return this.currentModifications !== null && this.currentModifications.length > 0;
     }
   },
 
   watch: {
     lang(value) {
       this.$i18n.locale = value;
+    },
+    modifications(modifications, oldModifications) {
+      if (modifications !== oldModifications) {
+        this.updateModificationAuthorName(modifications);
+      }
     }
   },
 
-  destroyed: function() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    this.aerisMetadataListener = null;
-  },
-
-  created: function() {
+  created() {
     console.log("Aeris Modifications - Creating");
     this.$i18n.locale = this.lang;
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
+    this.updateModificationAuthorName(this.modifications);
   },
 
-  data() {
-    return {
-      modifications: [],
-      visible: false,
-      aerisMetadataListener: null,
-      orcidService:
-        "https://sedoo.aeris-data.fr/aeris-rest-services/rest/orcid/name/"
-    };
-  },
   methods: {
-    format: function(value) {
+    format(value) {
       return moment(value).format("LLL");
     },
 
-    sort: function(a, b) {
+    sort(a, b) {
       var aMoment = moment(a.date);
       var bMoment = moment(b.date);
       if (aMoment === bMoment) return 0;
       return aMoment.isBefore(bMoment) ? 1 : -1;
     },
 
-    handleError: function() {},
-
-    handleSuccess: function(response, author) {
-      if (this.modifications) {
-        for (var i = 0; i < this.modifications.length; i++) {
-          var modification = this.modifications[i];
-          if (modification.author == author) {
-            modification.name = response.bodyText;
-            this.$set(this.modifications, i, modification);
+    updateModificationAuthorName(modifications) {
+      let modificationsTmp = [];
+      if (modifications !== null && modifications.length > 0) {
+        modificationsTmp = modifications;
+        modificationsTmp.sort(this.sort);
+        modificationsTmp.reverse();
+        let authors = [];
+        let keys = [];
+        modificationsTmp.forEach(modification => {
+          let author = {};
+          author.author = modification.author;
+          if (author.author && keys.indexOf(author.author) === -1) {
+            authors.push(author);
+            keys.push(author.autho);
           }
-        }
-      }
-    },
+        });
 
-    handleRefresh: function(data) {
-      this.visible = false;
-      if (!data || !data.detail) {
-        return;
+        authors.forEach(author => {
+          let url = this.orcidService + author.author;
+          this.$http.get(url).then(response => {
+            author.name = response.bodyText;
+          });
+        });
+
+        modificationsTmp.forEach(modification => {
+          authors.forEach(author => {
+            if (modification.author == author.author) {
+              modification.name = author.name;
+            }
+          });
+        });
       }
-      this.modifications = [];
-      if (data.detail.modifications) {
-        this.visible = true;
-        var modifications = data.detail.modifications;
-        modifications.sort(this.sort);
-        this.modifications = modifications.reverse();
-        for (var i = 0; i < modifications.length; i++) {
-          var modification = modifications[i];
-          if (modification.author) {
-            var url = this.orcidService + modification.author;
-            let aux = modification.author;
-            this.$http.get(url).then(
-              response => {
-                this.handleSuccess(response, aux);
-              },
-              response => {
-                this.handleError(response);
-              }
-            );
-          }
-        }
-      } else {
-        this.visible = false;
-      }
+
+      this.currentModifications = modificationsTmp;
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .metadata-author-description {
   margin-left: 0.5em;
   padding: 3px 0 0 10px;

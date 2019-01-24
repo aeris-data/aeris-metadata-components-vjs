@@ -12,6 +12,7 @@
           :resource-abstract="metadata.resourceAbstract"
           markdown=""
         ></aeris-metadata-description>
+        <aeris-metadata-modifications :modifications="metadata.modifications"></aeris-metadata-modifications>
         <aeris-metadata-datapolicy
           :distribution-information="metadata.distributionInformation"
         ></aeris-metadata-datapolicy>
@@ -36,6 +37,7 @@ import AerisMetadataDataLinks from "../../../lib/modules/aeris-metadata-blocks/s
 import AerisNotifier from "aeris-commons-components-vjs/src/lib/modules/aeris-notification/components/aeris-notifier";
 import AerisMetadataTemporalExtents from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-temporal-extents/components/aeris-metadata-temporal-extents";
 import AerisMetadataFormats from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-formats/components/aeris-metadata-formats";
+import AerisMetadataModifications from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-modifications/components/aeris-metadata-modifications";
 
 export default {
   name: "aeris-metadata-services-test",
@@ -48,7 +50,8 @@ export default {
     AerisMetadataDataLinks,
     AerisNotifier,
     AerisMetadataTemporalExtents,
-    AerisMetadataFormats
+    AerisMetadataFormats,
+    AerisMetadataModifications
   },
   props: {
     id: {
