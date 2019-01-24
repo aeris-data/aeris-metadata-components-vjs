@@ -65,7 +65,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .aeris-metadata-temporal-extent-host {
   display: block;
   transition: 0.6s;

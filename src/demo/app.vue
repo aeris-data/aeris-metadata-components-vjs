@@ -8,6 +8,7 @@
       <li><router-link to="/information-links">/information-links</router-link></li>
       <li><router-link to="/international-field">/international-field</router-link></li>
       <li><router-link to="/temporal-extents">/temporal-extents</router-link></li>
+      <li><router-link to="/formats">/formats</router-link></li>
       <li><router-link to="/metadata/cc9e1df3-f292-496d-a754-6681d5260d54">/iasi</router-link></li>
       <li><router-link to="/metadata/575882c0-64ce-4648-bb19-00030d5d63af">/iagos</router-link></li>
       <li><router-link to="/metadata/61e54760-86ba-4b69-804b-06a7793f9104">/iagos2</router-link></li>

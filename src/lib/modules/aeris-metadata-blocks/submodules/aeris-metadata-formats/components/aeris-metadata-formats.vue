@@ -10,21 +10,44 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('formats')" icon="fa fa-list-ul">
-    <div v-for="format in formats" :key="format">
-      <aeris-metadata-format :format="JSON.stringify(format)" :lang="lang"/>
+  <aeris-metadata-layout v-if="isVisible" :title="$t('formats')" icon="fa fa-list-ul">
+    <div v-for="format in getFormats" :key="format.version + format.description">
+      <aeris-metadata-format :format="format" :lang="lang"></aeris-metadata-format>
     </div>
   </aeris-metadata-layout>
 </template>
 
 <script>
+import AerisMetadataFormat from "./aeris-metadata-format";
+import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
+
 export default {
   name: "aeris-metadata-formats",
+
+  components: { AerisMetadataFormat, AerisMetadataLayout },
 
   props: {
     lang: {
       type: String,
       default: "en"
+    },
+    formats: {
+      type: Array,
+      default: null
+    }
+  },
+
+  computed: {
+    isVisible() {
+      return this.formats !== null && this.formats.length > 0;
+    },
+    getFormats() {
+      let formats = [];
+      if (this.formats !== null && this.formats.length > 0) {
+        formats = this.formats;
+      }
+
+      return formats;
     }
   },
 
@@ -34,45 +57,9 @@ export default {
     }
   },
 
-  destroyed: function() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    this.aerisMetadataListener = null;
-  },
-
-  created: function() {
+  created() {
     console.log("Aeris Metadata Temporal Extents - Creating");
     this.$i18n.locale = this.lang;
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-  },
-
-  data() {
-    return {
-      formats: [],
-      visible: false,
-      aerisMetadataListener: null
-    };
-  },
-  methods: {
-    handleRefresh: function(data) {
-      this.visible = false;
-      if (!data || !data.detail) {
-        return;
-      }
-      this.formats = [];
-      if (data.detail.formats && data.detail.formats.length>0) {
-        this.visible = true;
-        this.formats = data.detail.formats;
-      } else {
-        this.visible = false;
-      }
-    }
   }
 };
 </script>
