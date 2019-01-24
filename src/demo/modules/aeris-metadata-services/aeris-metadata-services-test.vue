@@ -16,6 +16,7 @@
           :distribution-information="metadata.distributionInformation"
         ></aeris-metadata-datapolicy>
         <aeris-metadata-contacts :contacts="metadata.contacts"></aeris-metadata-contacts>
+        <aeris-metadata-temporal-extents :temporal-extents="metadata.temporalExtents"></aeris-metadata-temporal-extents>
         <aeris-metadata-information-links :links="metadata.links"></aeris-metadata-information-links>
         <aeris-metadata-data-links :links="metadata.links"></aeris-metadata-data-links>
       </div>
@@ -32,6 +33,7 @@ import AerisMetadataContacts from "../../../lib/modules/aeris-metadata-blocks/su
 import AerisMetadataInformationLinks from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-information-links/components/aeris-metadata-information-links";
 import AerisMetadataDataLinks from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-data-links/components/aeris-metadata-data-links";
 import AerisNotifier from "aeris-commons-components-vjs/src/lib/modules/aeris-notification/components/aeris-notifier";
+import AerisMetadataTemporalExtents from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-temporal-extents/components/aeris-metadata-temporal-extents";
 
 export default {
   name: "aeris-metadata-services-test",
@@ -42,7 +44,8 @@ export default {
     AerisMetadataContacts,
     AerisMetadataInformationLinks,
     AerisMetadataDataLinks,
-    AerisNotifier
+    AerisNotifier,
+    AerisMetadataTemporalExtents
   },
   props: {
     id: {
