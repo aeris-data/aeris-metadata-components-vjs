@@ -17,257 +17,193 @@
 }
 </i18n>
 <template>
-  <div v-if="visible" data-aeris-metadata-layout data-template="metadata-block">
+  <section v-if="isVisible" :style="applyTheme" data-aeris-metadata-layout data-template="metadata-block">
     <header>
-      <h3><i name="download" class="fa fa-download"/>{{ $t('download') }}</h3>
+      <h3><i name="download" class="fa fa-download primaryTheme" />{{ $t("download") }}</h3>
     </header>
-    <div v-if="!isInCart">
-      <p>{{ $t('explicationText') }}</p>
-      <aeris-catalog-ui-button id="btnAdd" :text="$t('addToCart')" icon="fa fa-cart-arrow-down" onclick="document.dispatchEvent(new CustomEvent('recordToAdd'))"/>
-    </div>
-    <div v-else>
-      <p>{{ $t('explicationText') }}</p>
-      <div id="addedToCard">
-        <i :aria-hidden="true" class="fa fa-check"/> {{ $t('addedToCart') }}
-      </div>
-    </div>
-  </div>
+    <article v-if="!isInCart">
+      <p>{{ $t("explicationText") }}</p>
+      <aeris-ui-icon-button
+        :text="$t('addToCart')"
+        icon="fa fa-cart-arrow-down"
+        type="button"
+        @click="addToCart"
+      ></aeris-ui-icon-button>
+    </article>
+    <article v-else>
+      <p>{{ $t("explicationText") }}</p>
+      <div class="primaryTheme"><i :aria-hidden="true" class="fa fa-check" /> {{ $t("addedToCart") }}</div>
+    </article>
+  </section>
 </template>
 
 <script>
+import { AerisUiIconButton } from "aeris-commons-components-vjs";
 export default {
   name: "aeris-metadata-single-file-download",
 
+  components: { AerisUiIconButton },
+
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
-    }
-  },
-
-  mounted: function() {
-    var event = new CustomEvent("aerisThemeRequest", {});
-    document.dispatchEvent(event);
-  },
-
-  watch: {
-    lang(value) {
-      this.$i18n.locale = value;
     },
-
-    isInCart(value) {
-      this.ensureTheme();
+    theme: {
+      type: Object,
+      default: null
+    },
+    metadata: {
+      type: Object,
+      default: null
+    },
+    isInCart: {
+      type: Boolean,
+      default: false
     }
   },
-
-  destroyed: function() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    this.aerisMetadataListener = null;
-
-    document.removeEventListener(
-      "cartContentResponse",
-      this.cartContentResponseListener
-    );
-    this.cartContentResponseListener = null;
-
-    document.removeEventListener("aerisTheme", this.aerisThemeListener);
-    this.aerisThemeListener = null;
-
-    document.removeEventListener("recordToAdd", this.recordToAddListener);
-    this.recordToAddListener = null;
-  },
-
-  created: function() {
-    console.log("Aeris single file download - Creating");
-    this.$i18n.locale = this.lang;
-    // to get the datas
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    // to apply theme
-    this.aerisThemeListener = this.handleTheme.bind(this);
-    document.addEventListener("aerisTheme", this.aerisThemeListener);
-    // to get the cart response, asking if the collection is already in the cart
-    this.cartContentResponseListener = this.cartContentResponse.bind(this);
-    document.addEventListener(
-      "cartContentResponse",
-      this.cartContentResponseListener
-    );
-    // as the event is received by aeris-catalog-ui-button, we have to use a custom event to get it back
-    this.recordToAddListener = this.addToCart.bind(this);
-    document.addEventListener("recordToAdd", this.recordToAddListener);
-  },
-
-  updated: function() {
-    this.ensureTheme();
-  },
-
-  computed: {},
 
   data() {
     return {
-      visible: false,
-      theme: null,
-      aerisThemeListener: null,
-      aerisMetadataListener: null,
-      cartResponseListener: null,
-      data: {},
       downloadEntry: {},
       service: null,
       id: null,
-      collectionName: null,
-      isInCart: false,
-      classesButton: "metadata-text-btn"
+      collectionName: null
     };
   },
 
+  computed: {
+    isVisible() {
+      return this.service !== null;
+    },
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
+      } else {
+        return "";
+      }
+    }
+  },
+
+  watch: {
+    language(value) {
+      this.$i18n.locale = value;
+    },
+    theme(theme) {
+      this.ensureTheme(theme);
+    },
+    metadata(metadata) {
+      this.updateMetadataDownload(metadata);
+    },
+    isInCart() {
+      this.$nextTick(() => {
+        this.ensureTheme(this.theme);
+      });
+    }
+  },
+
+  created() {
+    console.log("Aeris single file download - Creating");
+    this.$i18n.locale = this.language;
+    this.ensureTheme(this.theme);
+    this.updateMetadataDownload(this.metadata);
+  },
+
   methods: {
-    cartContentResponse: function(e) {
-      this.isInCart = false;
-      var cartContent = e.detail.cartContent;
-      if (cartContent) {
-        for (var i = 0; i < cartContent.length; i++) {
-          var cartItem = cartContent[i];
-          if (cartItem.collectionId == this.id) {
-            this.isInCart = true;
+    updateMetadataDownload(metadata) {
+      let links = metadata ? metadata.links : "";
+      if (links && metadata.id && metadata.resourceTitle) {
+        this.id = metadata.id;
+        this.collectionName = metadata.resourceTitle;
+
+        let links = metadata.links;
+        if (links && links.length > 0) {
+          for (let i = 0; i < links.length; i++) {
+            let link = links[i];
+            if (link.type == "OPENSEARCH_LINK") {
+              this.service = link.url;
+              break;
+            }
           }
         }
+        this.ensureTheme(this.theme);
       }
     },
 
-    handleRefresh: function(data) {
-      this.id = data.detail.id;
-      this.collectionName = data.detail.resourceTitle;
-
-      this.visible = false;
-      var event = new CustomEvent("cartContentRequest", {});
-      document.dispatchEvent(event);
-
-      var links = data.detail.links;
-      if (links && links.length > 0) {
-        for (var i = 0; i < links.length; i++) {
-          var link = links[i];
-          if (link.type == "OPENSEARCH_LINK") {
-            this.service = link.url;
-            break;
-          }
-        }
-
-        var event = new CustomEvent("cartContentRequest", {});
-        document.dispatchEvent(event);
-        this.visible = true;
-      }
-
-      this.ensureTheme();
-    },
-
-    handleSuccess: function(response) {
-      this.downloadEntries = response.body.entries;
+    handleSuccess(response, uuid) {
+      this.downloadEntries = response.data.entries;
       if (this.downloadEntries.length > 0) {
         this.downloadEntry = this.downloadEntries[0];
-        this.visible = true;
-        this.ensureTheme();
-        this.isInCart = false;
-      }
+        let url_download_service = this.service;
+        let cartItem = {
+          collectionName: this.collectionName,
+          url: url_download_service,
+          collectionId: this.id,
+          id: this.id,
+          data: "",
+          fileNumber: this.downloadEntry.fileNumber,
+          totalSize: this.downloadEntry.totalSize,
+          type: "nofilter"
+        };
 
-      var url_download_service = this.service;
-      var obj = {
-        collectionName: JSON.stringify(this.collectionName),
-        url: url_download_service,
-        collectionId: this.id,
-        id: this.id,
-        data: "",
-        fileNumber: this.downloadEntry.fileNumber,
-        totalSize: this.downloadEntry.totalSize,
-        type: "nofilter"
-      };
-      // send the informations
-      var event = new CustomEvent("addItemToCartEvent", {
-        detail: obj,
-        lang: this.lang
-      });
-      document.dispatchEvent(event);
-      this.isInCart = true;
-      // hide notification
-      document.dispatchEvent(
-        new CustomEvent("aerisLongActionStopEvent", {
-          detail: { message: this.$t("addingToCart") }
-        })
-      );
+        this.$emit("addItemCart", cartItem);
+        this.$emit("notification", { message: "", uuid: uuid });
+      }
     },
 
-    handleError: function(response) {
+    handleError(response, uuid) {
       console.log("single file download - Error while accessing server:");
-      var error = response.status;
-      var message = response.statusText;
+      let error = response.status;
+      let message = response.statusText;
       if (!error) message = "Can't connect to the server";
       console.log("Error " + error + ": " + message);
-      // hide notification
-      document.dispatchEvent(
-        new CustomEvent("aerisLongActionStopEvent", {
-          detail: { message: this.$t("addingToCart") }
-        })
-      );
+      this.$emit("notification", { message: "", uuid: uuid });
     },
 
-    handleTheme: function(event) {
-      this.theme = event.detail;
-      if (this.visible) {
-        this.ensureTheme();
-      }
-    },
-
-    ensureTheme: function() {
-      document.querySelector("[name=download]")
-        ? (document.querySelector(
-            "[name=download]"
-          ).style.color = this.theme.primary)
-        : null;
-      var buttonAddToCard = document.querySelector("#addToCard");
-      if (buttonAddToCard) {
-        buttonAddToCard.style.color = this.theme.primary;
-        buttonAddToCard.style.background = "#FFFFFF";
-        buttonAddToCard.style.borderColor = this.theme.primary;
-      }
-      let addedToCard = document.querySelector("#addedToCard");
-      addedToCard ? (addedToCard.style.color = this.theme.primary) : null;
-    },
-
-    addToCart: function(e) {
+    addToCart() {
       if (!this.isInCart) {
-        // Show notification
-        document.dispatchEvent(
-          new CustomEvent("aerisLongActionStartEvent", {
-            detail: { message: this.$t("addingToCart") }
-          })
-        );
+        let uuid = this.id;
+        let notification = {
+          message: this.$i18n.t("addingToCart"),
+          type: "wait",
+          uuid: uuid
+        };
+        this.$emit("notification", notification);
 
-        // search the informations for the cart
         if (this.service && this.id) {
-          var url = null;
+          let url = null;
           if (this.service.endsWith("/")) {
             this.service = this.service.substring(0, this.service.length - 1);
           }
           url = this.service + "/request?collection=" + this.id;
           this.$http.get(url).then(
             response => {
-              this.handleSuccess(response);
+              this.handleSuccess(response, uuid);
             },
             response => {
-              this.handleError(response);
+              this.handleError(response, uuid);
             }
           );
         }
       }
-    }
-  } // methods
-}; // default
-</script>
+      this.ensureTheme(this.theme);
+    },
 
-<style>
+    ensureTheme(theme) {
+      let buttonAddToCard = document.querySelector("#addToCard");
+      if (buttonAddToCard) {
+        buttonAddToCard.style.color = theme.primaryColor;
+        buttonAddToCard.style.background = "#FFFFFF";
+        buttonAddToCard.style.borderColor = theme.primaryColor;
+      }
+    }
+  }
+};
+</script>
+<style scoped>
+.primaryTheme {
+  color: var(--primaryColor);
+}
 </style>
