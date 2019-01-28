@@ -39,7 +39,7 @@ export default {
   components: { AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -66,7 +66,7 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     },
     modifications(modifications, oldModifications) {
@@ -78,7 +78,7 @@ export default {
 
   created() {
     console.log("Aeris Modifications - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
     this.updateModificationAuthorName(this.modifications);
   },
 

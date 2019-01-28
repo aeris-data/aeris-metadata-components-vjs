@@ -23,17 +23,35 @@
     <div :class="{ showParameterBody: deployed }" class="aeris-parameter-container">
       <header @click="deployed = !deployed">
         <h5>{{ title }}</h5>
-        <i :class="openIconClass" class="chevron"/>
+        <i :class="openIconClass" class="chevron" />
       </header>
       <article class="parameter-collapsable-part">
         <span>{{ thesaurusLabel }}</span>
         <ul class="metadata-format-description">
-          <li><h6 v-if="value.longName">{{ $t('longName') }}: </h6>{{ value.longName }}</li>
-          <li><h6 v-if="value.shortName">{{ $t('shortName') }}: </h6>{{ value.shortName }}</li>
-          <li><h6 v-if="value.cfStandardName">{{ $t('cfName') }}: </h6>{{ value.cfStandardName }}</li>
-          <li><h6 v-if="value.uom">{{ $t('uom') }}: </h6>{{ value.uom }}</li>
-          <li><h6 v-if="value.comment">{{ $t('description') }}: </h6>
-            <aeris-metadata-international-field :content="JSON.stringify(value.comment)" :lang="lang" :convertlinks="true" no-label-float/>
+          <li>
+            <h6 v-if="parameter.longName">{{ $t("longName") }}:</h6>
+            {{ parameter.longName }}
+          </li>
+          <li>
+            <h6 v-if="parameter.shortName">{{ $t("shortName") }}:</h6>
+            {{ parameter.shortName }}
+          </li>
+          <li>
+            <h6 v-if="parameter.cfStandardName">{{ $t("cfName") }}:</h6>
+            {{ parameter.cfStandardName }}
+          </li>
+          <li>
+            <h6 v-if="parameter.uom">{{ $t("uom") }}:</h6>
+            {{ parameter.uom }}
+          </li>
+          <li>
+            <h6 v-if="parameter.comment">{{ $t("description") }}:</h6>
+            <aeris-metadata-international-field
+              :content="parameter.comment"
+              :language="language"
+              :convertlinks="true"
+              no-label-float
+            ></aeris-metadata-international-field>
           </li>
         </ul>
       </article>
@@ -42,50 +60,25 @@
 </template>
 
 <script>
+import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field.vue";
+
 export default {
   name: "aeris-metadata-parameter",
 
+  components: { AerisMetadataInternationalField },
+
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
     parameter: {
-      type: String,
+      type: Object,
       default: null
     },
     openIconClass: {
       type: String,
       default: "fa fa-chevron-down"
-    }
-  },
-
-  watch: {
-    lang(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
-  created: function() {
-    console.log("Aeris Metadata Parameter - Creating");
-    this.$i18n.locale = this.lang;
-    this.labelHandle();
-  },
-
-  computed: {
-    value: function() {
-      if (this.parameter == null) {
-        return {};
-      } else {
-        return JSON.parse(this.parameter);
-      }
-    },
-    thesaurusLabel: function() {
-      let thesLabel = this.TermName;
-      if (this.Variable1Name) thesLabel += " > " + this.Variable1Name;
-      if (this.Variable2Name) thesLabel += " > " + this.Variable2Name;
-      if (this.Variable3Name) thesLabel += " > " + this.Variable3Name;
-      return thesLabel;
     }
   },
 
@@ -100,9 +93,37 @@ export default {
     };
   },
 
+  computed: {
+    thesaurusLabel() {
+      let thesLabel = this.TermName;
+      if (this.Variable1Name) thesLabel += " > " + this.Variable1Name;
+      if (this.Variable2Name) thesLabel += " > " + this.Variable2Name;
+      if (this.Variable3Name) thesLabel += " > " + this.Variable3Name;
+      return thesLabel;
+    }
+  },
+
+  watch: {
+    language(value) {
+      this.$i18n.locale = value;
+    },
+    parameter(parameter) {
+      this.labelHandle(parameter);
+    }
+  },
+
+  created() {
+    console.log("Aeris Metadata Parameter - Creating");
+    this.$i18n.locale = this.language;
+
+    if (this.parameter) {
+      this.labelHandle(this.parameter);
+    }
+  },
+
   methods: {
-    labelHandle: function() {
-      let metadata = this.value;
+    labelHandle(parameter) {
+      let metadata = parameter;
       if (metadata.thesaurusVariable) {
         if (
           metadata.thesaurusVariable &&
@@ -110,7 +131,7 @@ export default {
           metadata.thesaurusVariable.code != "NULL"
         ) {
           this.TermName =
-            this.lang == "fr"
+            this.language == "fr"
               ? metadata.thesaurusVariable.name.fr
                 ? metadata.thesaurusVariable.name.fr
                 : metadata.thesaurusVariable.name.en
@@ -122,7 +143,7 @@ export default {
           metadata.thesaurusVariable.thesaurusVariable.code != "NULL"
         ) {
           this.Variable1Name =
-            this.lang == "fr"
+            this.language == "fr"
               ? metadata.thesaurusVariable.thesaurusVariable.name.fr
                 ? metadata.thesaurusVariable.thesaurusVariable.name.fr
                 : metadata.thesaurusVariable.thesaurusVariable.name.en
@@ -130,65 +151,44 @@ export default {
         }
         if (
           metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable &&
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.code !=
-            "" &&
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.code !=
-            "NULL"
+          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "" &&
+          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "NULL"
         ) {
           if (this.Variable1Name == "") {
             this.Variable1Name =
-              this.lang == "fr"
-                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-                    .name.fr
-                  ? metadata.thesaurusVariable.thesaurusVariable
-                      .thesaurusVariable.name.fr
-                  : metadata.thesaurusVariable.thesaurusVariable
-                      .thesaurusVariable.name.en
-                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-                    .name.en;
+              this.language == "fr"
+                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
+                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
           } else {
             this.Variable2Name =
-              this.lang == "fr"
-                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-                    .name.fr
-                  ? metadata.thesaurusVariable.thesaurusVariable
-                      .thesaurusVariable.name.fr
-                  : metadata.thesaurusVariable.thesaurusVariable
-                      .thesaurusVariable.name.en
-                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-                    .name.en;
+              this.language == "fr"
+                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
+                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
           }
         }
         if (
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-            .thesaurusVariable &&
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-            .thesaurusVariable.code != "" &&
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-            .thesaurusVariable.code != "NULL"
+          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable &&
+          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "" &&
+          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "NULL"
         ) {
           if (this.Variable2Name == "") {
             this.Variable2Name =
-              this.lang == "fr"
-                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-                    .thesaurusVariable.name.fr
-                  ? metadata.thesaurusVariable.thesaurusVariable
-                      .thesaurusVariable.thesaurusVariable.name.fr
-                  : metadata.thesaurusVariable.thesaurusVariable
-                      .thesaurusVariable.thesaurusVariable.name.en
-                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-                    .thesaurusVariable.name.en;
+              this.language == "fr"
+                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
+                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
           } else {
             this.Variable3Name =
-              this.lang == "fr"
-                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-                    .thesaurusVariable.name.fr
-                  ? metadata.thesaurusVariable.thesaurusVariable
-                      .thesaurusVariable.thesaurusVariable.name.fr
-                  : metadata.thesaurusVariable.thesaurusVariable
-                      .thesaurusVariable.thesaurusVariable.name.en
-                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable
-                    .thesaurusVariable.name.en;
+              this.language == "fr"
+                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
+                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
           }
         }
       }
@@ -196,18 +196,18 @@ export default {
       this.title = metadata.longName
         ? metadata.longName
         : metadata.shortName
-          ? metadata.shortName
-          : metadata.cfStandardName
-            ? metadata.cfStandardName
-            : metadata.thesaurusVariable
-              ? this.TermName
-              : "ND";
+        ? metadata.shortName
+        : metadata.cfStandardName
+        ? metadata.cfStandardName
+        : metadata.thesaurusVariable
+        ? this.TermName
+        : "ND";
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .aeris-parameter-container .parameter-collapsable-part {
   display: none;
   transition: 0.3s;
@@ -220,6 +220,10 @@ export default {
   justify-content: space-between;
   padding: 5px 0;
   backface-visibility: hidden;
+}
+
+.aeris-parameter-container header:hover {
+  cursor: pointer;
 }
 
 .aeris-parameter-container header i {

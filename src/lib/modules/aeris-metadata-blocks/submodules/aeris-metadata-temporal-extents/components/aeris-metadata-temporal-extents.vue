@@ -17,13 +17,13 @@
         :begin="temporalExtent.beginDate"
         :end="temporalExtent.endDate"
         :comment="temporalExtent.comment"
-        :lang="lang"
+        :language="language"
       ></aeris-metadata-temporal-extent>
       <aeris-metadata-temporal-extent
         v-else
         :begin="temporalExtent.beginDate"
         :end="temporalExtent.endDate"
-        :lang="lang"
+        :language="language"
       ></aeris-metadata-temporal-extent>
     </div>
   </aeris-metadata-layout>
@@ -40,7 +40,7 @@ export default {
   components: { AerisMetadataTemporalExtent, AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -66,14 +66,14 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   created() {
     console.log("Aeris Metadata Temporal Extents - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
   },
 
   methods: {

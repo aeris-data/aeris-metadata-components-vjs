@@ -33,6 +33,7 @@ import AerisMetadataTemporalExtentsTest from "./modules/aeris-metadata-blocks/su
 import AerisMetadataFormatsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-formats/aeris-metadata-formats-test";
 import AerisMetadataModificationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-modifications/aeris-metadata-modifications-test";
 import AerisMetadataSpatialExtentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-spatial-extents/aeris-metadata-spatial-extents-test";
+import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-parameters/aeris-metadata-parameters-test";
 
 const router = new VueRouter({
   mode: "history",
@@ -76,6 +77,10 @@ const router = new VueRouter({
     {
       path: "/spatial-extents",
       component: AerisMetadataSpatialExtentsTest
+    },
+    {
+      path: "/parameters",
+      component: AerisMetadataParametersTest
     },
     {
       path: "/metadata/:id",

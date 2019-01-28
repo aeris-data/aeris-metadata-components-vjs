@@ -21,6 +21,7 @@
         <aeris-metadata-temporal-extents :temporal-extents="metadata.temporalExtents"></aeris-metadata-temporal-extents>
         <aeris-metadata-information-links :links="metadata.links"></aeris-metadata-information-links>
         <aeris-metadata-data-links :links="metadata.links"></aeris-metadata-data-links>
+        <aeris-metadata-parameters :parameters="metadata.parameters"></aeris-metadata-parameters>
         <aeris-metadata-formats :formats="metadata.formats"></aeris-metadata-formats>
       </div>
       <aeris-notifier :delete-notif-uuid="uuid" :new-notification="notification"></aeris-notifier>
@@ -40,6 +41,7 @@ import AerisMetadataTemporalExtents from "../../../lib/modules/aeris-metadata-bl
 import AerisMetadataFormats from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-formats/components/aeris-metadata-formats";
 import AerisMetadataModifications from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-modifications/components/aeris-metadata-modifications";
 import AerisMetadataSpatialExtents from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-spatial-extents/components/aeris-metadata-spatial-extents";
+import AerisMetadataParameters from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-parameters/components/aeris-metadata-parameters";
 
 export default {
   name: "aeris-metadata-services-test",
@@ -54,7 +56,8 @@ export default {
     AerisMetadataTemporalExtents,
     AerisMetadataFormats,
     AerisMetadataModifications,
-    AerisMetadataSpatialExtents
+    AerisMetadataSpatialExtents,
+    AerisMetadataParameters
   },
   props: {
     id: {

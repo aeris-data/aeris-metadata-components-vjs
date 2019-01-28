@@ -17,8 +17,9 @@
   <section class="aeris-metadata-format-host">
     <article :class="{ showBody: deployed }" class="metadata-format-container">
       <header class="format-header">
-        <span><h5 class="format-name">{{ getFormat.name }}</h5>
-        <span v-if="getFormat.version" class="metadata-format-header"> (v.{{ getFormat.version }})</span>
+        <span
+        ><h5 class="format-name">{{ getFormat.name }}</h5>
+          <span v-if="getFormat.version" class="metadata-format-header"> (v.{{ getFormat.version }})</span>
         </span>
         <i v-if="hasMore" class="fa fa-chevron-down" @click="deployed = !deployed" />
       </header>
@@ -27,7 +28,7 @@
           <h5 v-if="getFormat.description">{{ $t("description") }}:</h5>
           <aeris-metadata-international-field
             :content="getFormat.description"
-            :lang="lang"
+            :language="language"
             :convertlinks="true"
             label="Description"
             no-label-float
@@ -38,7 +39,7 @@
           <p>
             <aeris-metadata-international-field
               :content="getFormat.readingInformation"
-              :lang="lang"
+              :language="language"
               :convertlinks="true"
               no-label-float
             ></aeris-metadata-international-field>
@@ -50,7 +51,7 @@
             :begin="getFormat.readingInformation.beginDate"
             :end="getFormat.readingInformation.endDate"
             :comment="getFormat.readingInformation.comment"
-            :lang="lang"
+            :language="language"
             no-delete
           ></aeris-metadata-temporal-extent>
         </div>
@@ -69,7 +70,7 @@ export default {
   components: { AerisMetadataInternationalField, AerisMetadataTemporalExtent },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -103,14 +104,14 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   created() {
     console.log("Aeris Metadata Format - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
   }
 };
 </script>
