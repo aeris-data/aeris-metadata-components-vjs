@@ -14,7 +14,7 @@
     <aeris-metadata-publication
       v-for="publication in publications"
       :key="publication.title"
-      :publication="JSON.stringify(publication)"
+      :publication="publication"
       :language="language"
     />
   </aeris-metadata-layout>
@@ -38,55 +38,24 @@ export default {
     }
   },
 
+  computed: {
+    getLanguage() {
+      return this.$store.getters.getLanguage;
+    },
+
+    isVisible() {
+      return this.publications.length >= 1;
+    }
+  },
+
   watch: {
     getLanguage(value) {
       this.$i18n.locale = value;
     }
   },
 
-  // destroyed: function() {
-  //   document.removeEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
-  //   this.aerisMetadataListener = null;
-  // },
-
   created() {
-    this.publications.forEach(publication => {
-      console.log(JSON.stringify(publication));
-    });
     this.$i18n.locale = this.language || this.getLanguage;
-    // this.aerisMetadataListener = this.handleRefresh.bind(this);
-    // document.addEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
-  },
-
-  computed: {
-    getLanguage() {
-      return this.$store.getters.getLanguage;
-    },
-    isVisible() {
-      return this.publications.length >= 1;
-    }
   }
-  // data() {
-  //   return {
-  //     publications: [],
-  //     visible: false,
-  //     aerisMetadataListener: null
-  //   };
-  // },
-  // methods: {
-  //   handleRefresh: function(data) {
-  //     this.visible = false;
-  //     if (!data || !data.detail) {
-  //       return;
-  //     }
-  //     this.publications = [];
-  //     if (data.detail.publications && data.detail.publications.length > 0) {
-  //       this.visible = true;
-  //       this.publications = data.detail.publications;
-  //     } else {
-  //       this.visible = false;
-  //     }
-  //   }
-  // }
 };
 </script>

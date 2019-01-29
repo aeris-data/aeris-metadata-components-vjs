@@ -65,7 +65,7 @@ const router = new VueRouter({
 
 const languageStore = {
   state: {
-    language: "en"
+    language: "fr"
   },
 
   getters: {

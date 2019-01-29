@@ -13,23 +13,20 @@
 
 <template>
   <div class="aeris-metadata-platform-host">
-
     <div :class="{ showPlateformBody: deployed }" class="aeris-plateform-container">
       <header @click="deployed = !deployed">
-        <h5>{{ value.title }}</h5>
+        <h5>{{ value.name }}</h5>
         <i :class="openIconClass" class="chevron"/>
       </header>
       <article class="platform-collapsable-part">
-        <span>{{ value.thesaurusLabel }}</span>
+        <!-- <span>{{ value.name }}</span> -->
         <ul class="metadata-format-description">
-          <li><h6 v-if="value.description">{{ value.description }}</h6>
-            <aeris-metadata-international-field :content="JSON.stringify(value.description)" :language="language" :convertlinks="true" label="Description" no-label-float/>
+          <li>
+            <h6 v-if="value.description">{{ value.description }}</h6>
           </li>
         </ul>
       </article>
     </div>
-
-
   </div>
 </template>
 
@@ -43,12 +40,51 @@ export default {
       default: "en"
     },
     platform: {
-      type: String,
-      default: null
+      type: Object,
+      default: {}
     },
     openIconClass: {
       type: String,
       default: "fa fa-chevron-down"
+    }
+  },
+
+  data() {
+    return {
+      deployed: false
+      // className: "",
+      // codeName: "",
+      // nameName: "",
+      // title: ""
+    };
+  },
+  computed: {
+    thesaurusConcat() {
+      return (
+        this.className +
+        (this.codeName
+          ? " > " + this.codeName + (this.nameName ? " > " + this.nameName : "")
+          : this.nameName
+          ? " > " + this.nameName
+          : "")
+      );
+    },
+    thesaurusClass() {
+      return (
+        this.className +
+        (this.codeName
+          ? " > " + this.codeName + (this.nameName ? " > " + this.nameName : "")
+          : this.nameName
+          ? " > " + this.nameName
+          : "")
+      );
+    },
+    value() {
+      if (this.platform == null) {
+        return {};
+      } else {
+        return this.platform;
+      }
     }
   },
 
@@ -59,48 +95,14 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Platform - Creating");
     this.$i18n.locale = this.language;
     this.labelHandle();
-  },
-
-  computed: {
-    value() {
-      if (this.platform == null) {
-        return {};
-      } else {
-        return JSON.parse(this.platform);
-      }
-    },
-    thesaurusLabel() {
-      return (
-        this.className +
-        (this.codeName
-          ? " > " + this.codeName + (this.nameName ? " > " + this.nameName : "")
-          : this.nameName
-            ? " > " + this.nameName
-            : "")
-      );
-    }
-  },
-
-  data() {
-    return {
-      deployed: false,
-      className: "",
-      codeName: "",
-      nameName: "",
-      title: ""
-    };
   },
 
   methods: {
     labelHandle() {
       let metadata = this.value;
-      if (
-        metadata.thesaurusClass.code != "" &&
-        metadata.thesaurusClass.code != "NULL"
-      ) {
+      if (metadata.thesaurusClass.code != "" && metadata.thesaurusClass.code != "NULL") {
         this.className =
           this.language == "fr"
             ? metadata.thesaurusClass.name.fr
@@ -108,10 +110,7 @@ export default {
               : metadata.thesaurusClass.name.en
             : metadata.thesaurusClass.name.en;
       }
-      if (
-        metadata.thesaurusClass.thesaurusCode.code != "" &&
-        metadata.thesaurusClass.thesaurusCode.code != "NULL"
-      ) {
+      if (metadata.thesaurusClass.thesaurusCode.code != "" && metadata.thesaurusClass.thesaurusCode.code != "NULL") {
         this.codeName =
           this.language == "fr"
             ? metadata.thesaurusClass.thesaurusCode.name.fr

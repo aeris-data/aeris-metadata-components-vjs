@@ -45,7 +45,6 @@ export default {
   },
 
   created: function() {
-    console.log("Aeris metadata layout - Creating");
     this.aerisThemeListener = this.handleTheme.bind(this);
     document.addEventListener("aerisTheme", this.aerisThemeListener);
   },

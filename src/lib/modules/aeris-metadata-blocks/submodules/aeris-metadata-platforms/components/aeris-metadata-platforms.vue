@@ -14,8 +14,8 @@
     <aeris-metadata-platform
       v-for="platform in platforms"
       :key="platform.name"
-      :platform="JSON.stringify(platform)"
-      :lang="lang"
+      :platform="platform"
+      :language="language"
     />
   </aeris-metadata-layout>
 </template>
@@ -39,23 +39,6 @@ export default {
     }
   },
 
-  watch: {
-    getLanguage(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
-  // destroyed: function() {
-  //   document.removeEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
-  //   this.aerisMetadataListener = null;
-  // },
-
-  created() {
-    console.log("Aeris Metadata Platform - Creating");
-    this.$i18n.locale = this.language || this.getLanguage;
-    // this.aerisMetadataListener = this.handleRefresh.bind(this);
-    // document.addEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
-  },
   computed: {
     getLanguage() {
       return this.$store.getters.getLanguage;
@@ -63,28 +46,16 @@ export default {
     isVisible() {
       return this.platforms.length >= 1;
     }
+  },
+
+  watch: {
+    getLanguage(value) {
+      this.$i18n.locale = value;
+    }
+  },
+
+  created() {
+    this.$i18n.locale = this.language || this.getLanguage;
   }
-  // data() {
-  //   return {
-  //     platforms: [],
-  //     visible: false,
-  //     aerisMetadataListener: null
-  //   };
-  // },
-  // methods: {
-  //   handleRefresh: function(data) {
-  //     this.visible = false;
-  //     if (!data || !data.detail) {
-  //       return;
-  //     }
-  //     this.platforms = [];
-  //     if (data.detail.platforms && data.detail.platforms.length > 0) {
-  //       this.visible = true;
-  //       this.platforms = data.detail.platforms;
-  //     } else {
-  //       this.visible = false;
-  //     }
-  //   }
-  // }
 };
 </script>

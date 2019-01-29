@@ -19,16 +19,16 @@
 
 <template>
   <div class="aeris-metadata-publication-host">
-
     <div :class="{ showBody: deployed }" class="aeris-publication-container">
       <header class="aeris-publication-header">
-        <span><h5 class="aeris-publication-header">{{ value.title }}</h5></span>
+        <span>
+          <h5 class="aeris-publication-header">{{ value.title }}</h5>
+        </span>
         <i class="fa fa-chevron-down" @click="deployed = !deployed"/>
       </header>
       <article v-if="deployed">
         <div>
           <div v-if="value.description">
-            <h5>{{ $t('description') }}:</h5>
             <p>{{ value.description }}</p>
           </div>
         </div>
@@ -43,8 +43,8 @@
         <div>
           <h5>{{ $t('journal') }}:</h5>
           <p>
-            <span>{{ value.journal }}</span>
-            <span> {{ value.journalSection }}</span>
+            <span>{{ value.journalName }}</span>
+            <span>{{ value.journalSection }}</span>
           </p>
         </div>
         <div>
@@ -53,7 +53,9 @@
         </div>
         <div>
           <h5 v-if="value.doi">{{ $t('doi') }}</h5>
-          <p ><a :href="computedDoiUrl" target="_blank">{{ computedDoiLinkName }}</a></p>
+          <p>
+            <a :href="computedDoiUrl" target="_blank">{{ computedDoiLinkName }}</a>
+          </p>
         </div>
       </article>
     </div>
@@ -67,30 +69,22 @@ export default {
   props: {
     language: {
       type: String,
-      default: "en"
+      default: ""
     },
     publication: {
-      type: String,
-      default: null
+      type: Object,
+      default: {}
     }
   },
 
-  watch: {
-    getLanguage(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
-  mounted() {
-    this.$i18n.locale = this.language || this.getLanguage;
-  },
-
-  created: function() {
-    console.log("Aeris Metadata Format - Creating");
+  data() {
+    return {
+      deployed: false
+    };
   },
 
   computed: {
-    computedDoiUrl: function() {
+    computedDoiUrl() {
       if (!this.value) {
         return "";
       }
@@ -107,7 +101,7 @@ export default {
       }
     },
 
-    computedDoiLinkName: function() {
+    computedDoiLinkName() {
       if (this.value.doi.length > 60) {
         return this.value.doi.substring(0, 60) + "...";
       } else {
@@ -115,20 +109,22 @@ export default {
       }
     },
 
-    value: function() {
-      console.log("String",JSON.parse(this.publication))
+    value() {
       if (this.publication == null) {
         return {};
       } else {
-        return JSON.parse(this.publication);
+        return this.publication;
       }
     }
   },
+  watch: {
+    getLanguage(value) {
+      this.$i18n.locale = value;
+    }
+  },
 
-  data() {
-    return {
-      deployed: false
-    };
+  mounted() {
+    this.$i18n.locale = this.language || this.getLanguage;
   }
 };
 </script>
@@ -194,6 +190,7 @@ export default {
 
 .aeris-publication-container article p {
   margin: 0;
+  color: var(--main-color, #4765a0);
 }
 
 .aeris-publication-container article a {
