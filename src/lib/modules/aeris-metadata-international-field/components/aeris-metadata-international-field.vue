@@ -1,13 +1,15 @@
 <template>
-  <div v-if="visible" class="aeris-metadata-internatinal-field-host">
-    <div class="intl-field-display">
-      <span v-if="html" v-html="text"/>
+  <section v-if="visible" class="aeris-metadata-internatinal-field-host">
+    <article class="intl-field-display">
+      <span v-if="html" v-html="getContent" />
       <span v-else>
-        <span v-if="isLink"><a :href="text" target="_blank" >{{ _truncate(text) }}</a></span>
-        <span v-else>{{ text }}</span>
+        <span v-if="isLink">
+          <a :href="getContent" target="_blank">{{ truncate(getContent) }}</a>
+        </span>
+        <span v-else>{{ getContent }}</span>
       </span>
-    </div>
-  </div>
+    </article>
+  </section>
 </template>
 
 <script>
@@ -32,58 +34,46 @@ export default {
       default: true
     },
     content: {
-      type: String,
-      default: ""
+      type: Object,
+      default: null
     }
-  },
-  data() {
-    return {};
   },
 
   computed: {
-    isLink: function() {
-      return this.text.startsWith("http") && this.convertlinks ? true : false;
+    isLink() {
+      return this.getContent.startsWith("http") && this.convertlinks ? true : false;
     },
 
-    text: function() {
-      if (!this.content) {
-        return "";
-      }
-      if (this.content == "null") {
-        return "";
-      }
-      if (!this.lang) {
-        return this.content;
-      }
-      var json = JSON.parse(this.content);
-      for (var key in json) {
-        if (key === "DEFAULT_VALUE_KEY") {
-          /* If there's only a default language */
-          return json["DEFAULT_VALUE_KEY"];
-        } else if (key.length > 2) {
-          /* key = String language in the object */
-          newKey = key.substr(0, 2);
-          json[newKey] = json[key];
-          delete json[key];
+    getContent() {
+      let contentTmp = this.content;
+      if (contentTmp) {
+        for (let key in contentTmp) {
+          if (key.localeCompare("DEFAULT_VALUE_KEY") !== 0 && key.length > 2) {
+            let newKey = key.substr(0, 2);
+            contentTmp[newKey] = contentTmp[key];
+            delete contentTmp[key];
+          }
         }
-      }
 
-      if (json[this.lang]) {
-        return json[this.lang];
+        if (contentTmp[this.lang]) {
+          return contentTmp[this.lang];
+        } else if (contentTmp["DEFAULT_VALUE_KEY"]) {
+          return contentTmp["DEFAULT_VALUE_KEY"];
+        }
       }
       return "";
     }
   },
 
   methods: {
-    _truncate: function(str) {
+    truncate(str) {
       return str.length > 50 ? str.substr(0, 47) + "..." : str;
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 aeris-metadata-internatinal-field-host {
   display: block;
 }

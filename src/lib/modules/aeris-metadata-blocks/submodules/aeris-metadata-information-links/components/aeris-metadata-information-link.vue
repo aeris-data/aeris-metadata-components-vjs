@@ -1,19 +1,16 @@
-/*
- dependances:
- font awesome
- international field
-*/
-
-
 <template>
   <div class="aeris-metadata-information-link-host">
     <div class="metadata-link-container">
       <main class="aeris-metatada-information-link-content">
         <article class="metadata-link-url">
-          <a :href="value.url" :title="value.name" target="_blank">{{ truncate(value.url) }}</a>
+          <a :href="link.url" :title="link.name" target="_blank">{{ truncate(link.url) }}</a>
         </article>
-        <article v-if="value.description" class="metadata-link-desc">
-          <aeris-metadata-international-field :content="JSON.stringify(value.description)" :lang="lang" label="Description"/>
+        <article v-if="link.description" class="metadata-link-desc">
+          <aeris-metadata-international-field
+            :content="link.description"
+            :lang="lang"
+            label="Description"
+          ></aeris-metadata-international-field>
         </article>
       </main>
     </div>
@@ -21,8 +18,11 @@
 </template>
 
 <script>
+import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field";
 export default {
   name: "aeris-metadata-information-link",
+
+  components: { AerisMetadataInternationalField },
 
   props: {
     lang: {
@@ -30,30 +30,20 @@ export default {
       default: "en"
     },
     link: {
-      type: String,
-      default: ""
-    }
-  },
-
-  data() {
-    return {};
-  },
-
-  computed: {
-    value: function() {
-      return JSON.parse(this.link);
+      type: Object,
+      default: null
     }
   },
 
   methods: {
-    truncate: function(str) {
+    truncate(str) {
       return str.length > 50 ? str.substr(0, 47) + "..." : str;
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 aeris-metadata-information-link-host {
   display: block;
   font-family: "Open Sans", sans-serif;
@@ -72,7 +62,6 @@ aeris-metadata-information-link-host {
 
 .metadata-link-container {
   position: relative;
-  /*padding: 10px*/
 }
 
 .metadata-link-container .aeris-metatada-information-link-content {
@@ -91,18 +80,6 @@ aeris-metadata-information-link-host {
 
 .metadata-link-container a {
   color: #3498db;
-}
-
-.metadata-link-container .metadata-icon-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-  color: #4765a0;
-}
-
-.metadata-link-container .metadata-icon-btn:hover {
-  opacity: 0.6;
 }
 
 .metadata-link-container .metadata-link-desc aeris-metadata-international-field,

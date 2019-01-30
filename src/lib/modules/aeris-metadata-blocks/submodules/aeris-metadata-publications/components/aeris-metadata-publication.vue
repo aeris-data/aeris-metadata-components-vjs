@@ -20,11 +20,11 @@
 <template>
   <div class="aeris-metadata-publication-host">
     <div :class="{ showBody: deployed }" class="aeris-publication-container">
-      <header class="aeris-publication-header">
+      <header class="aeris-publication-header" @click="deployed = !deployed">
         <span>
           <h5 class="aeris-publication-header">{{ value.title }}</h5>
         </span>
-        <i class="fa fa-chevron-down" @click="deployed = !deployed"/>
+        <i class="fa fa-chevron-down"/>
       </header>
       <article v-if="deployed">
         <div>
@@ -34,10 +34,11 @@
         </div>
         <div>
           <h5>{{ $t('authors') }}:</h5>
-          <div class="aeris-publication-authors">
-            <span v-for="author in value.authors" :key="author">
-              <aeris-cartouche icon="user">{{ author }}</aeris-cartouche>
-            </span>
+          <div>
+            <p class="aeris-publication-authors">
+              <i class="fa fa-user"/>
+              <span v-for="author in value.authors" :key="author">{{ author }}</span>
+            </p>
           </div>
         </div>
         <div>
@@ -148,6 +149,7 @@ export default {
   flex-flow: nowrap row;
   padding: 10px;
   backface-visibility: hidden;
+  cursor: pointer;
 }
 
 .aeris-publication-container header h5 {
@@ -190,7 +192,6 @@ export default {
 
 .aeris-publication-container article p {
   margin: 0;
-  color: var(--main-color, #4765a0);
 }
 
 .aeris-publication-container article a {
@@ -205,13 +206,17 @@ export default {
   transform: rotate(180deg);
 }
 
-.aeris-publication-authors {
-  display: flex;
-  flex-flow: row wrap;
+.aeris-publication-authors .fa {
+  margin-right: 5px;
 }
 
-.aeris-publication-authors aeris-cartouche {
-  margin: 5px 0;
+.aeris-publication-authors {
+  display: block;
+  flex-flow: row wrap;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
 }
 
 .aeris-addauthor {
@@ -229,7 +234,6 @@ export default {
 }
 
 .aeris-addauthor-btn:hover {
-  opacity: 0.6;
   cursor: pointer;
 }
 
