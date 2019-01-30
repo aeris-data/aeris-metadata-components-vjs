@@ -31,7 +31,7 @@ import AerisMetadataDatapolicy from "../../../lib/modules/aeris-metadata-blocks/
 import AerisMetadataContacts from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/components/aeris-metadata-contacts";
 import AerisMetadataInformationLinks from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-information-links/components/aeris-metadata-information-links";
 import AerisMetadataDataLinks from "../../../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-data-links/components/aeris-metadata-data-links";
-import AerisNotifier from "aeris-commons-components-vjs/src/lib/modules/aeris-notification/components/aeris-notifier";
+import { AerisNotifier } from "aeris-commons-components-vjs";
 
 export default {
   name: "aeris-metadata-services-test",
