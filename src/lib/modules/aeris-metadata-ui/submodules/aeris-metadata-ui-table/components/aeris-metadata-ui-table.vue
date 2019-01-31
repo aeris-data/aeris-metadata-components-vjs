@@ -1,20 +1,18 @@
 <template>
-  <div data-aeris-metadata-table-layout>
+  <section data-aeris-metadata-table-layout>
     <table>
       <thead>
         <tr>
-          <th v-for="title in tableParsed.header" :key="title">{{ title }}</th>
+          <th v-for="title in table.header" :key="title">{{ title }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in tableParsed.content" :key="row">
-          <td v-for="column in row" :key="column">
-            <span v-html="column.value"/>
-          </td>
+        <tr v-for="(row, index) in table.content" :key="index">
+          <td v-for="(column, index) in row" :key="column.value + '_' + index"><span v-html="column.value" /></td>
         </tr>
       </tbody>
     </table>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -23,63 +21,35 @@ export default {
 
   props: {
     table: {
-      type: String,
+      type: Object,
       required: true
+    },
+    theme: {
+      type: Object,
+      default: null
     }
   },
 
-  data() {
-    return {
-      theme: null,
-      aerisThemeListener: null
-    };
-  },
-
-  computed: {
-    tableParsed() {
-      return JSON.parse(this.table);
+  watch: {
+    theme(value) {
+      this.ensureTheme(value);
     }
   },
 
-  mounted: function() {
-    var event = new CustomEvent("aerisThemeRequest", {});
-    document.dispatchEvent(event);
-  },
-
-  destroyed: function() {
-    document.removeEventListener("aerisTheme", this.aerisThemeListener);
-    this.aerisThemeListener = null;
-  },
-
-  created: function() {
-    console.log("Eurochamp molecule experiment - Creating");
-    this.aerisThemeListener = this.handleTheme.bind(this);
-    document.addEventListener("aerisTheme", this.aerisThemeListener);
-  },
-
-  updated: function() {
-    this.ensureTheme();
+  created() {
+    if (this.theme) {
+      this.ensureTheme(this.theme);
+    }
   },
 
   methods: {
-    handleTheme: function(event) {
-      if (this.visible) {
-        this.theme = event.detail;
-        this.ensureTheme();
-      }
-    },
-
-    ensureTheme: function() {
-      if (this.visible) {
-        if (this.theme) {
-          this.$el.querySelector(
-            "header"
-          ).style.background = this.theme.primary;
-          var elems = this.$el.querySelectorAll("article th");
-          let length = elems.length;
-          for (let index = 0; index < length; index++) {
-            elems[index].style.color = this.theme.primary;
-          }
+    ensureTheme(theme) {
+      if (theme) {
+        this.$el.querySelector("header").style.background = theme.primary;
+        var elems = this.$el.querySelectorAll("article th");
+        let length = elems.length;
+        for (let index = 0; index < length; index++) {
+          elems[index].style.color = theme.primary;
         }
       }
     }
@@ -87,7 +57,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 [data-aeris-metadata-table-layout] table {
   display: flex;
   flex-direction: column;
