@@ -19,7 +19,6 @@
         <i :class="openIconClass" class="chevron"/>
       </header>
       <article class="platform-collapsable-part">
-        <!-- <span>{{ value.name }}</span> -->
         <ul class="metadata-format-description">
           <li>
             <h6 v-if="value.description">{{ value.description }}</h6>
@@ -52,10 +51,6 @@ export default {
   data() {
     return {
       deployed: false
-      // className: "",
-      // codeName: "",
-      // nameName: "",
-      // title: ""
     };
   },
   computed: {
@@ -161,6 +156,7 @@ export default {
   justify-content: space-between;
   padding: 5px 10px;
   backface-visibility: hidden;
+  cursor: pointer;
 }
 
 .aeris-plateform-container header i {

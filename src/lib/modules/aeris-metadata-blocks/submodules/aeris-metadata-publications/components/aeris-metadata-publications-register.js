@@ -13,4 +13,4 @@ export default {
       clearInterval(timer);
     }, 2000);
   }
-};
+}
