@@ -1,5 +1,8 @@
 import Vue from "vue";
 
+import Vuex from "vuex";
+Vue.use(Vuex);
+
 import VueI18n from "vue-i18n";
 Vue.use(VueI18n);
 
@@ -35,6 +38,17 @@ import AerisMetadataModificationsTest from "./modules/aeris-metadata-blocks/subm
 import AerisMetadataSpatialExtentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-spatial-extents/aeris-metadata-spatial-extents-test";
 import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-parameters/aeris-metadata-parameters-test";
 import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
+import AerisMetadataYearSelectDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/aeris-metadata-year-select-download-test";
+
+import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
+
+const store = new Vuex.Store({
+  namespaced: true,
+  modules: {
+    yearSelectDownloadModule
+  }
+});
+
 const router = new VueRouter({
   mode: "history",
   routes: [
@@ -87,6 +101,10 @@ const router = new VueRouter({
       component: AerisMetadataUiTableTest
     },
     {
+      path: "/year-select-download",
+      component: AerisMetadataYearSelectDownloadTest
+    },
+    {
       path: "/metadata/:id",
       component: AerisMetadataServicesTest,
       props: true
@@ -105,6 +123,7 @@ const router = new VueRouter({
 new Vue({
   el: "#app",
   router,
+  store,
   template: "<app/>",
   components: {
     app
