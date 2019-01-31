@@ -46,10 +46,10 @@ export default {
     ensureTheme(theme) {
       if (theme) {
         this.$el.querySelector("header").style.background = theme.primary;
-        var elems = this.$el.querySelectorAll("article th");
+        let elements = this.$el.querySelectorAll("article th");
         let length = elems.length;
         for (let index = 0; index < length; index++) {
-          elems[index].style.color = theme.primary;
+          elements[index].style.color = theme.primary;
         }
       }
     }
