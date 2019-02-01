@@ -130,7 +130,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .aeris-publication-container header h5.aeris-publication-header {
   color: #475053;
 }
