@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" data-aeris-metadata-title>
+  <div v-if="visible" aeris-metadata-title>
     <header>
       <h3>{{ title }}</h3>
     </header>
@@ -14,6 +14,10 @@ export default {
     lang: {
       type: String,
       default: "en"
+    },
+    title: {
+      type: String,
+      default: ""
     }
   },
 
@@ -23,22 +27,14 @@ export default {
     }
   },
 
-  destroyed: function() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
+  destroyedtitle() {
+    document.removeEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
     this.aerisMetadataListener = null;
   },
 
-  created: function() {
-    console.log("Aeris Metadata Title - Creating");
-    // this.$i18n.locale = this.lang
+  createdtitle() {
     this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
+    document.addEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
   },
 
   data() {
@@ -50,7 +46,7 @@ export default {
   },
 
   methods: {
-    handleRefresh: function(data) {
+    handleRefreshtitle(data) {
       this.visible = false;
       if (!data || !data.detail) {
         return;
@@ -67,7 +63,7 @@ export default {
 </script>
 
 <style>
-[data-aeris-metadata-title] {
+[aeris-metadata-title] {
   display: flex;
   flex-direction: column;
   border: none;
@@ -75,7 +71,7 @@ export default {
   padding: 24px;
 }
 
-[data-aeris-metadata-title] header h3 {
+[aeris-metadata-title] header h3 {
   font-size: 1.5rem;
   font-weight: 300;
   margin: 0;

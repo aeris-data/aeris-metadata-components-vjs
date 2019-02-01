@@ -34,6 +34,9 @@
       <li>
         <router-link to="/aeris-metadata-platforms">/platforms</router-link>
       </li>
+      <li>
+        <router-link to="/aeris-metadata-title">/title</router-link>
+      </li>
     </ul>
     <div>
       <router-view class="view"></router-view>
