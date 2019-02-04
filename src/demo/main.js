@@ -116,6 +116,10 @@ const router = new VueRouter({
     {
       path: "/aeris-metadata-synthesis",
       component: metadataSynthesis
+    },
+    {
+      path: "/information",
+      component: AerisMetadataInformationTest
     }
   ]
 });

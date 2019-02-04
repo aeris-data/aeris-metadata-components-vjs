@@ -5,6 +5,7 @@
       <li><router-link to="/data-links">/data-links</router-link></li>
       <li><router-link to="/datapolicy">/datapolicy</router-link></li>
       <li><router-link to="/description">/description</router-link></li>
+      <li><router-link to="/information">/information</router-link></li>
       <li><router-link to="/information-links">/information-links</router-link></li>
       <li><router-link to="/international-field">/international-field</router-link></li>
       <li><router-link to="/temporal-extents">/temporal-extents</router-link></li>
