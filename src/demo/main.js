@@ -19,7 +19,7 @@ Vue.use(VueColorPlugin);
 Vue.use(VueAerisLanguagePlugin);
 
 import app from "./app.vue";
-import metadata from "./modules/metadata.vue";
+import AerisMetadataServicesTest from "./modules/aeris-metadata-services/aeris-metadata-services-test.vue";
 import quicklookGallery from "./modules/quicklook-gallery.vue";
 import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
 
@@ -29,7 +29,12 @@ import AerisMetadataInformationLinksTest from "./modules/aeris-metadata-blocks/s
 import AerisMetadataDatapolicyTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-datapolicy/aeris-metadata-datapolicy-test";
 import AerisMetadataDescriptionTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-description/aeris-metadata-description-test";
 import AerisMetadataInternationalFieldTest from "./modules/aeris-metadata-international-field/aeris-metadata-international-field-test";
-
+import AerisMetadataTemporalExtentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-temporal-extents/aeris-metadata-temporal-extents-test";
+import AerisMetadataFormatsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-formats/aeris-metadata-formats-test";
+import AerisMetadataModificationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-modifications/aeris-metadata-modifications-test";
+import AerisMetadataSpatialExtentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-spatial-extents/aeris-metadata-spatial-extents-test";
+import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-parameters/aeris-metadata-parameters-test";
+import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
 const router = new VueRouter({
   mode: "history",
   routes: [
@@ -58,8 +63,32 @@ const router = new VueRouter({
       component: AerisMetadataInternationalFieldTest
     },
     {
+      path: "/temporal-extents",
+      component: AerisMetadataTemporalExtentsTest
+    },
+    {
+      path: "/formats",
+      component: AerisMetadataFormatsTest
+    },
+    {
+      path: "/modifications",
+      component: AerisMetadataModificationsTest
+    },
+    {
+      path: "/spatial-extents",
+      component: AerisMetadataSpatialExtentsTest
+    },
+    {
+      path: "/parameters",
+      component: AerisMetadataParametersTest
+    },
+    {
+      path: "/ui-table",
+      component: AerisMetadataUiTableTest
+    },
+    {
       path: "/metadata/:id",
-      component: metadata,
+      component: AerisMetadataServicesTest,
       props: true
     },
     {

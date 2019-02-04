@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "aeris-commons-components-vjs": "git+https://git@github.com/aeris-data/aeris-commons-components-vjs.git#refactoring",
     "aeris-mixins": "latest",
     "axios": "^0.18.0",
     "marked": "^0.3.9",
