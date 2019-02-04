@@ -18,8 +18,8 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('otherInformation')" icon="fa fa-info">
-    <aeris-metadata-list :items="localItems"/>
+  <aeris-metadata-layout v-if="isVisible" :title="$t('otherInformation')" :theme="theme" icon="fa fa-info">
+    <aeris-metadata-list :items="localItems" :theme="theme"></aeris-metadata-list>
   </aeris-metadata-layout>
 </template>
 
@@ -39,24 +39,21 @@ export default {
   props: {
     language: {
       type: String,
-      default: ""
+      default: "en"
     },
     items: {
       type: Object,
       default: () => ({})
-    }
-  },
-
-  watch: {
-    getLanguage(value) {
-      this.$i18n.locale = value;
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
 
   computed: {
-    getLanguage() {
-      return this.$store.getters.getLanguage;
-    },
     isVisible() {
       return Object.keys(this.items).length !== 0 ? true : false;
     },
@@ -85,15 +82,24 @@ export default {
     }
   },
 
+  watch: {
+    language(value) {
+      this.$i18n.locale = value;
+    },
+    theme(theme) {
+      console.log(theme);
+    }
+  },
+
   created() {
-    this.$i18n.locale = this.language || this.getLanguage;
+    this.$i18n.locale = this.language;
   },
 
   methods: {
     localeDate() {
       if (typeof this.items !== "undefined" && this.items.uuid) {
         const localeDate = moment(this.items.lastModification.value);
-        localeDate.locale(this.getLanguage);
+        localeDate.locale(this.language);
         return this.formatDate(localeDate);
       }
     },

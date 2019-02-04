@@ -1,15 +1,10 @@
 <template>
-  <div class="data-aeris-metadata-layout" data-template="metadata-block" :style="applyTheme">
+  <div :style="applyTheme" class="data-aeris-metadata-layout" data-template="metadata-block">
     <header v-if="showTitle">
-      <h3>
-        <i :class="icon"></i>
-        {{ title }}
-      </h3>
-      <div class="aeris-icon-group"></div>
+      <h3><i :class="icon" /> {{ title }}</h3>
+      <div class="aeris-icon-group" />
     </header>
-    <section :class="{main:showTitle}">
-      <slot></slot>
-    </section>
+    <section :class="{ main: showTitle }"><slot /></section>
   </div>
 </template>
 
@@ -39,19 +34,10 @@ export default {
   },
 
   computed: {
-    getPrimaryColor() {
-      return this.theme.primary || this.$store.getters.getPrimaryColor;
-    },
     applyTheme() {
       return {
-        "--primary": this.getPrimaryColor
+        "--primary": this.theme.primaryColor
       };
-    }
-  },
-
-  watch: {
-    getPrimaryColor(value) {
-      this.getPrimaryColor = value;
     }
   }
 };

@@ -1,7 +1,8 @@
 <template>
   <section>
     <aeris-metadata-information :items="items"></aeris-metadata-information>
-    <aeris-metadata-information language="fr" :items="{}"></aeris-metadata-information>
+    <aeris-metadata-information :items="items" :theme="theme" language="fr"></aeris-metadata-information>
+    <aeris-metadata-information :items="{}" language="fr"></aeris-metadata-information>
     <aeris-metadata-information></aeris-metadata-information>
   </section>
 </template>
@@ -21,10 +22,12 @@ export default {
         },
         aerisDataCenter: "SEDOO",
         dataLevel: "L4"
+      },
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
       }
     };
   }
 };
 </script>
-
-<style scoped></style>

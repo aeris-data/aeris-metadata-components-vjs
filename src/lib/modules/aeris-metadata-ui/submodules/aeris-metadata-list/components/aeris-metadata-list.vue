@@ -1,18 +1,16 @@
 <template>
-  <ul class="data-aeris-metadata-list" :style="applyTheme">
+  <ul :style="applyTheme" class="data-aeris-metadata-list">
     <li v-for="item in valuedItems" :key="item.uuid">
       <h5>{{ item.name }}:</h5>
 
-      <p v-if="item.img">
-        <img :src="item.img">
-      </p>
+      <p v-if="item.img"><img :src="item.img" /></p>
       <p v-else-if="item.url">{{ item }}</p>
 
       <ul v-else-if="Array.isArray(item.value)">
         <li v-for="subitem in item.value" :key="subitem">{{ subitem }}</li>
       </ul>
 
-      <p v-else-if="item.value" v-html="item.value"/>
+      <p v-else-if="item.value" v-html="item.value" />
     </li>
   </ul>
 </template>
@@ -24,7 +22,9 @@ export default {
   props: {
     items: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     },
     theme: {
       type: Object,
@@ -38,19 +38,10 @@ export default {
     valuedItems() {
       return this.items.filter(item => item.value);
     },
-    getPrimaryColor() {
-      return this.theme.primary || this.$store.getters.getPrimaryColor;
-    },
     applyTheme() {
       return {
-        "--primary": this.getPrimaryColor
+        "--primary": this.theme.primaryColor
       };
-    }
-  },
-
-  watch: {
-    getPrimaryColor(value) {
-      this.getPrimaryColor = value;
     }
   }
 };
