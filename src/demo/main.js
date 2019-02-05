@@ -40,6 +40,7 @@ import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodu
 import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
 import AerisMetadataYearSelectDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/aeris-metadata-year-select-download-test";
 import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-citations/aeris-metadata-citations-test";
+import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
 
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
 
