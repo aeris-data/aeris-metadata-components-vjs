@@ -1,11 +1,10 @@
-e.<i18n>
+<i18n>
 {
   "en": {
     "otherInformation": "Other information",
     "uuid": "Unique identifier",
     "lastModification": "Last modification",
     "dataCenter": "AERIS data center",
-    "projection": "Projection",
     "dataLevel": "Data processing level"
   },
   "fr": {
@@ -13,116 +12,100 @@ e.<i18n>
     "uuid": "Identifiant unique",
     "lastModification": "Dernière modifications",
     "dataCenter": "Centre de données AERIS",
-    "projection": "Projection",
     "dataLevel": "Niveau de traitement de la donnèes"
   }
 }
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('otherInformation')" icon="fa fa-info">
-    <aeris-metadata-list :items="JSON.stringify(items)"/>
+  <aeris-metadata-layout v-if="isVisible" :title="$t('otherInformation')" :theme="theme" icon="fa fa-info">
+    <aeris-metadata-list :items="localItems" :theme="theme"></aeris-metadata-list>
   </aeris-metadata-layout>
 </template>
 
 <script>
 import moment from "moment";
+import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
+import AerisMetadataList from "../../../../aeris-metadata-ui/submodules/aeris-metadata-list/components/aeris-metadata-list";
 
 export default {
   name: "aeris-metadata-information",
 
-  props: {
-    lang: {
-      type: String,
-      default: "en"
-    }
+  components: {
+    AerisMetadataLayout,
+    AerisMetadataList
   },
 
-  watch: {
-    lang(value) {
-      this.$i18n.locale = value;
+  props: {
+    language: {
+      type: String,
+      default: "en"
+    },
+    items: {
+      type: Object,
+      default: () => ({})
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
 
   computed: {
-    items() {
+    isVisible() {
+      return Object.keys(this.items).length !== 0 ? true : false;
+    },
+    localItems() {
+      if (this.items.uuid === null) {
+        return [];
+      }
       return [
         {
-          value: this.data.id,
+          value: this.items.uuid,
           name: this.$i18n.t("uuid")
         },
         {
-          value: this.formatDate(this.data.lastModification),
+          value: this.localeDate(),
           name: this.$i18n.t("lastModification")
         },
         {
-          value: this.data.aerisDataCenter,
+          value: this.items.aerisDataCenter,
           name: this.$i18n.t("dataCenter")
         },
         {
-          value: this.data.dataLevel,
+          value: this.items.dataLevel,
           name: this.$i18n.t("dataLevel")
         }
       ];
     }
   },
 
-  destroyed: function() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    this.aerisMetadataListener = null;
+  watch: {
+    language(value) {
+      this.$i18n.locale = value;
+    },
+    theme(theme) {
+      console.log(theme);
+    }
   },
 
-  created: function() {
-    console.log("Aeris Metadata Information - Creating");
-    this.$i18n.locale = this.lang;
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-  },
-
-  data() {
-    return {
-      aerisMetadataListener: null,
-      data: [],
-      visible: false
-    };
+  created() {
+    this.$i18n.locale = this.language;
   },
 
   methods: {
-    handleRefresh: function(e) {
-      this.visible = false;
-      if (e.detail) {
-        if (
-          !e.detail.id &&
-          !e.detail.lastModification &&
-          !e.detail.aerisDataCenter &&
-          !e.detail.dataLevel
-        ) {
-          return;
-        }
+    localeDate() {
+      if (typeof this.items !== "undefined" && this.items.uuid) {
+        const localeDate = moment(this.items.lastModification.value);
+        localeDate.locale(this.language);
+        return this.formatDate(localeDate);
       }
-      this.data = {
-        id: e.detail.id,
-        lastModification: e.detail.lastModification
-          ? e.detail.lastModification.value
-          : "",
-        aerisDataCenter: e.detail.aerisDataCenter,
-        dataLevel: e.detail.dataLevel
-      };
-      this.visible = true;
     },
 
-    formatDate: function(date) {
-      if (date) {
-        var momentDate = moment(date);
-        if (momentDate.isValid()) return moment(date).format("LLL");
-      }
-
+    formatDate(date) {
+      if (date.isValid()) return date.format("LLL");
       return date;
     }
   }
