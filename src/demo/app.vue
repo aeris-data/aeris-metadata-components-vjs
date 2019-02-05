@@ -31,6 +31,18 @@
       <li>
         <router-link to="/aeris-metadata-publications">/publications</router-link>
       </li>
+       <li>
+         <router-link to="/datapolicy">/datapolicy</router-link>
+       </li>
+       <li>
+        <router-link to="/description">/description</router-link>
+       </li>
+       <li>
+        <router-link to="/information-links">/information-links</router-link>
+       </li>
+       <li>
+        <router-link to="/international-field">/international-field</router-link>
+       </li>
     </ul>
     <div>
       <router-view class="view"></router-view>

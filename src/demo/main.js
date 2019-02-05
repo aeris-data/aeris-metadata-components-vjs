@@ -18,10 +18,7 @@ Vue.use(Vuex);
 import VueLayers from "vuelayers";
 Vue.use(VueLayers);
 
-import {
-  VueColorPlugin,
-  VueAerisLanguagePlugin
-} from "aeris-mixins";
+import { VueColorPlugin, VueAerisLanguagePlugin } from "aeris-mixins";
 Vue.use(VueColorPlugin);
 Vue.use(VueAerisLanguagePlugin);
 
@@ -31,10 +28,15 @@ import quicklookGallery from "./modules/quicklook-gallery.vue";
 import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
 import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-citations/aeris-metadata-citations-test";
 import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-publications/aeris-metadata-publications-test";
+import AerisMetadataInformationLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information-links/aeris-metadata-information-links-test";
+import AerisMetadataDatapolicyTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-datapolicy/aeris-metadata-datapolicy-test";
+import AerisMetadataDescriptionTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-description/aeris-metadata-description-test";
+import AerisMetadataInternationalFieldTest from "./modules/aeris-metadata-international-field/aeris-metadata-international-field-test";
 
 const router = new VueRouter({
   mode: "history",
-  routes: [{
+  routes: [
+    {
       path: "/metadata/:id",
       component: metadata,
       props: true
@@ -54,6 +56,22 @@ const router = new VueRouter({
     {
       path: "/aeris-metadata-publications",
       component: AerisMetadataPublicationsTest
+    },
+    {
+      path: "/information-links",
+      component: AerisMetadataInformationLinksTest
+    },
+    {
+      path: "/datapolicy",
+      component: AerisMetadataDatapolicyTest
+    },
+    {
+      path: "/description",
+      component: AerisMetadataDescriptionTest
+    },
+    {
+      path: "/international-field",
+      component: AerisMetadataInternationalFieldTest
     }
   ]
 });
@@ -72,7 +90,7 @@ const languageStore = {
       state.language = language;
     }
   }
-}
+};
 
 const store = new Vuex.Store({
   modules: {
@@ -86,11 +104,6 @@ new Vue({
   store,
   template: "<app/>",
   components: {
-    app,
-    metadata,
-    quicklookGallery,
-    metadataSynthesis,
-    AerisMetadataCitationsTest,
-    AerisMetadataPublicationsTest
+    app
   }
 }).$mount("#app");

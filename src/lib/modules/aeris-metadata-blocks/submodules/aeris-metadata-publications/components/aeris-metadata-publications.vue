@@ -39,23 +39,13 @@ export default {
   },
 
   computed: {
-    getLanguage() {
-      return this.$store.getters.getLanguage;
-    },
-
     isVisible() {
       return this.publications.length >= 1;
     }
   },
 
-  watch: {
-    getLanguage(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
   created() {
-    this.$i18n.locale = this.language || this.getLanguage;
+    this.$i18n.locale = this.language;
   }
 };
 </script>
