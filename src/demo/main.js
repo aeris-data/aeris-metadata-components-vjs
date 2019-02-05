@@ -1,16 +1,14 @@
 import Vue from "vue";
 
-import vueCustomElement from "vue-custom-element";
-Vue.use(vueCustomElement);
-
 import VueI18n from "vue-i18n";
 Vue.use(VueI18n);
 
-import VueResource from "vue-resource";
-Vue.use(VueResource);
-
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
+
+import axios from "axios";
+import VueAxios from "vue-axios";
+Vue.use(VueAxios, axios);
 
 import Vuex from "vuex";
 Vue.use(Vuex);
@@ -18,10 +16,7 @@ Vue.use(Vuex);
 import VueLayers from "vuelayers";
 Vue.use(VueLayers);
 
-import {
-  VueColorPlugin,
-  VueAerisLanguagePlugin
-} from "aeris-mixins";
+import { VueColorPlugin, VueAerisLanguagePlugin } from "aeris-mixins";
 Vue.use(VueColorPlugin);
 Vue.use(VueAerisLanguagePlugin);
 
@@ -33,7 +28,8 @@ import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodul
 
 const router = new VueRouter({
   mode: "history",
-  routes: [{
+  routes: [
+    {
       path: "/metadata/:id",
       component: metadata,
       props: true
@@ -53,38 +49,11 @@ const router = new VueRouter({
   ]
 });
 
-const languageStore = {
-  state: {
-    language: "en"
-  },
-
-  getters: {
-    getLanguage: state => state.language
-  },
-
-  mutations: {
-    setLanguage(state, language) {
-      state.language = language;
-    }
-  }
-}
-
-const store = new Vuex.Store({
-  modules: {
-    languageStore
-  }
-});
-
 new Vue({
   el: "#app",
   router,
-  store,
   template: "<app/>",
   components: {
-    app,
-    metadata,
-    quicklookGallery,
-    metadataSynthesis,
-    AerisMetadataCitationsTest
+    app
   }
 }).$mount("#app");

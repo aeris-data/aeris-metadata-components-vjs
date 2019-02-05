@@ -36,13 +36,13 @@ export default {
       );
     },
     handleSuccess(response) {
-      this.parseCitation(response.body);
+      this.parseCitation(response.data);
     },
     handleError(response) {
       console.log("error citation : ", response);
     },
     parseCitation(citation) {
-      let tmp = citation.split("http");
+     let tmp = citation.split("http");
       this.citationBody = this.decodeString(tmp[0].trim());
       this.citationLink = "http" + tmp[1];
     },

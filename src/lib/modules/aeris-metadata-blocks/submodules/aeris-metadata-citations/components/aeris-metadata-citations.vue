@@ -25,7 +25,7 @@ export default {
   props: {
     language: {
       type: String,
-      default: ""
+      default: "en"
     },
     identifiers: {
       type: Array,
@@ -33,20 +33,17 @@ export default {
     }
   },
   watch: {
-    getLanguage(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
   computed: {
-    getLanguage() {
-      return this.$store.getters.getLanguage
-    },
     isVisible() {
-      return this.identifiers.length >= 1
+      return this.identifiers !== null && this.identifiers.length >= 1
     }
   },
   created() {
-    this.$i18n.locale = this.language || this.getLanguage;
+    this.$i18n.locale = this.language;
   },
 };
 </script>
