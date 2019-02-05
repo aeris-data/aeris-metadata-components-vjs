@@ -1,9 +1,9 @@
 <template>
-  <div class="aeris-metadata-title">
-    <header>
-      <h3>{{ title }}</h3>
-    </header>
-  </div>
+  <div>
+        <aeris-metadata-title language="fr" :resourceTitle="resourceTitle"></aeris-metadata-title>
+                <aeris-metadata-title language="en" :resourceTitle="resourceTitle"></aeris-metadata-title>
+
+        </div>
 </template>
 
 <script>
@@ -13,23 +13,11 @@ export default {
   components: { AerisMetadataTitle },
   data() {
     return {
-      title: "IAGOS"
+      resourceTitle : {
+    en : "En English",
+    fr : "En Français"
+  },
     };
   }
 };
 </script>
-<style scoped>
-.aeris-metadata-title {
-  display: flex;
-  flex-direction: column;
-  border: none;
-  background: #fafafa;
-  padding: 24px;
-}
-
-.aeris-metadata-title header h3 {
-  font-size: 1.5rem;
-  font-weight: 300;
-  margin: 0;
-}
-</style>

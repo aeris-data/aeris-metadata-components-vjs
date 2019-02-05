@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" aeris-metadata-title>
+  <div v-if="isVisible" aeris-metadata-title>
     <header>
       <h3>{{ title }}</h3>
     </header>
@@ -9,60 +9,57 @@
 <script>
 export default {
   name: "aeris-metadata-title",
-
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
-    title: {
-      type: String,
-      default: ""
-    }
+    resourceTitle: {
+      type: Object,
+      default: () =>{
+        return {}
+      }
+    } 
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
+    },
+    resourceTitle(resourceTitle) {
+      this.updateTitle(resourceTitle);
     }
-  },
-
-  destroyedtitle() {
-    document.removeEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
-    this.aerisMetadataListener = null;
-  },
-
-  createdtitle() {
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener("aerisMetadataRefreshed", this.aerisMetadataListener);
   },
 
   data() {
     return {
-      visible: false,
-      title: null,
-      aerisMetadataListener: null
+      title: null
     };
   },
 
+  computed: {
+    isVisible() {
+      if(this.title && this.title !== null){
+        return true;
+      }else{
+        return false;
+      }
+    }
+  },
+
+  created() {
+    this.updateTitle(this.resourceTitle);
+  },
+ 
   methods: {
-    handleRefreshtitle(data) {
-      this.visible = false;
-      if (!data || !data.detail) {
-        return;
-      }
-      if (data.detail.resourceTitle) {
-        this.visible = true;
-        this.title = data.detail.resourceTitle.en;
-      } else {
-        this.visible = false;
-      }
+    updateTitle(resourceTitle) {
+        this.title =  this.language === "fr" ? resourceTitle.fr : resourceTitle.en;
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 [aeris-metadata-title] {
   display: flex;
   flex-direction: column;
