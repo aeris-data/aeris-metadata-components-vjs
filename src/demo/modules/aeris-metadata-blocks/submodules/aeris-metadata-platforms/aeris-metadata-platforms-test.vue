@@ -1,8 +1,9 @@
 <template>
   <div>
-    <aeris-metadata-platforms :platforms="platforms" language=en></aeris-metadata-platforms>
-    <aeris-metadata-platforms :platforms="platforms"></aeris-metadata-platforms>
-    <aeris-metadata-platforms :platforms="[]"></aeris-metadata-platforms>
+    <aeris-metadata-platforms :platforms="platforms" language="en"></aeris-metadata-platforms>
+    <aeris-metadata-platforms :platforms="platforms" language="fr"></aeris-metadata-platforms>
+    <aeris-metadata-platforms :platforms="null" language="fr"></aeris-metadata-platforms>
+
   </div>
 </template>
 
@@ -42,11 +43,10 @@ export default {
             }
           },
           name: "Satellites d'Observation",
-          description: "Satellites d'Observation > NASA Earth System Science Pathfinder > CALIPSO"
-          // title: "Amsterdam Island site",
-          // thesaurusLabel: "Plateformes Sol",
-          // description:
-          //   "GMOS-Fr data must not be redistributed to third parties, but we encourage dissemination through the GMOS-Fr data portal to follow and accept the data policy, and ensure use of last version of data."
+          description: {
+                  en: "English description",
+                  fr: "Description française."
+                }
         }
       ]
     };

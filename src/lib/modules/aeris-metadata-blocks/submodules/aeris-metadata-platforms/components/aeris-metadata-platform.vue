@@ -15,13 +15,14 @@
   <div class="aeris-metadata-platform-host">
     <div :class="{ showPlateformBody: deployed }" class="aeris-plateform-container">
       <header @click="deployed = !deployed">
-        <h5>{{ value.name }}</h5>
+        <h5>{{ title }}</h5>
         <i :class="openIconClass" class="chevron"/>
       </header>
       <article class="platform-collapsable-part">
         <ul class="metadata-format-description">
           <li>
-            <h6 v-if="value.description">{{ value.description }}</h6>
+            <h6 v-if="platform.description">{{ $t('description') }}: </h6>
+            <aeris-metadata-international-field :content="platform.description" :language="language" :convertlinks="true" label="Description" no-label-float/>
           </li>
         </ul>
       </article>
@@ -30,9 +31,10 @@
 </template>
 
 <script>
+import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field";
 export default {
   name: "aeris-metadata-platform",
-
+  components : { AerisMetadataInternationalField },
   props: {
     language: {
       type: String,
@@ -73,18 +75,11 @@ export default {
           ? " > " + this.nameName
           : "")
       );
-    },
-    value() {
-      if (this.platform == null) {
-        return {};
-      } else {
-        return this.platform;
-      }
     }
   },
 
   watch: {
-    getLanguage(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
@@ -96,7 +91,7 @@ export default {
 
   methods: {
     labelHandle() {
-      let metadata = this.value;
+      let metadata = this.platform;
       if (metadata.thesaurusClass.code != "" && metadata.thesaurusClass.code != "NULL") {
         this.className =
           this.language == "fr"
@@ -143,7 +138,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .aeris-plateform-container .platform-collapsable-part {
   display: none;
   transition: 0.3s;
