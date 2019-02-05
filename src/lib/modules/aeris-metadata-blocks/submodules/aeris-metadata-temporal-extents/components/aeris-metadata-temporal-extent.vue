@@ -1,41 +1,35 @@
-<i18n>
-{
-  "en": {
-    "hello": "hello world!"
-  },
-  "fr": {
-    "hello": "Bonjour le monde！"
-  }
-}
-</i18n>
-
 <template>
-  <div class="aeris-metadata-temporal-extent-host">
-    <div class="metadata-temporal-container">
-      <article class="tempExt">
-        <div class="metadata-temporal">
+  <section class="aeris-metadata-temporal-extent-host">
+    <article class="metadata-temporal-container">
+      <section class="tempExt">
+        <article class="metadata-temporal">
           <div>
-            <span>{{ formatedBegin }}</span>
-            <i class="fa fa-long-arrow-right"/>
-            <span>{{ formatedEnd }}</span>
+            <span>{{ formatedBegin }}</span> <i class="fa fa-long-arrow-right" /> <span>{{ formatedEnd }}</span>
           </div>
           <div v-if="comment" class="metadata-temporal-description">
-            <aeris-metadata-international-field :content="comment" :lang="lang" no-label-float/>
+            <aeris-metadata-international-field
+              :content="comment"
+              :language="language"
+              no-label-float
+            ></aeris-metadata-international-field>
           </div>
-        </div>
-      </article>
-    </div>
-  </div>
+        </article>
+      </section>
+    </article>
+  </section>
 </template>
 
 <script>
 import moment from "moment";
+import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field";
 
 export default {
   name: "aeris-metadata-temporal-extent",
 
+  components: { AerisMetadataInternationalField },
+
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -48,44 +42,30 @@ export default {
       default: ""
     },
     comment: {
-      type: String,
-      default: ""
+      type: Object,
+      default: null
     }
-  },
-
-  watch: {
-    lang(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
-  mounted: function() {
-    this.$i18n.locale = this.lang;
   },
 
   computed: {
-    formatedBegin: function() {
+    formatedBegin() {
       return this.formatDate(this.begin);
     },
 
-    formatedEnd: function() {
+    formatedEnd() {
       return this.formatDate(this.end);
     }
   },
 
   methods: {
-    formatDate: function(date) {
-      return date
-        ? date.toLowerCase() === "now"
-          ? moment().format("LLL")
-          : moment(date).format("LLL")
-        : "";
+    formatDate(date) {
+      return date ? (date.toLowerCase() === "now" ? moment().format("LLL") : moment(date).format("LLL")) : "";
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .aeris-metadata-temporal-extent-host {
   display: block;
   transition: 0.6s;

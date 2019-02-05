@@ -29,7 +29,7 @@ export default {
   components: { AerisMetadataInternationalField, AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -56,7 +56,7 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     },
     distributionInformation(value) {
@@ -66,7 +66,7 @@ export default {
 
   created() {
     console.log("Aeris Metadata Description - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
     this.getDescription(this.distributionInformation);
   },
 

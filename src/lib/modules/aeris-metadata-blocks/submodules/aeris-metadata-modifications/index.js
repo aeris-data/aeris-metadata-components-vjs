@@ -1,5 +1,5 @@
 import Vue from "vue";
 
-import AerisMetadataPublications from "./components/aeris-metadata-publications-register.js";
+import AerisMetadataModifications from "./components/aeris-metadata-modifications-register";
 
-Vue.use(AerisMetadataPublications);
+Vue.use(AerisMetadataModifications);
