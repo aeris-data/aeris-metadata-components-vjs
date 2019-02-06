@@ -3,7 +3,6 @@
     <aeris-metadata-platforms :platforms="platforms" language="en"></aeris-metadata-platforms>
     <aeris-metadata-platforms :platforms="platforms" language="fr"></aeris-metadata-platforms>
     <aeris-metadata-platforms :platforms="null" language="fr"></aeris-metadata-platforms>
-
   </div>
 </template>
 
@@ -44,9 +43,9 @@ export default {
           },
           name: "Satellites d'Observation",
           description: {
-                  en: "English description",
-                  fr: "Description française."
-                }
+            en: "English description",
+            fr: "Description française."
+          }
         }
       ]
     };

@@ -16,7 +16,7 @@
       :key="platform.name"
       :platform="platform"
       :language="language"
-    />
+    ></aeris-metadata-platform>
   </aeris-metadata-layout>
 </template>
 
@@ -35,7 +35,9 @@ export default {
     },
     platforms: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     }
   },
 

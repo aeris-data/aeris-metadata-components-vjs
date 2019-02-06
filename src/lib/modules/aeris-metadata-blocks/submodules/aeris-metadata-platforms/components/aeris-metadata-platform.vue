@@ -16,13 +16,20 @@
     <div :class="{ showPlateformBody: deployed }" class="aeris-plateform-container">
       <header @click="deployed = !deployed">
         <h5>{{ title }}</h5>
-        <i :class="openIconClass" class="chevron"/>
+        <i :class="openIconClass" class="chevron" />
       </header>
       <article class="platform-collapsable-part">
+        <span>{{ thesaurusLabel }}</span>
         <ul class="metadata-format-description">
           <li>
-            <h6 v-if="platform.description">{{ $t('description') }}: </h6>
-            <aeris-metadata-international-field :content="platform.description" :language="language" :convertlinks="true" label="Description" no-label-float/>
+            <h6 v-if="platform.description">{{ $t("description") }}:</h6>
+            <aeris-metadata-international-field
+              :content="platform.description"
+              :language="language"
+              :convertlinks="true"
+              label="Description"
+              no-label-float
+            ></aeris-metadata-international-field>
           </li>
         </ul>
       </article>
@@ -34,7 +41,7 @@
 import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field";
 export default {
   name: "aeris-metadata-platform",
-  components : { AerisMetadataInternationalField },
+  components: { AerisMetadataInternationalField },
   props: {
     language: {
       type: String,
@@ -42,7 +49,9 @@ export default {
     },
     platform: {
       type: Object,
-      default: {}
+      default: () => {
+        return {};
+      }
     },
     openIconClass: {
       type: String,
@@ -52,21 +61,15 @@ export default {
 
   data() {
     return {
-      deployed: false
+      deployed: false,
+      className: "",
+      codeName: "",
+      nameName: "",
+      title: ""
     };
   },
   computed: {
-    thesaurusConcat() {
-      return (
-        this.className +
-        (this.codeName
-          ? " > " + this.codeName + (this.nameName ? " > " + this.nameName : "")
-          : this.nameName
-          ? " > " + this.nameName
-          : "")
-      );
-    },
-    thesaurusClass() {
+    thesaurusLabel() {
       return (
         this.className +
         (this.codeName
@@ -77,7 +80,6 @@ export default {
       );
     }
   },
-
   watch: {
     language(value) {
       this.$i18n.locale = value;
