@@ -16,7 +16,7 @@
       :key="publication.title"
       :publication="publication"
       :language="language"
-    />
+    ></aeris-metadata-publication>
   </aeris-metadata-layout>
 </template>
 
@@ -34,7 +34,9 @@ export default {
     },
     publications: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     }
   },
 

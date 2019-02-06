@@ -12,9 +12,6 @@ Vue.use(VueResource);
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-import Vuex from "vuex";
-Vue.use(Vuex);
-
 import VueLayers from "vuelayers";
 Vue.use(VueLayers);
 
@@ -26,8 +23,9 @@ import app from "./app.vue";
 import AerisMetadataServicesTest from "./modules/aeris-metadata-services/aeris-metadata-services-test.vue";
 import quicklookGallery from "./modules/quicklook-gallery.vue";
 import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
-import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-citations/aeris-metadata-citations-test";
-import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-publications/aeris-metadata-publications-test";
+
+import AerisMetadataContactsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/aeris-metadata-contacts-test";
+import AerisMetadataDataLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-data-links/aeris-metadata-data-links-test";
 import AerisMetadataInformationLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information-links/aeris-metadata-information-links-test";
 import AerisMetadataDatapolicyTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-datapolicy/aeris-metadata-datapolicy-test";
 import AerisMetadataDescriptionTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-description/aeris-metadata-description-test";
@@ -40,6 +38,7 @@ import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodu
 import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
 import AerisMetadataYearSelectDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/aeris-metadata-year-select-download-test";
 import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-citations/aeris-metadata-citations-test";
+import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-publications/aeris-metadata-publications-test";
 import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
 
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
@@ -55,29 +54,28 @@ const router = new VueRouter({
   mode: "history",
   routes: [
     {
-      path: "/metadata/:id",
-      component: metadata,
-      props: true
+      path: "/contacts",
+      component: AerisMetadataContactsTest
     },
     {
-      path: "/quicklook-gallery",
-      component: quicklookGallery
+      path: "/data-links",
+      component: AerisMetadataDataLinksTest
     },
     {
-      path: "/aeris-metadata-synthesis",
-      component: metadataSynthesis
+      path: "/datapolicy",
+      component: AerisMetadataDatapolicyTest
     },
     {
-      path: "/aeris-metadata-citations",
-      component: AerisMetadataCitationsTest
-    },
-    {
-      path: "/aeris-metadata-publications",
-      component: AerisMetadataPublicationsTest
+      path: "/description",
+      component: AerisMetadataDescriptionTest
     },
     {
       path: "/information-links",
       component: AerisMetadataInformationLinksTest
+    },
+    {
+      path: "/international-field",
+      component: AerisMetadataInternationalFieldTest
     },
     {
       path: "/temporal-extents",
@@ -113,8 +111,8 @@ const router = new VueRouter({
       props: true
     },
     {
-      path: "/description",
-      component: AerisMetadataDescriptionTest
+      path: "/quicklook-gallery",
+      component: quicklookGallery
     },
     {
       path: "/aeris-metadata-synthesis",
@@ -125,32 +123,14 @@ const router = new VueRouter({
       component: AerisMetadataCitationsTest
     },
     {
+      path: "/aeris-metadata-publications",
+      component: AerisMetadataPublicationsTest
+    },
+    {
       path: "/information",
       component: AerisMetadataInformationTest
     }
   ]
-});
-
-const languageStore = {
-  state: {
-    language: "fr"
-  },
-
-  getters: {
-    getLanguage: state => state.language
-  },
-
-  mutations: {
-    setLanguage(state, language) {
-      state.language = language;
-    }
-  }
-};
-
-const store = new Vuex.Store({
-  modules: {
-    languageStore
-  }
 });
 
 new Vue({
