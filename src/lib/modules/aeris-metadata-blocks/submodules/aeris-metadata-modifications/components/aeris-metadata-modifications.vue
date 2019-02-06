@@ -12,7 +12,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('modifications')" icon="fa fa-history">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('modifications')" :theme="theme" icon="fa fa-history">
     <section v-for="modification in currentModifications" :key="modification.date">
       <article class="tempExt">
         <div class="metadata-temporal">
@@ -42,6 +42,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     modifications: {
       type: Array,

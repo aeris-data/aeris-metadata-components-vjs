@@ -22,30 +22,30 @@
   <div class="aeris-metadata-parameter-host">
     <div :class="{ showParameterBody: deployed }" class="aeris-parameter-container">
       <header @click="deployed = !deployed">
-        <h5>{{ title }}</h5>
+        <h5 :style="{ color: theme.primaryColor }">{{ title }}</h5>
         <i :class="openIconClass" class="chevron" />
       </header>
       <article class="parameter-collapsable-part">
         <span>{{ thesaurusLabel }}</span>
         <ul class="metadata-format-description">
           <li>
-            <h6 v-if="parameter.longName">{{ $t("longName") }}:</h6>
+            <h6 v-if="parameter.longName" :style="{ color: theme.primaryColor }">{{ $t("longName") }}:</h6>
             {{ parameter.longName }}
           </li>
           <li>
-            <h6 v-if="parameter.shortName">{{ $t("shortName") }}:</h6>
+            <h6 v-if="parameter.shortName" :style="{ color: theme.primaryColor }">{{ $t("shortName") }}:</h6>
             {{ parameter.shortName }}
           </li>
           <li>
-            <h6 v-if="parameter.cfStandardName">{{ $t("cfName") }}:</h6>
+            <h6 v-if="parameter.cfStandardName" :style="{ color: theme.primaryColor }">{{ $t("cfName") }}:</h6>
             {{ parameter.cfStandardName }}
           </li>
           <li>
-            <h6 v-if="parameter.uom">{{ $t("uom") }}:</h6>
+            <h6 v-if="parameter.uom" :style="{ color: theme.primaryColor }">{{ $t("uom") }}:</h6>
             {{ parameter.uom }}
           </li>
           <li>
-            <h6 v-if="parameter.comment">{{ $t("description") }}:</h6>
+            <h6 v-if="parameter.comment" :style="{ color: theme.primaryColor }">{{ $t("description") }}:</h6>
             <aeris-metadata-international-field
               :content="parameter.comment"
               :language="language"
@@ -71,6 +71,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     parameter: {
       type: Object,

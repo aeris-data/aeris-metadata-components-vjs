@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('publications')" icon="fa fa-bookmark-o">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('publications')" :theme="theme" icon="fa fa-bookmark-o">
     <aeris-metadata-publication
       v-for="publication in publications"
       :key="publication.title"
@@ -31,6 +31,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     publications: {
       type: Array,

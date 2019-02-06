@@ -1,5 +1,5 @@
 <template>
-  <section><aeris-metadata-contacts :contacts="contacts"></aeris-metadata-contacts></section>
+  <section><aeris-metadata-contacts :contacts="contacts" :theme="theme"></aeris-metadata-contacts></section>
 </template>
 
 <script>
@@ -67,7 +67,11 @@ export default {
           roles: ["pointofcontact"],
           orcId: ""
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };
