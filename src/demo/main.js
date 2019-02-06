@@ -19,9 +19,9 @@ Vue.use(VueColorPlugin);
 Vue.use(VueAerisLanguagePlugin);
 
 import app from "./app.vue";
-import AerisMetadataServicesTest from "./modules/aeris-metadata-services/aeris-metadata-services-test.vue";
+import AerisMetadataServicesTest from "./modules/aeris-metadata-ui/aeris-metadata-services/aeris-metadata-services-test.vue";
 import quicklookGallery from "./modules/quicklook-gallery.vue";
-import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
+import metadataSynthesis from "./modules/aeris-metadata-ui/aeris-metadata-synthesis/aeris-metadata-synthesis.vue";
 
 import AerisMetadataContactsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/aeris-metadata-contacts-test";
 import AerisMetadataDataLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-data-links/aeris-metadata-data-links-test";
