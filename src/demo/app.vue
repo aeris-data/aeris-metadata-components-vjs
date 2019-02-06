@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <ul>
+      <li><router-link to="/aeris-metadata-citations">/citations</router-link></li>
       <li><router-link to="/contacts">/contacts</router-link></li>
       <li><router-link to="/data-links">/data-links</router-link></li>
       <li><router-link to="/datapolicy">/datapolicy</router-link></li>
