@@ -1,5 +1,7 @@
 <template>
-  <section><aeris-metadata-modifications :modifications="modifications"></aeris-metadata-modifications></section>
+  <section>
+    <aeris-metadata-modifications :modifications="modifications" :theme="theme"></aeris-metadata-modifications>
+  </section>
 </template>
 
 <script>
@@ -14,7 +16,11 @@ export default {
           author: "0000-0002-1301-8010",
           date: "2018-10-26T16:25:21"
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };

@@ -33,7 +33,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('contacts')" icon="fa fa-users">
+  <aeris-metadata-layout v-if="visible" :title="$t('contacts')" :theme="theme" icon="fa fa-users">
     <div v-if="roles.length > 0">
       <div v-for="role in roles" :key="role">
         <h5>{{ $t(role) }}</h5>
@@ -69,6 +69,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     contacts: {
       type: Array,

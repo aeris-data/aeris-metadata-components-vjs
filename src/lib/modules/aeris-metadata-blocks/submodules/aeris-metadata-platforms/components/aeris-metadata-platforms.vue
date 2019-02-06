@@ -10,12 +10,13 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('platforms')" icon="fa fa-cubes">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('platforms')" :theme="theme" icon="fa fa-cubes">
     <aeris-metadata-platform
       v-for="platform in platforms"
       :key="platform.name"
       :platform="platform"
       :language="language"
+      :theme="theme"
     ></aeris-metadata-platform>
   </aeris-metadata-layout>
 </template>
@@ -32,6 +33,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     platforms: {
       type: Array,

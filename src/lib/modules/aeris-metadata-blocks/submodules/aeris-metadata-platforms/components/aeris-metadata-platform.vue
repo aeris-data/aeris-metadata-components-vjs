@@ -12,16 +12,17 @@
 </i18n>
 
 <template>
-  <div class="aeris-metadata-platform-host">
+  <div :style="applyTheme" class="aeris-metadata-platform-host">
     <div :class="{ showPlateformBody: deployed }" class="aeris-plateform-container">
       <header @click="deployed = !deployed">
-        <h5>{{ title }}</h5>
+        <h5 class="primaryTheme">{{ title }}</h5>
         <i :class="openIconClass" class="chevron" />
       </header>
       <article class="platform-collapsable-part">
+        <span>{{ thesaurusLabel }}</span>
         <ul class="metadata-format-description">
           <li>
-            <h6 v-if="platform.description">{{ $t("description") }}:</h6>
+            <h6 v-if="platform.description" class="primaryTheme">{{ $t("description") }}:</h6>
             <aeris-metadata-international-field
               :content="platform.description"
               :language="language"
@@ -40,13 +41,19 @@
 import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field";
 export default {
   name: "aeris-metadata-platform",
-  
+
   components: { AerisMetadataInternationalField },
-  
+
   props: {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     platform: {
       type: Object,
@@ -69,7 +76,7 @@ export default {
       title: ""
     };
   },
-  
+
   computed: {
     thesaurusLabel() {
       return (
@@ -81,16 +88,17 @@ export default {
           : "")
       );
     },
-    
-    value() {
-      if (this.platform == null) {
-        return {};
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
       } else {
-        return this.platform;
+        return "";
       }
     }
   },
-  
+
   watch: {
     language(value) {
       this.$i18n.locale = value;
@@ -155,6 +163,10 @@ export default {
 .aeris-plateform-container .platform-collapsable-part {
   display: none;
   transition: 0.3s;
+}
+
+.primaryTheme {
+  color: var(--primaryColor);
 }
 
 .aeris-plateform-container header {

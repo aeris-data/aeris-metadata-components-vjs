@@ -1,6 +1,6 @@
 <template>
   <section>
-    <aeris-metadata-datapolicy :distribution-information="distributionInformation"></aeris-metadata-datapolicy>
+    <aeris-metadata-datapolicy :distribution-information="distributionInformation" :theme="theme"></aeris-metadata-datapolicy>
   </section>
 </template>
 
@@ -31,6 +31,10 @@ export default {
         licencePolicyUrl: "",
         accessConstraints: null,
         useConstraints: null
+      },
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
       }
     };
   }
