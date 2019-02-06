@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <ul>
+      <li><router-link to="/aeris-metadata-citations">/citations</router-link></li>
       <li><router-link to="/contacts">/contacts</router-link></li>
       <li><router-link to="/data-links">/data-links</router-link></li>
       <li><router-link to="/datapolicy">/datapolicy</router-link></li>
@@ -23,6 +24,8 @@
       <li><router-link to="/metadata/88343406-2d0b-388e-9cf7-61c020170f3d">/metadata-citations</router-link></li>
       <li><router-link to="/quicklook-gallery">/quicklook-gallery</router-link></li>
       <li><router-link to="/aeris-metadata-synthesis">/aeris-metadata-synthesis</router-link></li>
+      <li><router-link to="/aeris-metadata-publications">/publications</router-link></li>
+      <li><router-link to="/aeris-metadata-platforms">/platforms</router-link></li>
       <li><router-link to="/aeris-metadata-title">/title</router-link></li>
     </ul>
     <div>

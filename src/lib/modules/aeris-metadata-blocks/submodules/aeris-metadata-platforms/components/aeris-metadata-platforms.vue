@@ -16,7 +16,7 @@
       :key="platform.name"
       :platform="platform"
       :language="language"
-    />
+    ></aeris-metadata-platform>
   </aeris-metadata-layout>
 </template>
 
@@ -31,31 +31,30 @@ export default {
   props: {
     language: {
       type: String,
-      default: ""
+      default: "en"
     },
     platforms: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     }
   },
 
   computed: {
-    getLanguage() {
-      return this.$store.getters.getLanguage;
-    },
     isVisible() {
-      return this.platforms.length >= 1;
+      return this.platforms !== null && this.platforms.length >= 1;
     }
   },
 
   watch: {
-    getLanguage(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   created() {
-    this.$i18n.locale = this.language || this.getLanguage;
+    this.$i18n.locale = this.language;
   }
 };
 </script>

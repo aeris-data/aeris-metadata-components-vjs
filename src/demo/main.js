@@ -9,13 +9,6 @@ Vue.use(VueI18n);
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-import axios from "axios";
-import VueAxios from "vue-axios";
-Vue.use(VueAxios, axios);
-
-import Vuex from "vuex";
-Vue.use(Vuex);
-
 import VueLayers from "vuelayers";
 Vue.use(VueLayers);
 
@@ -40,6 +33,10 @@ import AerisMetadataSpatialExtentsTest from "./modules/aeris-metadata-blocks/sub
 import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-parameters/aeris-metadata-parameters-test";
 import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
 import AerisMetadataYearSelectDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/aeris-metadata-year-select-download-test";
+import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-citations/aeris-metadata-citations-test";
+import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-publications/aeris-metadata-publications-test";
+import AerisMetadataPlatformsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-platforms/aeris-metadata-platforms-test";
+import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
 import AerisMetadataTitleTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-title/aeris-metadata-title-test";
 
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
@@ -55,21 +52,28 @@ const router = new VueRouter({
   mode: "history",
   routes: [
     {
-      path: "/metadata/:id",
-      component: metadata,
-      props: true
+      path: "/contacts",
+      component: AerisMetadataContactsTest
     },
     {
-      path: "/quicklook-gallery",
-      component: quicklookGallery
+      path: "/data-links",
+      component: AerisMetadataDataLinksTest
     },
     {
-      path: "/aeris-metadata-synthesis",
-      component: metadataSynthesis
+      path: "/datapolicy",
+      component: AerisMetadataDatapolicyTest
     },
     {
-      path: "/aeris-metadata-citations",
-      component: AerisMetadataCitationsTest
+      path: "/description",
+      component: AerisMetadataDescriptionTest
+    },
+    {
+      path: "/information-links",
+      component: AerisMetadataInformationLinksTest
+    },
+    {
+      path: "/international-field",
+      component: AerisMetadataInternationalFieldTest
     },
     {
       path: "/temporal-extents",
@@ -105,12 +109,8 @@ const router = new VueRouter({
       props: true
     },
     {
-      path: "/aeris-metadata-platforms",
-      component: AerisMetadataPlatformsTest
-    },
-    {
-      path: "/aeris-metadata-title",
-      component: AerisMetadataTitleTest
+      path: "/quicklook-gallery",
+      component: quicklookGallery
     },
     {
       path: "/aeris-metadata-synthesis",
@@ -119,7 +119,23 @@ const router = new VueRouter({
     {
       path: "/information",
       component: AerisMetadataInformationTest
+    },
+    {
+      path: "/aeris-metadata-citations",
+      component: AerisMetadataCitationsTest
+    },
+    {
+      path: "/aeris-metadata-publications",
+      component: AerisMetadataPublicationsTest
+    },
+    {
+      path: "/aeris-metadata-platforms",
+      component: AerisMetadataPlatformsTest
     }
+     {
+      path: "/aeris-metadata-title",
+      component: AerisMetadataTitleTest
+    },
   ]
 });
 

@@ -16,7 +16,7 @@
       :key="publication.title"
       :publication="publication"
       :language="language"
-    />
+    ></aeris-metadata-publication>
   </aeris-metadata-layout>
 </template>
 
@@ -34,28 +34,20 @@ export default {
     },
     publications: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
     }
   },
 
   computed: {
-    getLanguage() {
-      return this.$store.getters.getLanguage;
-    },
-
     isVisible() {
       return this.publications.length >= 1;
     }
   },
 
-  watch: {
-    getLanguage(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
   created() {
-    this.$i18n.locale = this.language || this.getLanguage;
+    this.$i18n.locale = this.language;
   }
 };
 </script>
