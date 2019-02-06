@@ -20,11 +20,11 @@
 <template>
   <div class="aeris-metadata-publication-host">
     <div :class="{ showBody: deployed }" class="aeris-publication-container">
-      <header class="aeris-publication-header">
+      <header class="aeris-publication-header" @click="deployed = !deployed">
         <span>
           <h5 class="aeris-publication-header">{{ value.title }}</h5>
         </span>
-        <i class="fa fa-chevron-down" @click="deployed = !deployed"/>
+        <i class="fa fa-chevron-down" />
       </header>
       <article v-if="deployed">
         <div>
@@ -33,27 +33,25 @@
           </div>
         </div>
         <div>
-          <h5>{{ $t('authors') }}:</h5>
+          <h5>{{ $t("authors") }}:</h5>
           <div>
             <p class="aeris-publication-authors">
-              <i class="fa fa-user"/>
-              <span v-for="author in value.authors" :key="author">{{ author }}</span>
+              <i class="fa fa-user" /> <span v-for="author in value.authors" :key="author">{{ author }}</span>
             </p>
           </div>
         </div>
         <div>
-          <h5>{{ $t('journal') }}:</h5>
+          <h5>{{ $t("journal") }}:</h5>
           <p>
-            <span>{{ value.journalName }}</span>
-            <span>{{ value.journalSection }}</span>
+            <span>{{ value.journalName }}</span> <span>{{ value.journalSection }}</span>
           </p>
         </div>
         <div>
-          <h5>{{ $t('publicationYear') }}:</h5>
+          <h5>{{ $t("publicationYear") }}:</h5>
           <p>{{ value.publicationYear }}</p>
         </div>
         <div>
-          <h5 v-if="value.doi">{{ $t('doi') }}</h5>
+          <h5 v-if="value.doi">{{ $t("doi") }}</h5>
           <p>
             <a :href="computedDoiUrl" target="_blank">{{ computedDoiLinkName }}</a>
           </p>
@@ -130,7 +128,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .aeris-publication-container header h5.aeris-publication-header {
   color: #475053;
 }

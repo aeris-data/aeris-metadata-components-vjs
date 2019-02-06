@@ -11,34 +11,45 @@
 
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('citationTitle')" icon="fa fa-quote-left">
-    <aeris-metadata-citation v-for="identifier in identifiers" :doi="identifier.code" :key="identifier.code"/>
+    <aeris-metadata-citation
+      v-for="identifier in identifiers"
+      :doi="identifier.code"
+      :key="identifier.code"
+    ></aeris-metadata-citation>
   </aeris-metadata-layout>
 </template>
 
 <script>
-import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout"
-import AerisMetadataCitation from "../../../../aeris-metadata-blocks/submodules/aeris-metadata-citations/components/aeris-metadata-citation"
+import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
+import AerisMetadataCitation from "../../../../aeris-metadata-blocks/submodules/aeris-metadata-citations/components/aeris-metadata-citation";
 
 export default {
   name: "aeris-metadata-citations",
-  components : { AerisMetadataLayout, AerisMetadataCitation },
+  components: { AerisMetadataLayout, AerisMetadataCitation },
   props: {
     language: {
       type: String,
-      default: ""
+      default: "en"
     },
     identifiers: {
       type: Array,
-      default: []
+      default: () => {
+        return [];
+      }
+    }
+  },
+  watch: {
+    language(value) {
+      this.$i18n.locale = value;
     }
   },
   computed: {
     isVisible() {
-      return this.identifiers.length >= 1
+      return this.identifiers !== null && this.identifiers.length >= 1;
     }
   },
   created() {
     this.$i18n.locale = this.language;
-  },
+  }
 };
 </script>

@@ -12,9 +12,6 @@ Vue.use(VueResource);
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-import Vuex from "vuex";
-Vue.use(Vuex);
-
 import VueLayers from "vuelayers";
 Vue.use(VueLayers);
 
@@ -42,7 +39,10 @@ import AerisMetadataSpatialExtentsTest from "./modules/aeris-metadata-blocks/sub
 import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-parameters/aeris-metadata-parameters-test";
 import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
 import AerisMetadataYearSelectDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/aeris-metadata-year-select-download-test";
+import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-citations/aeris-metadata-citations-test";
+import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-publications/aeris-metadata-publications-test";
 import AerisMetadataPlatformsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-platforms/aeris-metadata-platforms-test";
+import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
 
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
 
@@ -122,6 +122,14 @@ const router = new VueRouter({
       component: metadataSynthesis
     },
     {
+      path: "/aeris-metadata-citations",
+      component: AerisMetadataCitationsTest
+    },
+    {
+      path: "/aeris-metadata-publications",
+      component: AerisMetadataPublicationsTest
+    },
+    {
       path: "/information",
       component: AerisMetadataInformationTest
     },
@@ -132,40 +140,12 @@ const router = new VueRouter({
   ]
 });
 
-const languageStore = {
-  state: {
-    language: "fr"
-  },
-
-  getters: {
-    getLanguage: state => state.language
-  },
-
-  mutations: {
-    setLanguage(state, language) {
-      state.language = language;
-    }
-  }
-}
-
-const store = new Vuex.Store({
-  modules: {
-    languageStore
-  }
-});
-
 new Vue({
   el: "#app",
   router,
   store,
   template: "<app/>",
   components: {
-    app,
-    metadata,
-    quicklookGallery,
-    metadataSynthesis,
-    AerisMetadataCitationsTest,
-    AerisMetadataPublicationsTest,
-    AerisMetadataPlatformsTest
+    app
   }
 }).$mount("#app");
