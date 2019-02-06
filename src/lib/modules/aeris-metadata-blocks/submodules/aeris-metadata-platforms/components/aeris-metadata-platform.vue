@@ -19,7 +19,6 @@
         <i :class="openIconClass" class="chevron" />
       </header>
       <article class="platform-collapsable-part">
-        <span>{{ thesaurusLabel }}</span>
         <ul class="metadata-format-description">
           <li>
             <h6 v-if="platform.description">{{ $t("description") }}:</h6>
@@ -41,7 +40,9 @@
 import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field";
 export default {
   name: "aeris-metadata-platform",
+  
   components: { AerisMetadataInternationalField },
+  
   props: {
     language: {
       type: String,
@@ -68,6 +69,7 @@ export default {
       title: ""
     };
   },
+  
   computed: {
     thesaurusLabel() {
       return (
@@ -78,8 +80,17 @@ export default {
           ? " > " + this.nameName
           : "")
       );
+    },
+    
+    value() {
+      if (this.platform == null) {
+        return {};
+      } else {
+        return this.platform;
+      }
     }
   },
+  
   watch: {
     language(value) {
       this.$i18n.locale = value;
