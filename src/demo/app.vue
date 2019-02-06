@@ -24,6 +24,7 @@
       <li><router-link to="/metadata/88343406-2d0b-388e-9cf7-61c020170f3d">/metadata-citations</router-link></li>
       <li><router-link to="/quicklook-gallery">/quicklook-gallery</router-link></li>
       <li><router-link to="/aeris-metadata-synthesis">/aeris-metadata-synthesis</router-link></li>
+      <li><router-link to="/aeris-metadata-publications">/publications</router-link></li>
     </ul>
     <div><router-view class="view"></router-view></div>
   </div>

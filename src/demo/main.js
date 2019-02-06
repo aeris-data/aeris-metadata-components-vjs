@@ -6,13 +6,11 @@ Vue.use(Vuex);
 import VueI18n from "vue-i18n";
 Vue.use(VueI18n);
 
+import VueResource from "vue-resource";
+Vue.use(VueResource);
+
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
-
-import axios from "axios";
-import VueAxios from "vue-axios";
-
-Vue.use(VueAxios, axios);
 
 import VueLayers from "vuelayers";
 Vue.use(VueLayers);
@@ -40,6 +38,7 @@ import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodu
 import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
 import AerisMetadataYearSelectDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/aeris-metadata-year-select-download-test";
 import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-citations/aeris-metadata-citations-test";
+import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-publications/aeris-metadata-publications-test";
 import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
 
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
@@ -122,6 +121,10 @@ const router = new VueRouter({
     {
       path: "/aeris-metadata-citations",
       component: AerisMetadataCitationsTest
+    },
+    {
+      path: "/aeris-metadata-publications",
+      component: AerisMetadataPublicationsTest
     },
     {
       path: "/information",
