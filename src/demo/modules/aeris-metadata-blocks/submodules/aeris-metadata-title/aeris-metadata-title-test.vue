@@ -1,9 +1,8 @@
 <template>
   <div>
-        <aeris-metadata-title language="fr" :resourceTitle="resourceTitle"></aeris-metadata-title>
-                <aeris-metadata-title language="en" :resourceTitle="resourceTitle"></aeris-metadata-title>
-
-        </div>
+    <aeris-metadata-title :resource-title="resourceTitle" language="fr"></aeris-metadata-title>
+    <aeris-metadata-title :resource-title="resourceTitle" language="en"></aeris-metadata-title>
+  </div>
 </template>
 
 <script>
@@ -13,10 +12,10 @@ export default {
   components: { AerisMetadataTitle },
   data() {
     return {
-      resourceTitle : {
-    en : "En English",
-    fr : "En Français"
-  },
+      resourceTitle: {
+        en: "In english",
+        fr: "En français"
+      }
     };
   }
 };

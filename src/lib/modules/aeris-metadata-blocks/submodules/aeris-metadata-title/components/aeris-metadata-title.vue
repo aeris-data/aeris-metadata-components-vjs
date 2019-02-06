@@ -16,10 +16,10 @@ export default {
     },
     resourceTitle: {
       type: Object,
-      default: () =>{
-        return {}
+      default: () => {
+        return {};
       }
-    } 
+    }
   },
 
   watch: {
@@ -39,9 +39,9 @@ export default {
 
   computed: {
     isVisible() {
-      if(this.title && this.title !== null){
+      if (this.title && this.title !== null) {
         return true;
-      }else{
+      } else {
         return false;
       }
     }
@@ -50,10 +50,10 @@ export default {
   created() {
     this.updateTitle(this.resourceTitle);
   },
- 
+
   methods: {
     updateTitle(resourceTitle) {
-        this.title =  this.language === "fr" ? resourceTitle.fr : resourceTitle.en;
+      this.title = this.language === "fr" ? resourceTitle.fr : resourceTitle.en;
     }
   }
 };

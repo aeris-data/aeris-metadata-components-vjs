@@ -131,11 +131,11 @@ const router = new VueRouter({
     {
       path: "/aeris-metadata-platforms",
       component: AerisMetadataPlatformsTest
-    }
-     {
+    },
+    {
       path: "/aeris-metadata-title",
       component: AerisMetadataTitleTest
-    },
+    }
   ]
 });
 
