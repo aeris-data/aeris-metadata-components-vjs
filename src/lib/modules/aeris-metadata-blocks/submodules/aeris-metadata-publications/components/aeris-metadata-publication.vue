@@ -190,6 +190,7 @@ export default {
 
 .aeris-publication-container article p {
   margin: 0;
+  color: var(--main-color, #4765a0);
 }
 
 .aeris-publication-container article a {
