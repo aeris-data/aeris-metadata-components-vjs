@@ -1,6 +1,6 @@
 <template>
-  <table aeris-metadata-ui-table>
-    <thead :style="{ background: theme.primaryColor }">
+  <table :style="applyTheme" aeris-metadata-ui-table>
+    <thead class="primaryTheme">
       <tr>
         <th v-for="title in table.header" :key="title">{{ title }}</th>
       </tr>
@@ -26,6 +26,17 @@ export default {
       type: Object,
       default: null
     }
+  },
+  computed: {
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
+      } else {
+        return "";
+      }
+    }
   }
 };
 </script>
@@ -41,6 +52,10 @@ export default {
   text-align: left;
   font-weight: 300;
   font-size: 1.1rem;
+}
+
+[aeris-metadata-ui-table] .primaryTheme {
+  background: var(--primaryColor);
 }
 
 [aeris-metadata-ui-table] tbody tr:nth-child(odd) {
