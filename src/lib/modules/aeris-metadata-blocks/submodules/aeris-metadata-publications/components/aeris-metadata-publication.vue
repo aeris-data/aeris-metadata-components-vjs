@@ -18,40 +18,40 @@
 </i18n>
 
 <template>
-  <div class="aeris-metadata-publication-host">
+  <div :style="applyTheme" class="aeris-metadata-publication-host">
     <div :class="{ showBody: deployed }" class="aeris-publication-container">
       <header class="aeris-publication-header" @click="deployed = !deployed">
         <span>
-          <h5 class="aeris-publication-header">{{ value.title }}</h5>
+          <h5 class="aeris-publication-header">{{ publication.title }}</h5>
         </span>
         <i class="fa fa-chevron-down" />
       </header>
       <article v-if="deployed">
         <div>
-          <div v-if="value.description">
-            <p>{{ value.description }}</p>
+          <div v-if="publication.description">
+            <p>{{ publication.description }}</p>
           </div>
         </div>
         <div>
           <h5>{{ $t("authors") }}:</h5>
           <div>
             <p class="aeris-publication-authors">
-              <i class="fa fa-user" /> <span v-for="author in value.authors" :key="author">{{ author }}</span>
+              <i class="fa fa-user" /> <span v-for="author in publication.authors" :key="author">{{ author }}</span>
             </p>
           </div>
         </div>
         <div>
           <h5>{{ $t("journal") }}:</h5>
           <p>
-            <span>{{ value.journalName }}</span> <span>{{ value.journalSection }}</span>
+            <span>{{ publication.journalName }}</span> <span>{{ publication.journalSection }}</span>
           </p>
         </div>
         <div>
           <h5>{{ $t("publicationYear") }}:</h5>
-          <p>{{ value.publicationYear }}</p>
+          <p>{{ publication.publicationYear }}</p>
         </div>
         <div>
-          <h5 v-if="value.doi">{{ $t("doi") }}</h5>
+          <h5 v-if="publication.doi">{{ $t("doi") }}</h5>
           <p>
             <a :href="computedDoiUrl" target="_blank">{{ computedDoiLinkName }}</a>
           </p>
@@ -70,6 +70,12 @@ export default {
       type: String,
       default: ""
     },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    },
     publication: {
       type: Object,
       default: () => {
@@ -86,13 +92,13 @@ export default {
 
   computed: {
     computedDoiUrl() {
-      if (!this.value) {
+      if (!this.publication) {
         return "";
       }
-      if (!this.value.doi) {
+      if (!this.publication.doi) {
         return "";
       }
-      var aux = this.value.doi;
+      var aux = this.publication.doi;
       var ind = aux.indexOf("http");
       if (ind >= 0) {
         aux = aux.substring(ind, aux.length);
@@ -103,18 +109,19 @@ export default {
     },
 
     computedDoiLinkName() {
-      if (this.value.doi.length > 60) {
-        return this.value.doi.substring(0, 60) + "...";
+      if (this.publication.doi.length > 60) {
+        return this.publication.doi.substring(0, 60) + "...";
       } else {
-        return this.value.doi;
+        return this.publication.doi;
       }
     },
-
-    value() {
-      if (this.publication == null) {
-        return {};
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
       } else {
-        return this.publication;
+        return "";
       }
     }
   },
@@ -132,7 +139,7 @@ export default {
 
 <style scoped>
 .aeris-publication-container header h5.aeris-publication-header {
-  color: #475053;
+  color: var(--primaryColor);
 }
 
 .aeris-metadata-publication-host {
@@ -187,11 +194,12 @@ export default {
 
 .aeris-publication-container article h5 {
   margin: 5px 0;
-  color: var(--main-color, #4765a0);
+  color: var(--primaryColor, #4765a0);
 }
 
 .aeris-publication-container article p {
-  margin: 0;}
+  margin: 0;
+}
 
 .aeris-publication-container article a {
   color: #3498db;

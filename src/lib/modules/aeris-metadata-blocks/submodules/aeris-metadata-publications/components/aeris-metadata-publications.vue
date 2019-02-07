@@ -16,6 +16,7 @@
       :key="publication.title"
       :publication="publication"
       :language="language"
+      :theme="theme"
     ></aeris-metadata-publication>
   </aeris-metadata-layout>
 </template>
@@ -48,7 +49,7 @@ export default {
 
   computed: {
     isVisible() {
-      return this.publications.length >= 1;
+      return this.publications !== null && this.publications.length >= 1;
     }
   },
 
