@@ -8,7 +8,7 @@
         <article v-if="link.description" class="metadata-link-desc">
           <aeris-metadata-international-field
             :content="link.description"
-            :lang="lang"
+            :language="language"
             label="Description"
           ></aeris-metadata-international-field>
         </article>
@@ -25,7 +25,7 @@ export default {
   components: { AerisMetadataInternationalField },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },

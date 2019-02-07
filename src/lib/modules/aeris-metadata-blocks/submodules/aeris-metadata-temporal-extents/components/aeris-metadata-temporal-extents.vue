@@ -10,82 +10,78 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('temporalExtents')" icon="fa fa-clock-o">
-    <div v-for="temporalExtent in temporalExtents" :key="temporalExtent.beginDate">
-      <aeris-metadata-temporal-extent v-if="temporalExtent.comment" :begin="temporalExtent.beginDate" :end="temporalExtent.endDate" :comment="JSON.stringify(temporalExtent.comment)" :lang="lang"/>
-      <aeris-metadata-temporal-extent v-else :begin="temporalExtent.beginDate" :end="temporalExtent.endDate" :lang="lang"/>
+  <aeris-metadata-layout v-if="isVisible" :title="$t('temporalExtents')" icon="fa fa-clock-o">
+    <div v-for="temporalExtent in getTemporalExtents" :key="temporalExtent.beginDate">
+      <aeris-metadata-temporal-extent
+        v-if="temporalExtent.comment"
+        :begin="temporalExtent.beginDate"
+        :end="temporalExtent.endDate"
+        :comment="temporalExtent.comment"
+        :language="language"
+      ></aeris-metadata-temporal-extent>
+      <aeris-metadata-temporal-extent
+        v-else
+        :begin="temporalExtent.beginDate"
+        :end="temporalExtent.endDate"
+        :language="language"
+      ></aeris-metadata-temporal-extent>
     </div>
   </aeris-metadata-layout>
 </template>
 
 <script>
 import moment from "moment";
+import AerisMetadataTemporalExtent from "./aeris-metadata-temporal-extent";
+import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
 
 export default {
   name: "aeris-metadata-temporal-extents",
 
+  components: { AerisMetadataTemporalExtent, AerisMetadataLayout },
+
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    temporalExtents: {
+      type: Array,
+      default: null
+    }
+  },
+
+  computed: {
+    isVisible() {
+      return this.temporalExtents !== null && this.temporalExtents.length > 0;
+    },
+    getTemporalExtents() {
+      let temporalExtents = [];
+      if (this.temporalExtents !== null && this.temporalExtents.length > 0) {
+        temporalExtents = this.temporalExtents;
+        temporalExtents.sort(this.sort);
+      }
+
+      return temporalExtents;
     }
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
-  destroyed: function() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    this.aerisMetadataListener = null;
-  },
-
-  created: function() {
+  created() {
     console.log("Aeris Metadata Temporal Extents - Creating");
-    this.$i18n.locale = this.lang;
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
+    this.$i18n.locale = this.language;
   },
 
-  computed: {},
-
-  data() {
-    return {
-      temporalExtents: [],
-      visible: false,
-      aerisMetadataListener: null
-    };
-  },
   methods: {
-    sort: function(a, b) {
+    sort(a, b) {
       var aMoment = moment(a.beginDate, "YYYY-MM-DD");
       var bMoment = moment(b.beginDate, "YYYY-MM-DD");
       if (aMoment === bMoment) return 0;
       return aMoment.isBefore(bMoment) ? 1 : -1;
-    },
-
-    handleRefresh: function(data) {
-      this.visible = false;
-      if (!data || !data.detail) {
-        return;
-      }
-      this.temporalExtents = [];
-      if (data.detail.temporalExtents && data.detail.temporalExtents.length>0) {
-        this.visible = true;
-        var temporalExtents = data.detail.temporalExtents;
-        temporalExtents.sort(this.sort);
-        this.temporalExtents = temporalExtents;
-      } else {
-        this.visible = false;
-      }
     }
   }
 };

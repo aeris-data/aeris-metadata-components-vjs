@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" data-aeris-metadata-title>
+  <div v-if="isVisible" aeris-metadata-title>
     <header>
       <h3>{{ title }}</h3>
     </header>
@@ -9,65 +9,58 @@
 <script>
 export default {
   name: "aeris-metadata-title",
-
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    resourceTitle: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
+    },
+    resourceTitle(resourceTitle) {
+      this.updateTitle(resourceTitle);
     }
-  },
-
-  destroyed: function() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    this.aerisMetadataListener = null;
-  },
-
-  created: function() {
-    console.log("Aeris Metadata Title - Creating");
-    // this.$i18n.locale = this.lang
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
   },
 
   data() {
     return {
-      visible: false,
-      title: null,
-      aerisMetadataListener: null
+      title: null
     };
   },
 
-  methods: {
-    handleRefresh: function(data) {
-      this.visible = false;
-      if (!data || !data.detail) {
-        return;
-      }
-      if (data.detail.resourceTitle) {
-        this.visible = true;
-        this.title = data.detail.resourceTitle.en;
+  computed: {
+    isVisible() {
+      if (this.title && this.title !== null) {
+        return true;
       } else {
-        this.visible = false;
+        return false;
       }
+    }
+  },
+
+  created() {
+    this.updateTitle(this.resourceTitle);
+  },
+
+  methods: {
+    updateTitle(resourceTitle) {
+      this.title = this.language === "fr" ? resourceTitle.fr : resourceTitle.en;
     }
   }
 };
 </script>
 
-<style>
-[data-aeris-metadata-title] {
+<style scoped>
+[aeris-metadata-title] {
   display: flex;
   flex-direction: column;
   border: none;
@@ -75,7 +68,7 @@ export default {
   padding: 24px;
 }
 
-[data-aeris-metadata-title] header h3 {
+[aeris-metadata-title] header h3 {
   font-size: 1.5rem;
   font-weight: 300;
   margin: 0;

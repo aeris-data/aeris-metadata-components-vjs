@@ -19,41 +19,42 @@
 
 <template>
   <div class="aeris-metadata-publication-host">
-
     <div :class="{ showBody: deployed }" class="aeris-publication-container">
-      <header class="aeris-publication-header">
-        <span><h5 class="aeris-publication-header">{{ value.title }}</h5></span>
-        <i class="fa fa-chevron-down" @click="deployed = !deployed"/>
+      <header class="aeris-publication-header" @click="deployed = !deployed">
+        <span>
+          <h5 class="aeris-publication-header">{{ value.title }}</h5>
+        </span>
+        <i class="fa fa-chevron-down" />
       </header>
       <article v-if="deployed">
         <div>
           <div v-if="value.description">
-            <h5>{{ $t('description') }}:</h5>
             <p>{{ value.description }}</p>
           </div>
         </div>
         <div>
-          <h5>{{ $t('authors') }}:</h5>
-          <div class="aeris-publication-authors">
-            <span v-for="author in value.authors" :key="author">
-              <aeris-cartouche icon="user">{{ author }}</aeris-cartouche>
-            </span>
+          <h5>{{ $t("authors") }}:</h5>
+          <div>
+            <p class="aeris-publication-authors">
+              <i class="fa fa-user" /> <span v-for="author in value.authors" :key="author">{{ author }}</span>
+            </p>
           </div>
         </div>
         <div>
-          <h5>{{ $t('journal') }}:</h5>
+          <h5>{{ $t("journal") }}:</h5>
           <p>
-            <span>{{ value.journalName }}</span>
-            <span> {{ value.journalSection }}</span>
+            <span>{{ value.journalName }}</span> <span>{{ value.journalSection }}</span>
           </p>
         </div>
         <div>
-          <h5>{{ $t('publicationYear') }}:</h5>
+          <h5>{{ $t("publicationYear") }}:</h5>
           <p>{{ value.publicationYear }}</p>
         </div>
         <div>
-          <h5 v-if="value.doi">{{ $t('doi') }}</h5>
-          <p ><a :href="computedDoiUrl" target="_blank">{{ computedDoiLinkName }}</a></p>
+          <h5 v-if="value.doi">{{ $t("doi") }}</h5>
+          <p>
+            <a :href="computedDoiUrl" target="_blank">{{ computedDoiLinkName }}</a>
+          </p>
         </div>
       </article>
     </div>
@@ -65,32 +66,24 @@ export default {
   name: "aeris-metadata-publication",
 
   props: {
-    lang: {
+    language: {
       type: String,
-      default: "en"
+      default: ""
     },
     publication: {
-      type: String,
-      default: null
+      type: Object,
+      default: {}
     }
   },
 
-  watch: {
-    lang(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
-  mounted: function() {
-    this.$i18n.locale = this.lang;
-  },
-
-  created: function() {
-    console.log("Aeris Metadata Format - Creating");
+  data() {
+    return {
+      deployed: false
+    };
   },
 
   computed: {
-    computedDoiUrl: function() {
+    computedDoiUrl() {
       if (!this.value) {
         return "";
       }
@@ -107,7 +100,7 @@ export default {
       }
     },
 
-    computedDoiLinkName: function() {
+    computedDoiLinkName() {
       if (this.value.doi.length > 60) {
         return this.value.doi.substring(0, 60) + "...";
       } else {
@@ -115,24 +108,27 @@ export default {
       }
     },
 
-    value: function() {
+    value() {
       if (this.publication == null) {
         return {};
       } else {
-        return JSON.parse(this.publication);
+        return this.publication;
       }
     }
   },
+  watch: {
+    getLanguage(value) {
+      this.$i18n.locale = value;
+    }
+  },
 
-  data() {
-    return {
-      deployed: false
-    };
+  mounted() {
+    this.$i18n.locale = this.language || this.getLanguage;
   }
 };
 </script>
 
-<style>
+<style scoped>
 .aeris-publication-container header h5.aeris-publication-header {
   color: #475053;
 }
@@ -151,6 +147,7 @@ export default {
   flex-flow: nowrap row;
   padding: 10px;
   backface-visibility: hidden;
+  cursor: pointer;
 }
 
 .aeris-publication-container header h5 {
@@ -193,6 +190,7 @@ export default {
 
 .aeris-publication-container article p {
   margin: 0;
+  color: var(--main-color, #4765a0);
 }
 
 .aeris-publication-container article a {
@@ -207,13 +205,17 @@ export default {
   transform: rotate(180deg);
 }
 
-.aeris-publication-authors {
-  display: flex;
-  flex-flow: row wrap;
+.aeris-publication-authors .fa {
+  margin-right: 5px;
 }
 
-.aeris-publication-authors aeris-cartouche {
-  margin: 5px 0;
+.aeris-publication-authors {
+  display: block;
+  flex-flow: row wrap;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
 }
 
 .aeris-addauthor {
@@ -231,7 +233,6 @@ export default {
 }
 
 .aeris-addauthor-btn:hover {
-  opacity: 0.6;
   cursor: pointer;
 }
 

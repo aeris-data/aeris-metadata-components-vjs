@@ -21,7 +21,7 @@ export default {
       type: Boolean,
       default: true
     },
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -55,8 +55,8 @@ export default {
           }
         }
 
-        if (contentTmp[this.lang]) {
-          return contentTmp[this.lang];
+        if (contentTmp[this.language]) {
+          return contentTmp[this.language];
         } else if (contentTmp["DEFAULT_VALUE_KEY"]) {
           return contentTmp["DEFAULT_VALUE_KEY"];
         }

@@ -13,7 +13,7 @@
   <aeris-metadata-layout v-if="isVisible" :title="$t('description')" :show-title="showTitle" icon="fa fa-comment-o">
     <aeris-metadata-international-field
       :html="markdown"
-      :lang="lang"
+      :language="language"
       :content="getResourceAbstract"
       no-label-float
     ></aeris-metadata-international-field>
@@ -31,7 +31,7 @@ export default {
   components: { AerisMetadataInternationalField, AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -69,14 +69,14 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   created() {
     console.log("Aeris Metadata Description - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
   },
 
   methods: {
