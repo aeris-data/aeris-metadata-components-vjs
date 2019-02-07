@@ -10,68 +10,51 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('publications')" icon="fa fa-bookmark-o">
-    <aeris-metadata-publication v-for="publication in publications" :key="publication.title" :publication="JSON.stringify(publication)" :lang="lang"/>
+  <aeris-metadata-layout v-if="isVisible" :title="$t('publications')" :theme="theme" icon="fa fa-bookmark-o">
+    <aeris-metadata-publication
+      v-for="publication in publications"
+      :key="publication.title"
+      :publication="publication"
+      :language="language"
+      :theme="theme"
+    ></aeris-metadata-publication>
   </aeris-metadata-layout>
 </template>
 
 <script>
+import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
+import AerisMetadataPublication from "../../../../aeris-metadata-blocks/submodules/aeris-metadata-publications/components/aeris-metadata-publication";
+
 export default {
   name: "aeris-metadata-publications",
-
+  components: { AerisMetadataLayout, AerisMetadataPublication },
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
-    }
-  },
-
-  watch: {
-    lang(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
-  destroyed: function() {
-    document.removeEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-    this.aerisMetadataListener = null;
-  },
-
-  created: function() {
-    console.log("Aeris Metadata Publications - Creating");
-    this.$i18n.locale = this.lang;
-    this.aerisMetadataListener = this.handleRefresh.bind(this);
-    document.addEventListener(
-      "aerisMetadataRefreshed",
-      this.aerisMetadataListener
-    );
-  },
-
-  computed: {},
-  data() {
-    return {
-      publications: [],
-      visible: false,
-      aerisMetadataListener: null
-    };
-  },
-  methods: {
-    handleRefresh: function(data) {
-      this.visible = false;
-      if (!data || !data.detail) {
-        return;
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
       }
-      this.publications = [];
-      if (data.detail.publications && data.detail.publications.length>0) {
-        this.visible = true;
-        this.publications = data.detail.publications;
-      } else {
-        this.visible = false;
+    },
+    publications: {
+      type: Array,
+      default: () => {
+        return [];
       }
     }
+  },
+
+  computed: {
+    isVisible() {
+      return this.publications !== null && this.publications.length >= 1;
+    }
+  },
+
+  created() {
+    this.$i18n.locale = this.language;
   }
 };
 </script>

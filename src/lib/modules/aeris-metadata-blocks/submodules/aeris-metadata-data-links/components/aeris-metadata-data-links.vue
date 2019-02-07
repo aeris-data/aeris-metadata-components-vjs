@@ -16,13 +16,13 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('dataAccess')" icon="fa fa-database">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('dataAccess')" :theme="theme" icon="fa fa-database">
     <section v-show="httpLinks.length > 0" class="aeris-link-category">
       <div class="link-category-header">
         <h5 class="aeris-metadata-emphasis-text">{{ $t("httpLinks") }}:</h5>
       </div>
       <div v-for="link in httpLinks" :key="link.type + '_' + link.url">
-        <aeris-metadata-information-link :lang="lang" :link="link"></aeris-metadata-information-link>
+        <aeris-metadata-information-link :language="language" :link="link"></aeris-metadata-information-link>
       </div>
     </section>
     <section v-show="ftpLinks.length > 0" class="aeris-link-category">
@@ -30,7 +30,7 @@
         <h5 class="aeris-metadata-emphasis-text">{{ $t("ftpLinks") }}:</h5>
       </div>
       <div v-for="link in ftpLinks" :key="link.type + '_' + link.url">
-        <aeris-metadata-information-link :lang="lang" :link="link"></aeris-metadata-information-link>
+        <aeris-metadata-information-link :language="language" :link="link"></aeris-metadata-information-link>
       </div>
     </section>
     <section v-show="orderLinks.length > 0" class="aeris-link-category">
@@ -38,7 +38,7 @@
         <h5 class="aeris-metadata-emphasis-text">{{ $t("orderLinks") }}:</h5>
       </div>
       <div v-for="link in orderLinks" :key="link.type + '_' + link.url">
-        <aeris-metadata-information-link :lang="lang" :link="link"></aeris-metadata-information-link>
+        <aeris-metadata-information-link :language="language" :link="link"></aeris-metadata-information-link>
       </div>
     </section>
   </aeris-metadata-layout>
@@ -53,9 +53,15 @@ export default {
   components: { AerisMetadataInformationLink, AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "fr"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     links: {
       type: Array,
@@ -79,7 +85,7 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     },
     links(value) {
@@ -89,7 +95,7 @@ export default {
 
   created() {
     console.log("Aeris Metadata Data links - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
     this.getLinks(this.links);
   },
 

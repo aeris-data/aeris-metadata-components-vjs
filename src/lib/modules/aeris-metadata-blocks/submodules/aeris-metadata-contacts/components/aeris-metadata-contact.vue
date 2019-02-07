@@ -14,7 +14,7 @@
         <aeris-metadata-international-field
           v-if="contact.comment"
           :content="contact.comment"
-          :lang="lang"
+          :language="language"
           no-label-float
         ></aeris-metadata-international-field>
       </div>
@@ -26,8 +26,11 @@
 import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field.vue";
 export default {
   name: "aeris-metadata-contact",
+
+  components: { AerisMetadataInternationalField },
+
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -36,7 +39,7 @@ export default {
       default: null
     }
   },
-  components: { AerisMetadataInternationalField },
+
   computed: {
     mailto() {
       if (this.contact.email) {

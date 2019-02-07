@@ -9,7 +9,7 @@
           <div v-if="comment" class="metadata-temporal-description">
             <aeris-metadata-international-field
               :content="comment"
-              :lang="lang"
+              :language="language"
               no-label-float
             ></aeris-metadata-international-field>
           </div>
@@ -29,7 +29,7 @@ export default {
   components: { AerisMetadataInternationalField },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },

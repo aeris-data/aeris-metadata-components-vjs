@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('datapolicy')" icon="fa fa-copyright">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('datapolicy')" :theme="theme" icon="fa fa-copyright">
     <aeris-metadata-international-field
       :html="markdown"
       :content="description"
@@ -29,9 +29,15 @@ export default {
   components: { AerisMetadataInternationalField, AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     markdown: {
       type: Boolean,
@@ -56,7 +62,7 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     },
     distributionInformation(value) {
@@ -66,7 +72,7 @@ export default {
 
   created() {
     console.log("Aeris Metadata Description - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
     this.getDescription(this.distributionInformation);
   },
 

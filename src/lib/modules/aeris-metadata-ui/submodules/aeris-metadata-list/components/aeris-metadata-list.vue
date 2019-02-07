@@ -1,18 +1,16 @@
 <template>
-  <ul data-aeris-metadata-list>
-    <li v-for="item in JSON.parse(items)" v-if="item.value" :key="item">
-
+  <ul :style="applyTheme" class="data-aeris-metadata-list">
+    <li v-for="item in valuedItems" :key="item.uuid">
       <h5>{{ item.name }}:</h5>
 
-      <p v-if="item.img"><img :src="item.img" ></p>
+      <p v-if="item.img"><img :src="item.img" /></p>
       <p v-else-if="item.url">{{ item }}</p>
 
       <ul v-else-if="Array.isArray(item.value)">
         <li v-for="subitem in item.value" :key="subitem">{{ subitem }}</li>
       </ul>
 
-      <p v-else-if="item.value" v-html="item.value"/>
-
+      <p v-else-if="item.value" v-html="item.value" />
     </li>
   </ul>
 </template>
@@ -22,81 +20,59 @@ export default {
   name: "aeris-metadata-list",
 
   props: {
-    lang: {
-      type: String,
-      default: "en"
-    },
     items: {
-      type: String,
-      required: true
+      type: Array,
+      default: () => {
+        return [];
+      }
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     }
   },
 
-  data() {
-    return {
-      theme: null,
-      aerisThemeListener: null
-    };
-  },
-
-  created: function() {
-    console.log("Eurochamp derivatized experiment - Creating");
-    this.aerisThemeListener = this.handleTheme.bind(this);
-    document.addEventListener("aerisTheme", this.aerisThemeListener);
-  },
-
-  mounted: function() {
-    var event = new CustomEvent("aerisThemeRequest", {});
-    document.dispatchEvent(event);
-  },
-
-  destroyed: function() {
-    document.removeEventListener("aerisTheme", this.aerisThemeListener);
-    this.aerisThemeListener = null;
-  },
-
-  methods: {
-    handleTheme: function(event) {
-      this.theme = event.detail;
-      this.ensureTheme();
+  computed: {
+    valuedItems() {
+      return this.items.filter(item => item.value);
     },
-
-    ensureTheme: function() {
-      if (this.theme) {
-        let elems = this.$el.querySelectorAll("ul li h5");
-        let length = elems.length;
-        for (let index = 0; index < length; index++) {
-          elems[index].style.color = this.theme.primary;
-        }
-      }
+    applyTheme() {
+      return {
+        "--primary": this.theme.primaryColor
+      };
     }
   }
 };
 </script>
 
-<style>
-[data-aeris-metadata-list] {
+<style scoped>
+.data-aeris-metadata-list {
   padding: 0;
   margin: 0;
 }
 
-[data-aeris-metadata-list] li {
+.data-aeris-metadata-list li {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   list-style: none;
 }
 
-[data-aeris-metadata-list] > li {
+.data-aeris-metadata-list > li {
   padding: 8px 0 0 0px;
 }
 
-[data-aeris-metadata-list] li h5 {
-  margin-right: 10px;
+.data-aeris-metadata-list li h5 {
+  margin: 0 10px 0 0;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--primary);
 }
 
-[data-aeris-metadata-list] li p,
-[data-aeris-metadata-list] li ul {
+.data-aeris-metadata-list li p,
+.data-aeris-metadata-list li ul {
   padding: 0;
   margin: 0;
 }

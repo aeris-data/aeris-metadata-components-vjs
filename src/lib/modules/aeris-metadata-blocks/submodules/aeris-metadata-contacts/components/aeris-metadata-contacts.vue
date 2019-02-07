@@ -33,16 +33,16 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('contacts')" icon="fa fa-users">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('contacts')" :theme="theme" :style="applyTheme" icon="fa fa-users">
     <div v-if="roles.length > 0">
       <div v-for="role in roles" :key="role">
-        <h5>{{ $t(role) }}</h5>
+        <h5 class="primaryTheme">{{ $t(role) }}</h5>
         <aeris-metadata-contact
           v-for="contact in contacts"
           v-if="hasRole(contact, role)"
           :key="contact.name"
           :contact="contact"
-          :lang="lang"
+          :language="language"
         ></aeris-metadata-contact>
       </div>
     </div>
@@ -51,7 +51,7 @@
         v-for="contact in contacts"
         :key="contact.name"
         :contact="contact"
-        :lang="lang"
+        :language="language"
       ></aeris-metadata-contact>
     </div>
   </aeris-metadata-layout>
@@ -66,9 +66,15 @@ export default {
   components: { AerisMetadataLayout, AerisMetadataContact },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     contacts: {
       type: Array,
@@ -80,20 +86,29 @@ export default {
     roles() {
       return this.getRolesToDisplay();
     },
-    visible() {
+    isVisible() {
       return this.contacts ? Object.keys(this.contacts).some(d => d != null) : false;
+    },
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
+      } else {
+        return "";
+      }
     }
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   created() {
     console.log("Aeris Metadata Contacts - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
   },
 
   methods: {
@@ -125,3 +140,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.primaryTheme {
+  color: var(--primaryColor);
+}
+</style>

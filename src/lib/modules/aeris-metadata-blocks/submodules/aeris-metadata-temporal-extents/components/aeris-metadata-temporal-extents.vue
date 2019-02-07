@@ -10,20 +10,20 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('temporalExtents')" icon="fa fa-clock-o">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('temporalExtents')" :theme="theme" icon="fa fa-clock-o">
     <div v-for="temporalExtent in getTemporalExtents" :key="temporalExtent.beginDate">
       <aeris-metadata-temporal-extent
         v-if="temporalExtent.comment"
         :begin="temporalExtent.beginDate"
         :end="temporalExtent.endDate"
         :comment="temporalExtent.comment"
-        :lang="lang"
+        :language="language"
       ></aeris-metadata-temporal-extent>
       <aeris-metadata-temporal-extent
         v-else
         :begin="temporalExtent.beginDate"
         :end="temporalExtent.endDate"
-        :lang="lang"
+        :language="language"
       ></aeris-metadata-temporal-extent>
     </div>
   </aeris-metadata-layout>
@@ -40,9 +40,15 @@ export default {
   components: { AerisMetadataTemporalExtent, AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     temporalExtents: {
       type: Array,
@@ -66,14 +72,14 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   created() {
     console.log("Aeris Metadata Temporal Extents - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
   },
 
   methods: {
