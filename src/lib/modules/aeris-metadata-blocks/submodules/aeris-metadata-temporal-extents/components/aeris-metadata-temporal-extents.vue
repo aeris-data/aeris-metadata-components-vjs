@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('temporalExtents')" icon="fa fa-clock-o">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('temporalExtents')" :theme="theme" icon="fa fa-clock-o">
     <div v-for="temporalExtent in getTemporalExtents" :key="temporalExtent.beginDate">
       <aeris-metadata-temporal-extent
         v-if="temporalExtent.comment"
@@ -43,6 +43,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     temporalExtents: {
       type: Array,

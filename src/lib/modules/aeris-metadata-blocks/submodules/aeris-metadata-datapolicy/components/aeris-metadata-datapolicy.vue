@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('datapolicy')" icon="fa fa-copyright">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('datapolicy')" :theme="theme" icon="fa fa-copyright">
     <aeris-metadata-international-field
       :html="markdown"
       :content="description"
@@ -32,6 +32,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     markdown: {
       type: Boolean,

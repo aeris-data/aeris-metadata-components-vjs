@@ -1,6 +1,6 @@
 <template>
-  <table aeris-metadata-ui-table>
-    <thead>
+  <table :style="applyTheme" aeris-metadata-ui-table>
+    <thead class="primaryTheme">
       <tr>
         <th v-for="title in table.header" :key="title">{{ title }}</th>
       </tr>
@@ -27,28 +27,14 @@ export default {
       default: null
     }
   },
-
-  watch: {
-    theme(value) {
-      this.ensureTheme(value);
-    }
-  },
-
-  created() {
-    if (this.theme) {
-      this.ensureTheme(this.theme);
-    }
-  },
-
-  methods: {
-    ensureTheme(theme) {
-      if (theme) {
-        this.$el.querySelector("header").style.background = theme.primary;
-        let elements = this.$el.querySelectorAll("article th");
-        let length = elems.length;
-        for (let index = 0; index < length; index++) {
-          elements[index].style.color = theme.primary;
-        }
+  computed: {
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
+      } else {
+        return "";
       }
     }
   }
@@ -66,6 +52,10 @@ export default {
   text-align: left;
   font-weight: 300;
   font-size: 1.1rem;
+}
+
+[aeris-metadata-ui-table] .primaryTheme {
+  background: var(--primaryColor);
 }
 
 [aeris-metadata-ui-table] tbody tr:nth-child(odd) {

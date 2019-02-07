@@ -1,6 +1,6 @@
 <template>
   <div>
-    <aeris-metadata-citations :identifiers="identifiers" language="fr"></aeris-metadata-citations>
+    <aeris-metadata-citations :identifiers="identifiers" :theme="theme" language="fr"></aeris-metadata-citations>
     <aeris-metadata-citations :identifiers="identifiers"></aeris-metadata-citations>
     <aeris-metadata-citations :identifiers="[]"></aeris-metadata-citations>
   </div>
@@ -22,7 +22,11 @@ export default {
           code: "10.25326/3",
           codeSpace: "http://dx.doi.org/"
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };

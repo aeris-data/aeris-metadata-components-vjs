@@ -1,5 +1,7 @@
 <template>
-  <section><aeris-metadata-spatial-extents :spatial-extents="spatialExtents"></aeris-metadata-spatial-extents></section>
+  <section>
+    <aeris-metadata-spatial-extents :spatial-extents="spatialExtents" :theme="theme"></aeris-metadata-spatial-extents>
+  </section>
 </template>
 
 <script>
@@ -5878,7 +5880,11 @@ export default {
           spatialRepresentation: null,
           orbit: null
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };

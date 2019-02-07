@@ -9,6 +9,11 @@ Vue.use(VueI18n);
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
+import axios from "axios";
+import VueAxios from "vue-axios";
+
+Vue.use(VueAxios, axios);
+
 import VueLayers from "vuelayers";
 Vue.use(VueLayers);
 

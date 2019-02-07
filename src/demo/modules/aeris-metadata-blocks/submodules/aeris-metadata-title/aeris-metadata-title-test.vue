@@ -1,6 +1,6 @@
 <template>
   <div>
-    <aeris-metadata-title :resource-title="resourceTitle" language="fr"></aeris-metadata-title>
+    <aeris-metadata-title :resource-title="resourceTitle" :theme="theme" language="fr"></aeris-metadata-title>
     <aeris-metadata-title :resource-title="resourceTitle" language="en"></aeris-metadata-title>
   </div>
 </template>
@@ -15,6 +15,10 @@ export default {
       resourceTitle: {
         en: "In english",
         fr: "En français"
+      },
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
       }
     };
   }

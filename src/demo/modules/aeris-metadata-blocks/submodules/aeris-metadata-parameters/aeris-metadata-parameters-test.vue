@@ -1,5 +1,5 @@
 <template>
-  <section><aeris-metadata-parameters :parameters="parameters"></aeris-metadata-parameters></section>
+  <section><aeris-metadata-parameters :parameters="parameters" :theme="theme"></aeris-metadata-parameters></section>
 </template>
 
 <script>
@@ -92,7 +92,11 @@ export default {
             }
           }
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };

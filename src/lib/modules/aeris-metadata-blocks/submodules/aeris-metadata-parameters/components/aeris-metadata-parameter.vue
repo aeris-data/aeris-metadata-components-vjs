@@ -19,33 +19,33 @@
 }
 </i18n>
 <template>
-  <div class="aeris-metadata-parameter-host">
+  <div :style="applyTheme" class="aeris-metadata-parameter-host">
     <div :class="{ showParameterBody: deployed }" class="aeris-parameter-container">
       <header @click="deployed = !deployed">
-        <h5>{{ title }}</h5>
+        <h5 class="primaryTheme">{{ title }}</h5>
         <i :class="openIconClass" class="chevron" />
       </header>
       <article class="parameter-collapsable-part">
         <span>{{ thesaurusLabel }}</span>
         <ul class="metadata-format-description">
           <li>
-            <h6 v-if="parameter.longName">{{ $t("longName") }}:</h6>
+            <h6 v-if="parameter.longName" class="primaryTheme">{{ $t("longName") }}:</h6>
             {{ parameter.longName }}
           </li>
           <li>
-            <h6 v-if="parameter.shortName">{{ $t("shortName") }}:</h6>
+            <h6 v-if="parameter.shortName" class="primaryTheme">{{ $t("shortName") }}:</h6>
             {{ parameter.shortName }}
           </li>
           <li>
-            <h6 v-if="parameter.cfStandardName">{{ $t("cfName") }}:</h6>
+            <h6 v-if="parameter.cfStandardName" class="primaryTheme">{{ $t("cfName") }}:</h6>
             {{ parameter.cfStandardName }}
           </li>
           <li>
-            <h6 v-if="parameter.uom">{{ $t("uom") }}:</h6>
+            <h6 v-if="parameter.uom" class="primaryTheme">{{ $t("uom") }}:</h6>
             {{ parameter.uom }}
           </li>
           <li>
-            <h6 v-if="parameter.comment">{{ $t("description") }}:</h6>
+            <h6 v-if="parameter.comment" class="primaryTheme">{{ $t("description") }}:</h6>
             <aeris-metadata-international-field
               :content="parameter.comment"
               :language="language"
@@ -71,6 +71,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     parameter: {
       type: Object,
@@ -100,6 +106,15 @@ export default {
       if (this.Variable2Name) thesLabel += " > " + this.Variable2Name;
       if (this.Variable3Name) thesLabel += " > " + this.Variable3Name;
       return thesLabel;
+    },
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
+      } else {
+        return "";
+      }
     }
   },
 
@@ -220,6 +235,10 @@ export default {
   justify-content: space-between;
   padding: 5px 0;
   backface-visibility: hidden;
+}
+
+.primaryTheme {
+  color: var(--primaryColor);
 }
 
 .aeris-parameter-container header:hover {

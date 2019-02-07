@@ -3,6 +3,7 @@
     <aeris-metadata-year-select-download
       :metadata="metadata"
       :selected-item-cart="selectedItemCart"
+      :theme="theme"
       @addItemCart="addItemCart"
       @removeItemCart="removeItemCart"
     ></aeris-metadata-year-select-download>
@@ -43,6 +44,10 @@ export default {
           type: "yearfilter",
           elements: [2012, 2013, 2016]
         }
+      },
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
       }
     };
   },

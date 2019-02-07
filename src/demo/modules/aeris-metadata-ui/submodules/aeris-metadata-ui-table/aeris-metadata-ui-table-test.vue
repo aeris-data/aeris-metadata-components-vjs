@@ -1,5 +1,5 @@
 <template>
-  <section><aeris-metadata-ui-table :table="table"></aeris-metadata-ui-table></section>
+  <section><aeris-metadata-ui-table :table="table" :theme="theme"></aeris-metadata-ui-table></section>
 </template>
 
 <script>
@@ -85,6 +85,10 @@ export default {
             }
           ]
         ]
+      },
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
       }
     };
   }

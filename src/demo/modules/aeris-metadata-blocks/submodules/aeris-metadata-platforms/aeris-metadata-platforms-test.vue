@@ -1,6 +1,6 @@
 <template>
   <div>
-    <aeris-metadata-platforms :platforms="platforms" language="en"></aeris-metadata-platforms>
+    <aeris-metadata-platforms :platforms="platforms" :theme="theme" language="en"></aeris-metadata-platforms>
     <aeris-metadata-platforms :platforms="platforms" language="fr"></aeris-metadata-platforms>
     <aeris-metadata-platforms :platforms="null" language="fr"></aeris-metadata-platforms>
   </div>
@@ -47,7 +47,11 @@ export default {
             fr: "Description française."
           }
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };

@@ -274,7 +274,7 @@ export default {
 
     ensureTheme(theme) {
       if (theme && this.$el && this.$el.querySelector("header h3 i")) {
-        this.$el.querySelector("header h3 i").style.color = theme.primary;
+        this.$el.querySelector("header h3 i").style.color = theme.primaryColor;
       }
     }
   }
