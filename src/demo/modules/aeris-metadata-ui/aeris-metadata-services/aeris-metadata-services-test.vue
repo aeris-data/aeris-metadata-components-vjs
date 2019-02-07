@@ -55,8 +55,7 @@ export default {
     AerisMetadataTemporalExtents,
     AerisMetadataFormats,
     AerisMetadataModifications,
-    AerisMetadataSpatialExtents,
-    AerisMetadataParameters
+    AerisMetadataSpatialExtents
   },
   props: {
     id: {
