@@ -33,7 +33,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('contacts')" icon="fa fa-users">
+  <aeris-metadata-layout v-if="visible" :title="$t('contacts')" :theme="theme" icon="fa fa-users">
     <div v-if="roles.length > 0">
       <div v-for="role in roles" :key="role">
         <h5>{{ $t(role) }}</h5>
@@ -42,7 +42,7 @@
           v-if="hasRole(contact, role)"
           :key="contact.name"
           :contact="contact"
-          :lang="lang"
+          :language="language"
         ></aeris-metadata-contact>
       </div>
     </div>
@@ -51,7 +51,7 @@
         v-for="contact in contacts"
         :key="contact.name"
         :contact="contact"
-        :lang="lang"
+        :language="language"
       ></aeris-metadata-contact>
     </div>
   </aeris-metadata-layout>
@@ -66,9 +66,15 @@ export default {
   components: { AerisMetadataLayout, AerisMetadataContact },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     contacts: {
       type: Array,
@@ -86,14 +92,14 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   created() {
     console.log("Aeris Metadata Contacts - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
   },
 
   methods: {

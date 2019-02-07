@@ -1,6 +1,9 @@
 <template>
   <section>
-    <aeris-metadata-temporal-extents :temporal-extents="temporalExtents"></aeris-metadata-temporal-extents>
+    <aeris-metadata-temporal-extents
+      :temporal-extents="temporalExtents"
+      :theme="theme"
+    ></aeris-metadata-temporal-extents>
   </section>
 </template>
 
@@ -19,7 +22,11 @@ export default {
             en: "Decadal"
           }
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };

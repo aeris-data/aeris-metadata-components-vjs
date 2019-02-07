@@ -1,6 +1,8 @@
 <template>
   <div class="aeris-metadata-citation-host">
-    <p>{{ citationBody }} <a :href="citationLink">{{ citationLink }}</a></p>
+    <p>
+      {{ citationBody }} <a :href="citationLink">{{ citationLink }}</a>
+    </p>
   </div>
 </template>
 
@@ -20,13 +22,11 @@ export default {
     };
   },
   created() {
-    console.log("Aeris Metadata Citation - Creating");
     this.getCitation();
   },
   methods: {
     getCitation() {
-      let url =
-        "https://data.datacite.org/text/x-bibliography;style=apa/" + this.doi;
+      let url = "https://data.datacite.org/text/x-bibliography;style=apa/" + this.doi;
       this.$http.get(url).then(
         response => {
           this.handleSuccess(response);
@@ -37,15 +37,20 @@ export default {
       );
     },
     handleSuccess(response) {
-      this.parseCitation(response.body);
+      this.parseCitation(response.data);
     },
     handleError(response) {
       console.log("error citation : ", response);
     },
     parseCitation(citation) {
       let tmp = citation.split("http");
-      this.citationBody = tmp[0].trim();
+      this.citationBody = this.decodeString(tmp[0].trim());
       this.citationLink = "http" + tmp[1];
+    },
+    decodeString(str) {
+      const parser = new DOMParser();
+      const dom = parser.parseFromString(str, "text/html");
+      return dom.body.textContent;
     }
   }
 };

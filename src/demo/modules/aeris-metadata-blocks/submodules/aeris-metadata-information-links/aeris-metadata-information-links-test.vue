@@ -1,5 +1,5 @@
 <template>
-  <section><aeris-metadata-information-links :links="links"></aeris-metadata-information-links></section>
+  <section><aeris-metadata-information-links :links="links" :theme="theme"></aeris-metadata-information-links></section>
 </template>
 
 <script>
@@ -40,7 +40,11 @@ export default {
             fr: "Dataset as provided by the Principal Investigator"
           }
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };

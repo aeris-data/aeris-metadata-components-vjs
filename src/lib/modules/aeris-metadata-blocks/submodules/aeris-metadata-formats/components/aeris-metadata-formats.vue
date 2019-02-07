@@ -10,9 +10,9 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('formats')" icon="fa fa-list-ul">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('formats')" :theme="theme" icon="fa fa-list-ul">
     <div v-for="format in getFormats" :key="format.version + format.description">
-      <aeris-metadata-format :format="format" :lang="lang"></aeris-metadata-format>
+      <aeris-metadata-format :format="format" :language="language"></aeris-metadata-format>
     </div>
   </aeris-metadata-layout>
 </template>
@@ -27,9 +27,15 @@ export default {
   components: { AerisMetadataFormat, AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     formats: {
       type: Array,
@@ -52,14 +58,14 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   created() {
     console.log("Aeris Metadata Temporal Extents - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
   }
 };
 </script>

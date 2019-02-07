@@ -12,75 +12,58 @@
 </i18n>
 
 <template>
-  <div class="aeris-metadata-platform-host">
-
+  <div :style="applyTheme" class="aeris-metadata-platform-host">
     <div :class="{ showPlateformBody: deployed }" class="aeris-plateform-container">
       <header @click="deployed = !deployed">
-        <h5>{{ title }}</h5>
-        <i :class="openIconClass" class="chevron"/>
+        <h5 class="primaryTheme">{{ title }}</h5>
+        <i :class="openIconClass" class="chevron" />
       </header>
       <article class="platform-collapsable-part">
         <span>{{ thesaurusLabel }}</span>
         <ul class="metadata-format-description">
-          <li><h6 v-if="value.description">{{ $t('description') }}: </h6>
-            <aeris-metadata-international-field :content="JSON.stringify(value.description)" :lang="lang" :convertlinks="true" label="Description" no-label-float/>
+          <li>
+            <h6 v-if="platform.description" class="primaryTheme">{{ $t("description") }}:</h6>
+            <aeris-metadata-international-field
+              :content="platform.description"
+              :language="language"
+              :convertlinks="true"
+              label="Description"
+              no-label-float
+            ></aeris-metadata-international-field>
           </li>
         </ul>
       </article>
     </div>
-
-
   </div>
 </template>
 
 <script>
+import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field";
 export default {
   name: "aeris-metadata-platform",
 
+  components: { AerisMetadataInternationalField },
+
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
+    },
     platform: {
-      type: String,
-      default: null
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     openIconClass: {
       type: String,
       default: "fa fa-chevron-down"
-    }
-  },
-
-  watch: {
-    lang(value) {
-      this.$i18n.locale = value;
-    }
-  },
-
-  created: function() {
-    console.log("Aeris Metadata Platform - Creating");
-    this.$i18n.locale = this.lang;
-    this.labelHandle();
-  },
-
-  computed: {
-    value: function() {
-      if (this.platform == null) {
-        return {};
-      } else {
-        return JSON.parse(this.platform);
-      }
-    },
-    thesaurusLabel: function() {
-      return (
-        this.className +
-        (this.codeName
-          ? " > " + this.codeName + (this.nameName ? " > " + this.nameName : "")
-          : this.nameName
-            ? " > " + this.nameName
-            : "")
-      );
     }
   },
 
@@ -94,26 +77,53 @@ export default {
     };
   },
 
+  computed: {
+    thesaurusLabel() {
+      return (
+        this.className +
+        (this.codeName
+          ? " > " + this.codeName + (this.nameName ? " > " + this.nameName : "")
+          : this.nameName
+          ? " > " + this.nameName
+          : "")
+      );
+    },
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
+      } else {
+        return "";
+      }
+    }
+  },
+
+  watch: {
+    language(value) {
+      this.$i18n.locale = value;
+    }
+  },
+
+  created() {
+    this.$i18n.locale = this.language;
+    this.labelHandle();
+  },
+
   methods: {
-    labelHandle: function() {
-      let metadata = this.value;
-      if (
-        metadata.thesaurusClass.code != "" &&
-        metadata.thesaurusClass.code != "NULL"
-      ) {
+    labelHandle() {
+      let metadata = this.platform;
+      if (metadata.thesaurusClass.code != "" && metadata.thesaurusClass.code != "NULL") {
         this.className =
-          this.lang == "fr"
+          this.language == "fr"
             ? metadata.thesaurusClass.name.fr
               ? metadata.thesaurusClass.name.fr
               : metadata.thesaurusClass.name.en
             : metadata.thesaurusClass.name.en;
       }
-      if (
-        metadata.thesaurusClass.thesaurusCode.code != "" &&
-        metadata.thesaurusClass.thesaurusCode.code != "NULL"
-      ) {
+      if (metadata.thesaurusClass.thesaurusCode.code != "" && metadata.thesaurusClass.thesaurusCode.code != "NULL") {
         this.codeName =
-          this.lang == "fr"
+          this.language == "fr"
             ? metadata.thesaurusClass.thesaurusCode.name.fr
               ? metadata.thesaurusClass.thesaurusCode.name.fr
               : metadata.thesaurusClass.thesaurusCode.name.en
@@ -125,14 +135,14 @@ export default {
       ) {
         if (this.codeName == "") {
           this.codeName =
-            this.lang == "fr"
+            this.language == "fr"
               ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
                 ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
                 : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en
               : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
         } else {
           this.nameName =
-            this.lang == "fr"
+            this.language == "fr"
               ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
                 ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
                 : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en
@@ -149,10 +159,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .aeris-plateform-container .platform-collapsable-part {
   display: none;
   transition: 0.3s;
+}
+
+.primaryTheme {
+  color: var(--primaryColor);
 }
 
 .aeris-plateform-container header {
@@ -162,6 +176,7 @@ export default {
   justify-content: space-between;
   padding: 5px 10px;
   backface-visibility: hidden;
+  cursor: pointer;
 }
 
 .aeris-plateform-container header i {

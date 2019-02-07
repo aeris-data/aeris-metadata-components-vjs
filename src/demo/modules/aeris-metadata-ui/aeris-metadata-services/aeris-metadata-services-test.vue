@@ -21,6 +21,7 @@
         <aeris-metadata-temporal-extents :temporal-extents="metadata.temporalExtents"></aeris-metadata-temporal-extents>
         <aeris-metadata-information-links :links="metadata.links"></aeris-metadata-information-links>
         <aeris-metadata-data-links :links="metadata.links"></aeris-metadata-data-links>
+        <aeris-metadata-parameters :parameters="metadata.parameters"></aeris-metadata-parameters>
         <aeris-metadata-formats :formats="metadata.formats"></aeris-metadata-formats>
       </div>
       <aeris-notifier :delete-notif-uuid="uuid" :new-notification="notification"></aeris-notifier>
@@ -54,7 +55,8 @@ export default {
     AerisMetadataTemporalExtents,
     AerisMetadataFormats,
     AerisMetadataModifications,
-    AerisMetadataSpatialExtents
+    AerisMetadataSpatialExtents,
+    AerisMetadataParameters
   },
   props: {
     id: {

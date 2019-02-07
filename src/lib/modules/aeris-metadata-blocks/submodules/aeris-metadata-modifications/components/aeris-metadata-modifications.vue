@@ -12,7 +12,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('modifications')" icon="fa fa-history">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('modifications')" :theme="theme" icon="fa fa-history">
     <section v-for="modification in currentModifications" :key="modification.date">
       <article class="tempExt">
         <div class="metadata-temporal">
@@ -39,9 +39,15 @@ export default {
   components: { AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     modifications: {
       type: Array,
@@ -66,7 +72,7 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     },
     modifications(modifications, oldModifications) {
@@ -78,7 +84,7 @@ export default {
 
   created() {
     console.log("Aeris Modifications - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
     this.updateModificationAuthorName(this.modifications);
   },
 

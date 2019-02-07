@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" icon="fa fa-globe">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" :theme="theme" icon="fa fa-globe">
     <vl-map
       ref="map"
       :load-tiles-while-animating="true"
@@ -77,9 +77,15 @@ export default {
   components: { AerisMetadataLayout },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     spatialExtents: {
       type: Array,
@@ -105,14 +111,14 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   created() {
     console.log("Aeris Metadata Spatial extents - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
   },
 
   mounted() {

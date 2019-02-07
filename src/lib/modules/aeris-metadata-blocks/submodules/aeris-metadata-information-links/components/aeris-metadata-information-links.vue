@@ -10,11 +10,11 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('informationLinks')" icon="fa fa-link">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('informationLinks')" :theme="theme" icon="fa fa-link">
     <aeris-metadata-information-link
       v-for="link in informationLinks"
       :key="link.url"
-      :lang="lang"
+      :language="language"
       :link="link"
     ></aeris-metadata-information-link>
   </aeris-metadata-layout>
@@ -29,9 +29,15 @@ export default {
   components: { AerisMetadataLayout, AerisMetadataInformationLink },
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     links: {
       type: Array,
@@ -53,7 +59,7 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     },
     links(value) {
@@ -63,7 +69,7 @@ export default {
 
   created: function() {
     console.log("Aeris Metadata Information links - Creating");
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
     this.getLinks(this.links);
   },
 

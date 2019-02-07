@@ -20,7 +20,7 @@ export default {
   name: "aeris-metadata-services",
 
   props: {
-    lang: {
+    language: {
       type: String,
       default: "en"
     },
@@ -49,7 +49,7 @@ export default {
   },
 
   watch: {
-    lang(value) {
+    language(value) {
       this.$i18n.locale = value;
     },
 
@@ -65,7 +65,7 @@ export default {
   },
 
   mounted() {
-    this.$i18n.locale = this.lang;
+    this.$i18n.locale = this.language;
     this.refresh();
   },
 
