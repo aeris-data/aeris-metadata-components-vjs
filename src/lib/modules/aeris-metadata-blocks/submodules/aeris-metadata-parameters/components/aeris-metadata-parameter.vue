@@ -275,7 +275,7 @@ export default {
 .aeris-parameter-container .metadata-format-description li {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   list-style: none;
 }
 .aeris-parameter-container .metadata-format-description h6 {

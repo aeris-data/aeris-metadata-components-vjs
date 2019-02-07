@@ -26,6 +26,9 @@
 import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field.vue";
 export default {
   name: "aeris-metadata-contact",
+
+  components: { AerisMetadataInternationalField },
+
   props: {
     language: {
       type: String,
@@ -36,7 +39,7 @@ export default {
       default: null
     }
   },
-  components: { AerisMetadataInternationalField },
+
   computed: {
     mailto() {
       if (this.contact.email) {
