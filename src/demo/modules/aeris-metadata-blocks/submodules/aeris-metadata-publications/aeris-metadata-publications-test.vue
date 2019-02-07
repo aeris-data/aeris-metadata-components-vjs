@@ -1,6 +1,10 @@
 <template>
   <div>
-    <aeris-metadata-publications :publications="publications" language="fr"></aeris-metadata-publications>
+    <aeris-metadata-publications
+      :publications="publications"
+      :theme="theme"
+      language="fr"
+    ></aeris-metadata-publications>
     <aeris-metadata-publications :publications="publications"></aeris-metadata-publications>
     <aeris-metadata-publications :publications="[]"></aeris-metadata-publications>
   </div>
@@ -25,7 +29,11 @@ export default {
           publicationYear: "2017",
           doi: "10.5194/acp-2017-653"
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };

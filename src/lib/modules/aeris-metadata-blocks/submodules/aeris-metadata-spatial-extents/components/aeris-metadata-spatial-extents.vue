@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" icon="fa fa-globe">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" :theme="theme" icon="fa fa-globe">
     <vl-map
       ref="map"
       :load-tiles-while-animating="true"
@@ -80,6 +80,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     spatialExtents: {
       type: Array,

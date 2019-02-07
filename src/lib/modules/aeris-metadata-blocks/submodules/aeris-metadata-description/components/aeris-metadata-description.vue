@@ -10,7 +10,13 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('description')" :show-title="showTitle" icon="fa fa-comment-o">
+  <aeris-metadata-layout
+    v-if="isVisible"
+    :title="$t('description')"
+    :theme="theme"
+    :show-title="showTitle"
+    icon="fa fa-comment-o"
+  >
     <aeris-metadata-international-field
       :html="markdown"
       :language="language"
@@ -34,6 +40,12 @@ export default {
     language: {
       type: String,
       default: "en"
+    },
+    theme: {
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     markdown: {
       type: Boolean,

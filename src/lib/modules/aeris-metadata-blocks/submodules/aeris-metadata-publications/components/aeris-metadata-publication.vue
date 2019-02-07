@@ -72,7 +72,9 @@ export default {
     },
     publication: {
       type: Object,
-      default: {}
+      default: () => {
+        return {};
+      }
     }
   },
 
@@ -117,13 +119,13 @@ export default {
     }
   },
   watch: {
-    getLanguage(value) {
+    language(value) {
       this.$i18n.locale = value;
     }
   },
 
   mounted() {
-    this.$i18n.locale = this.language || this.getLanguage;
+    this.$i18n.locale = this.language;
   }
 };
 </script>
@@ -189,9 +191,7 @@ export default {
 }
 
 .aeris-publication-container article p {
-  margin: 0;
-  color: var(--main-color, #4765a0);
-}
+  margin: 0;}
 
 .aeris-publication-container article a {
   color: #3498db;

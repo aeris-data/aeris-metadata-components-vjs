@@ -1,5 +1,5 @@
 <template>
-  <section><aeris-metadata-formats :formats="formats"></aeris-metadata-formats></section>
+  <section><aeris-metadata-formats :formats="formats" :theme="theme"></aeris-metadata-formats></section>
 </template>
 
 <script>
@@ -17,7 +17,11 @@ export default {
           readingInformation: { en: "reading information in english" },
           temporalInterval: null
         }
-      ]
+      ],
+      theme: {
+        primaryColor: "#0b6bb3",
+        secondaryColor: "#f39c12"
+      }
     };
   }
 };
