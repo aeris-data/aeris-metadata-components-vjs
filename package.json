@@ -4,7 +4,7 @@
   "version": "0.9.4",
   "author": "Aeris",
   "private": false,
-  "main" : "src/lib/modules/aeris-metadata-components.js",
+  "main": "src/lib/modules/aeris-metadata-components.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.dev.conf --progress",
     "build": "node build/build.js"
