@@ -75,7 +75,6 @@
 
 <script>
 import {
-  AerisMetadataServices,
   AerisMetadataTitle,
   AerisMetadataDescription,
   AerisMetadataTemporalExtents,
@@ -88,14 +87,14 @@ import {
   AerisMetadataPublications,
   AerisMetadataQuicklookGallery,
   AerisMetadataSpatialExtents,
-  AerisMetadataContacts
+  AerisMetadataContacts,
+  AerisMetadataServices
 } from "../../../../aeris-metadata-components";
 
 export default {
   name: "aeris-metadata-synthesis",
 
   components: {
-    AerisMetadataServices,
     AerisMetadataTitle,
     AerisMetadataDescription,
     AerisMetadataTemporalExtents,
@@ -108,7 +107,8 @@ export default {
     AerisMetadataPublications,
     AerisMetadataQuicklookGallery,
     AerisMetadataSpatialExtents,
-    AerisMetadataContacts
+    AerisMetadataContacts,
+    AerisMetadataServices
   },
 
   props: {

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { AerisMetadataSynthesis } from "../../../../lib/modules/aeris-metadata-components";
+import { AerisMetadataSynthesis } from "../../../../../lib/modules/aeris-metadata-components";
 export default {
   name: "aeris-metadata-synthesis-test",
   components: {

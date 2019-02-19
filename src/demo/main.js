@@ -23,8 +23,8 @@ Vue.use(VueAerisLanguagePlugin);
 
 import app from "./app.vue";
 
-import AerisMetadataServicesTest from "./modules/aeris-metadata-services/aeris-metadata-services-test.vue";
-import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
+import AerisMetadataServicesTest from "./modules/aeris-metadata-services/aeris-metadata-services-test";
+import AerisMetadataSynthesisTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-synthesis/aeris-metadata-synthesis-test";
 import AerisMetadataContactsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/aeris-metadata-contacts-test";
 import AerisMetadataDataLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-data-links/aeris-metadata-data-links-test";
 import AerisMetadataInformationLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information-links/aeris-metadata-information-links-test";
@@ -134,7 +134,7 @@ const router = new VueRouter({
     },
     {
       path: "/aeris-metadata-synthesis",
-      component: metadataSynthesis
+      component: AerisMetadataSynthesisTest
     },
     {
       path: "/information",
