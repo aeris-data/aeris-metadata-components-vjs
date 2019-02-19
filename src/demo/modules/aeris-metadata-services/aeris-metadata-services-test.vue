@@ -84,6 +84,11 @@
           :theme="getThemeFromStore"
           :language="getLanguageFromStore"
         ></aeris-metadata-publications>
+        <aeris-metadata-quicklook-gallery
+          :quicklooks="metadata.quicklooks"
+          :theme="getThemeFromStore"
+          :language="getLanguageFromStore"
+        ></aeris-metadata-quicklook-gallery>
       </div>
 
       <aeris-notifier

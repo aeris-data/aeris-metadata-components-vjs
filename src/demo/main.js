@@ -23,7 +23,6 @@ Vue.use(VueAerisLanguagePlugin);
 
 import app from "./app.vue";
 import AerisMetadataServicesTest from "./modules/aeris-metadata-services/aeris-metadata-services-test.vue";
-import quicklookGallery from "./modules/quicklook-gallery.vue";
 import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
 import AerisMetadataContactsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/aeris-metadata-contacts-test";
 import AerisMetadataDataLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-data-links/aeris-metadata-data-links-test";
@@ -44,6 +43,7 @@ import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submo
 import AerisMetadataPlatformsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-platforms/aeris-metadata-platforms-test";
 import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
 import AerisMetadataTitleTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-title/aeris-metadata-title-test";
+import AerisMetadataQuicklookGalleryTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-quicklook-gallery/aeris-metadata-quicklook-gallery-test";
 import AerisMetadataInstrumentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-instruments/aeris-metadata-instruments-test";
 
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
@@ -129,7 +129,7 @@ const router = new VueRouter({
     },
     {
       path: "/quicklook-gallery",
-      component: quicklookGallery
+      component: AerisMetadataQuicklookGalleryTest
     },
     {
       path: "/aeris-metadata-synthesis",
