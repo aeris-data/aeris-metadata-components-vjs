@@ -22,6 +22,7 @@ Vue.use(VueColorPlugin);
 Vue.use(VueAerisLanguagePlugin);
 
 import app from "./app.vue";
+
 import AerisMetadataServicesTest from "./modules/aeris-metadata-services/aeris-metadata-services-test.vue";
 import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
 import AerisMetadataContactsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/aeris-metadata-contacts-test";
@@ -98,8 +99,8 @@ const router = new VueRouter({
       path: "/modifications",
       component: AerisMetadataModificationsTest
     },
-     {
-       path: "/single-file-download",
+    {
+      path: "/single-file-download",
       component: AerisMetadataSingleFileDownloadTest
     },
     {
