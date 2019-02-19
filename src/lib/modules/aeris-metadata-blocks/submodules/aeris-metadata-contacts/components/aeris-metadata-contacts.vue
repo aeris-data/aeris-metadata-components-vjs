@@ -33,10 +33,10 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="visible" :title="$t('contacts')" :theme="theme" icon="fa fa-users">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('contacts')" :theme="theme" :style="applyTheme" icon="fa fa-users">
     <div v-if="roles.length > 0">
       <div v-for="role in roles" :key="role">
-        <h5>{{ $t(role) }}</h5>
+        <h5 class="primaryTheme">{{ $t(role) }}</h5>
         <aeris-metadata-contact
           v-for="contact in contacts"
           v-if="hasRole(contact, role)"
@@ -86,8 +86,17 @@ export default {
     roles() {
       return this.getRolesToDisplay();
     },
-    visible() {
+    isVisible() {
       return this.contacts ? Object.keys(this.contacts).some(d => d != null) : false;
+    },
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
+      } else {
+        return "";
+      }
     }
   },
 
@@ -131,3 +140,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.primaryTheme {
+  color: var(--primaryColor);
+}
+</style>

@@ -22,10 +22,9 @@ Vue.use(VueColorPlugin);
 Vue.use(VueAerisLanguagePlugin);
 
 import app from "./app.vue";
-import AerisMetadataServicesTest from "./modules/aeris-metadata-ui/aeris-metadata-services/aeris-metadata-services-test.vue";
-import quicklookGallery from "./modules/quicklook-gallery.vue";
-import metadataSynthesis from "./modules/aeris-metadata-ui/aeris-metadata-synthesis/aeris-metadata-synthesis-test.vue";
 
+import AerisMetadataServicesTest from "./modules/aeris-metadata-services/aeris-metadata-services-test.vue";
+import metadataSynthesis from "./modules/aeris-metadata-synthesis.vue";
 import AerisMetadataContactsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-contacts/aeris-metadata-contacts-test";
 import AerisMetadataDataLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-data-links/aeris-metadata-data-links-test";
 import AerisMetadataInformationLinksTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information-links/aeris-metadata-information-links-test";
@@ -35,6 +34,7 @@ import AerisMetadataInternationalFieldTest from "./modules/aeris-metadata-intern
 import AerisMetadataTemporalExtentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-temporal-extents/aeris-metadata-temporal-extents-test";
 import AerisMetadataFormatsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-formats/aeris-metadata-formats-test";
 import AerisMetadataModificationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-modifications/aeris-metadata-modifications-test";
+import AerisMetadataSingleFileDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-single-file-download/aeris-metadata-single-file-download-test";
 import AerisMetadataSpatialExtentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-spatial-extents/aeris-metadata-spatial-extents-test";
 import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-parameters/aeris-metadata-parameters-test";
 import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
@@ -44,13 +44,19 @@ import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submo
 import AerisMetadataPlatformsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-platforms/aeris-metadata-platforms-test";
 import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
 import AerisMetadataTitleTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-title/aeris-metadata-title-test";
+import AerisMetadataQuicklookGalleryTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-quicklook-gallery/aeris-metadata-quicklook-gallery-test";
+import AerisMetadataInstrumentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-instruments/aeris-metadata-instruments-test";
 
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
+import languageModule from "aeris-commons-components-vjs/src/lib/modules/aeris-language/store/aeris-language-store";
+import themeModule from "aeris-commons-components-vjs/src/lib/modules/aeris-theme/store/aeris-theme-store";
 
 const store = new Vuex.Store({
   namespaced: true,
   modules: {
-    yearSelectDownloadModule
+    yearSelectDownloadModule,
+    languageModule,
+    themeModule
   }
 });
 
@@ -94,6 +100,10 @@ const router = new VueRouter({
       component: AerisMetadataModificationsTest
     },
     {
+      path: "/single-file-download",
+      component: AerisMetadataSingleFileDownloadTest
+    },
+    {
       path: "/spatial-extents",
       component: AerisMetadataSpatialExtentsTest
     },
@@ -110,13 +120,17 @@ const router = new VueRouter({
       component: AerisMetadataYearSelectDownloadTest
     },
     {
+      path: "/instruments",
+      component: AerisMetadataInstrumentsTest
+    },
+    {
       path: "/metadata/:id",
       component: AerisMetadataServicesTest,
       props: true
     },
     {
       path: "/quicklook-gallery",
-      component: quicklookGallery
+      component: AerisMetadataQuicklookGalleryTest
     },
     {
       path: "/aeris-metadata-synthesis",
