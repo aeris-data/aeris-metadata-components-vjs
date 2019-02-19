@@ -43,6 +43,7 @@ import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submo
 import AerisMetadataPlatformsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-platforms/aeris-metadata-platforms-test";
 import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
 import AerisMetadataTitleTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-title/aeris-metadata-title-test";
+import AerisMetadataInstrumentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-instruments/aeris-metadata-instruments-test";
 
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
 import languageModule from "aeris-commons-components-vjs/src/lib/modules/aeris-language/store/aeris-language-store";
@@ -111,6 +112,10 @@ const router = new VueRouter({
     {
       path: "/year-select-download",
       component: AerisMetadataYearSelectDownloadTest
+    },
+    {
+      path: "/instruments",
+      component: AerisMetadataInstrumentsTest
     },
     {
       path: "/metadata/:id",
