@@ -12,6 +12,7 @@
       <li><router-link to="/temporal-extents">/temporal-extents</router-link></li>
       <li><router-link to="/formats">/formats</router-link></li>
       <li><router-link to="/modifications">/modifications</router-link></li>
+      <li><router-link to="/single-file-download">/single-file-download</router-link></li>
       <li><router-link to="/spatial-extents">/spatial-extents</router-link></li>
       <li><router-link to="/parameters">/parameters</router-link></li>
       <li><router-link to="/ui-table">/ui-table</router-link></li>
