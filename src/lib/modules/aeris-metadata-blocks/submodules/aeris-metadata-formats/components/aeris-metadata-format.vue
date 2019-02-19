@@ -110,7 +110,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Format - Creating");
     this.$i18n.locale = this.language;
   }
 };

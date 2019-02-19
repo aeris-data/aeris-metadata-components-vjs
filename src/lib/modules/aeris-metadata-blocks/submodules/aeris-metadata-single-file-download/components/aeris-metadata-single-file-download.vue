@@ -105,7 +105,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris single file download - Creating");
     this.$i18n.locale = this.language;
     this.ensureTheme(this.theme);
     this.updateMetadataDownload(this.metadata);
@@ -154,11 +153,6 @@ export default {
     },
 
     handleError(response, uuid) {
-      console.log("single file download - Error while accessing server:");
-      let error = response.status;
-      let message = response.statusText;
-      if (!error) message = "Can't connect to the server";
-      console.log("Error " + error + ": " + message);
       this.$emit("notification", { message: "", uuid: uuid });
     },
 

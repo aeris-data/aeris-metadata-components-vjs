@@ -85,9 +85,6 @@ export default {
   watch: {
     language(value) {
       this.$i18n.locale = value;
-    },
-    theme(theme) {
-      console.log(theme);
     }
   },
 

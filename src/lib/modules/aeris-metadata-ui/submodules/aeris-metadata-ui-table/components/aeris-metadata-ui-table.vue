@@ -29,13 +29,7 @@ export default {
   },
   computed: {
     applyTheme() {
-      if (this.theme && this.theme.primaryColor) {
-        return {
-          "--primaryColor": this.theme.primaryColor
-        };
-      } else {
-        return "";
-      }
+      return this.theme && this.theme.primaryColor ? { "--primaryColor": this.theme.primaryColor } : "";
     }
   }
 };

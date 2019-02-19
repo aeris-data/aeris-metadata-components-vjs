@@ -68,7 +68,6 @@ export default {
   },
 
   created: function() {
-    console.log("Aeris Metadata Information links - Creating");
     this.$i18n.locale = this.language;
     this.getLinks(this.links);
   },

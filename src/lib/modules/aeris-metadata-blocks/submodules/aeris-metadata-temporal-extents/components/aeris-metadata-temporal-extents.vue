@@ -78,7 +78,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Temporal Extents - Creating");
     this.$i18n.locale = this.language;
   },
 

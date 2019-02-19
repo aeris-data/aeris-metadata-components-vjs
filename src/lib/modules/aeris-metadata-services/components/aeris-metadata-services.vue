@@ -105,11 +105,6 @@ export default {
     handleError(error, uuid) {
       this.$emit("notification", { message: "", uuid: uuid });
       this.currentMetadata = null;
-      console.log("Aeris-Metadata - Error while accessing server:");
-      let err = error.status;
-      let message = error.statusText;
-      if (!err) message = "Can't connect to the server";
-      console.log("Error " + err + ": " + message);
     }
   }
 };

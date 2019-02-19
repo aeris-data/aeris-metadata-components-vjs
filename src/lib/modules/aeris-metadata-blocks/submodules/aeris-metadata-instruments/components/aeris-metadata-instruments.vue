@@ -61,7 +61,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Instrument - Creating");
     this.$i18n.locale = this.language;
   }
 };

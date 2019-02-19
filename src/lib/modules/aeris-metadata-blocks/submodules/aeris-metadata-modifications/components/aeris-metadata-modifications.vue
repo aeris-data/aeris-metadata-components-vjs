@@ -83,7 +83,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Modifications - Creating");
     this.$i18n.locale = this.language;
     this.updateModificationAuthorName(this.modifications);
   },

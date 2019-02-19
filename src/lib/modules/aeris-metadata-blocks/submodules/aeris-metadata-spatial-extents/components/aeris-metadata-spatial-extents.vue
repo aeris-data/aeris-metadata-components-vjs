@@ -117,7 +117,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Spatial extents - Creating");
     this.$i18n.locale = this.language;
   },
 

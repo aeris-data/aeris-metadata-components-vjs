@@ -56,7 +56,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Parameters - Creating");
     this.$i18n.locale = this.language;
   }
 };

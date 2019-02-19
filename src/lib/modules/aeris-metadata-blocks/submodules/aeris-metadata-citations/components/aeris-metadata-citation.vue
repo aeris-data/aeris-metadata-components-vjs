@@ -27,20 +27,12 @@ export default {
   methods: {
     getCitation() {
       let url = "https://data.datacite.org/text/x-bibliography;style=apa/" + this.doi;
-      this.$http.get(url).then(
-        response => {
-          this.handleSuccess(response);
-        },
-        response => {
-          this.handleError(response);
-        }
-      );
+      this.$http.get(url).then(response => {
+        this.handleSuccess(response);
+      });
     },
     handleSuccess(response) {
       this.parseCitation(response.data);
-    },
-    handleError(response) {
-      console.log("error citation : ", response);
     },
     parseCitation(citation) {
       let tmp = citation.split("http");

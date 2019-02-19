@@ -71,7 +71,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Description - Creating");
     this.$i18n.locale = this.language;
     this.getDescription(this.distributionInformation);
   },

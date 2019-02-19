@@ -58,7 +58,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Quicklook gallery - Creating");
     this.$i18n.locale = this.language;
   }
 };

@@ -128,7 +128,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Parameter - Creating");
     this.$i18n.locale = this.language;
 
     if (this.parameter) {

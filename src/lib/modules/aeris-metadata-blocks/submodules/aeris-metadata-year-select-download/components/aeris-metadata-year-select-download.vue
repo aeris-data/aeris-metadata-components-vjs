@@ -112,7 +112,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris year select download - Creating");
     this.$i18n.locale = this.language;
     this.ensureTheme(this.theme);
     this.updateMetadataDownload(this.metadata);
@@ -265,11 +264,6 @@ export default {
     handleError(response) {
       this.loading = false;
       this.years = [];
-      console.log("Aeris year select download - Error while accessing server:");
-      let error = response.status;
-      let message = response.statusText;
-      if (!error) message = "Can't connect to the server";
-      console.log("Error " + error + ": " + message);
     },
 
     ensureTheme(theme) {

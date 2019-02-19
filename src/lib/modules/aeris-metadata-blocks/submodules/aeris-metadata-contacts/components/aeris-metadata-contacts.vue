@@ -107,7 +107,6 @@ export default {
   },
 
   created() {
-    console.log("Aeris Metadata Contacts - Creating");
     this.$i18n.locale = this.language;
   },
 
