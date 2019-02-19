@@ -33,6 +33,7 @@ import AerisMetadataInternationalFieldTest from "./modules/aeris-metadata-intern
 import AerisMetadataTemporalExtentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-temporal-extents/aeris-metadata-temporal-extents-test";
 import AerisMetadataFormatsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-formats/aeris-metadata-formats-test";
 import AerisMetadataModificationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-modifications/aeris-metadata-modifications-test";
+import AerisMetadataSingleFileDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-single-file-download/aeris-metadata-single-file-download-test";
 import AerisMetadataSpatialExtentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-spatial-extents/aeris-metadata-spatial-extents-test";
 import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-parameters/aeris-metadata-parameters-test";
 import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
@@ -43,6 +44,7 @@ import AerisMetadataPlatformsTest from "./modules/aeris-metadata-blocks/submodul
 import AerisMetadataInformationTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-information/aeris-metadata-information-test";
 import AerisMetadataTitleTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-title/aeris-metadata-title-test";
 import AerisMetadataQuicklookGalleryTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-quicklook-gallery/aeris-metadata-quicklook-gallery-test";
+import AerisMetadataInstrumentsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-instruments/aeris-metadata-instruments-test";
 
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
 import languageModule from "aeris-commons-components-vjs/src/lib/modules/aeris-language/store/aeris-language-store";
@@ -96,6 +98,10 @@ const router = new VueRouter({
       path: "/modifications",
       component: AerisMetadataModificationsTest
     },
+     {
+       path: "/single-file-download",
+      component: AerisMetadataSingleFileDownloadTest
+    },
     {
       path: "/spatial-extents",
       component: AerisMetadataSpatialExtentsTest
@@ -111,6 +117,10 @@ const router = new VueRouter({
     {
       path: "/year-select-download",
       component: AerisMetadataYearSelectDownloadTest
+    },
+    {
+      path: "/instruments",
+      component: AerisMetadataInstrumentsTest
     },
     {
       path: "/metadata/:id",
