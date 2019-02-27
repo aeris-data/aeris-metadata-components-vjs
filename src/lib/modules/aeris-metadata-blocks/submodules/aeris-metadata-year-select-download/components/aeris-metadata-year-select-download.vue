@@ -76,7 +76,7 @@ export default {
     return {
       years: [],
       service: null,
-      uuid: null,
+      identifier: null,
       collectionName: null,
       loading: false,
       isL0: false
@@ -123,8 +123,8 @@ export default {
       let cartItem = {
         collectionName: this.collectionName,
         url: url_download_service,
-        collectionId: this.uuid,
-        id: this.uuid,
+        collectionId: this.identifier,
+        identifier: this.identifier,
         data: "",
         fileNumber: item.fileNumber,
         totalSize: item.totalSize,
@@ -165,7 +165,7 @@ export default {
 
     updateItemSelectedState(selectedItemCart) {
       this.deselectAll();
-      if (selectedItemCart && selectedItemCart.collectionId === this.uuid) {
+      if (selectedItemCart && selectedItemCart.collectionId === this.identifier) {
         let years = selectedItemCart.items.elements;
         for (let j = 0; j < years.length; j++) {
           this.selectYear(years[j]);
@@ -175,9 +175,9 @@ export default {
 
     updateMetadataDownload(metadata) {
       let links = metadata ? metadata.links : "";
-      if (links && metadata.id && metadata.resourceTitle && metadata.dataLevel) {
+      if (links && metadata.identifier && metadata.resourceTitle && metadata.dataLevel) {
         this.visible = false;
-        this.uuid = metadata.id;
+        this.identifier = metadata.identifier;
         this.collectionName = metadata.resourceTitle;
 
         if (metadata.dataLevel.toLowerCase() == "l0") {
@@ -195,7 +195,7 @@ export default {
           }
         }
 
-        if (this.service && this.uuid) {
+        if (this.service && this.identifier) {
           let cached = this.getFromCache(this.getYearCacheKey());
           if (cached) {
             this.years = cached;
@@ -207,7 +207,7 @@ export default {
             if (this.service.endsWith("/")) {
               this.service = this.service.substring(0, this.service.length - 1);
             }
-            url = this.service + "/request?collection=" + this.uuid;
+            url = this.service + "/request?collection=" + this.identifier;
             this.loading = true;
             this.$http.get(url).then(
               response => {
@@ -244,7 +244,7 @@ export default {
     },
 
     getYearCacheKey() {
-      return this.uuid + "-years";
+      return this.identifier + "-years";
     },
 
     getFromCache(key) {

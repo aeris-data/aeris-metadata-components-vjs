@@ -1,6 +1,6 @@
 <template>
   <ul :style="applyTheme" class="data-aeris-metadata-list">
-    <li v-for="item in valuedItems" :key="item.uuid">
+    <li v-for="item in valuedItems" :key="item.identifier">
       <h5>{{ item.name }}:</h5>
 
       <p v-if="item.img"><img :src="item.img" /></p>

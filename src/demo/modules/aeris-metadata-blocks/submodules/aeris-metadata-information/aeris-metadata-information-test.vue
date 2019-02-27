@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       items: {
-        uuid: "4d3be8dd-c41a-4f35-8ba6-722cf12e2de3",
+        identifier: "4d3be8dd-c41a-4f35-8ba6-722cf12e2de3",
         lastModification: {
           value: "2018-09-06T18:00:17"
         },

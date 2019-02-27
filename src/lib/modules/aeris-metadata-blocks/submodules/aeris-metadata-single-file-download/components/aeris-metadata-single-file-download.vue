@@ -67,7 +67,7 @@ export default {
     return {
       downloadEntry: {},
       service: null,
-      id: null,
+      identifier: null,
       collectionName: null
     };
   },
@@ -113,8 +113,8 @@ export default {
   methods: {
     updateMetadataDownload(metadata) {
       let links = metadata ? metadata.links : "";
-      if (links && metadata.id && metadata.resourceTitle) {
-        this.id = metadata.id;
+      if (links && metadata.identifier && metadata.resourceTitle) {
+        this.identifier = metadata.identifier;
         this.collectionName = metadata.resourceTitle;
 
         let links = metadata.links;
@@ -139,8 +139,8 @@ export default {
         let cartItem = {
           collectionName: this.collectionName,
           url: url_download_service,
-          collectionId: this.id,
-          id: this.id,
+          collectionId: this.identifier,
+          identifier: this.identifier,
           data: "",
           fileNumber: this.downloadEntry.fileNumber,
           totalSize: this.downloadEntry.totalSize,
@@ -158,7 +158,7 @@ export default {
 
     addToCart() {
       if (!this.isInCart) {
-        let uuid = this.id;
+        let uuid = this.identifier;
         let notification = {
           message: this.$i18n.t("addingToCart"),
           type: "wait",
@@ -166,12 +166,12 @@ export default {
         };
         this.$emit("notification", notification);
 
-        if (this.service && this.id) {
+        if (this.service && this.identifier) {
           let url = null;
           if (this.service.endsWith("/")) {
             this.service = this.service.substring(0, this.service.length - 1);
           }
-          url = this.service + "/request?collection=" + this.id;
+          url = this.service + "/request?collection=" + this.identifier;
           this.$http.get(url).then(
             response => {
               this.handleSuccess(response, uuid);

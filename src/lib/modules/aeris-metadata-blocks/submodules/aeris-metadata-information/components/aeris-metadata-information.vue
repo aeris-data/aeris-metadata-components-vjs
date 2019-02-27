@@ -58,12 +58,12 @@ export default {
       return Object.keys(this.items).length !== 0 ? true : false;
     },
     localItems() {
-      if (this.items.uuid === null) {
+      if (this.items.identifier === null) {
         return [];
       }
       return [
         {
-          value: this.items.uuid,
+          value: this.items.identifier,
           name: this.$i18n.t("uuid")
         },
         {
@@ -94,7 +94,7 @@ export default {
 
   methods: {
     localeDate() {
-      if (typeof this.items !== "undefined" && this.items.uuid) {
+      if (typeof this.items !== "undefined" && this.items.identifier) {
         const localeDate = moment(this.items.lastModification.value);
         localeDate.locale(this.language);
         return this.formatDate(localeDate);

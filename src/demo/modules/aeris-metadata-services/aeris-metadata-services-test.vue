@@ -171,7 +171,7 @@ export default {
     getOtherInformations() {
       if (this.metadata) {
         return {
-          uuid: this.metadata.uuid,
+          identifier: this.metadata.identifier,
           lastModification: this.metadata.lastModification,
           aerisDataCenter: this.metadata.aerisDataCenter,
           dataLevel: this.metadata.dataLevel

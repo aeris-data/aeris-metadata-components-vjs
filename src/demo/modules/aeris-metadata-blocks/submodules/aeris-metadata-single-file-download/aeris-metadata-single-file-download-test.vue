@@ -36,7 +36,7 @@ export default {
           en: "AERONET_CIMEL, SURF_FIXE",
           fr: "AERONET_CIMEL, SURF_FIXE"
         },
-        id: "97bbabf2-1644-e71f-2f94-e4fe13c648ac",
+        identifier: "97bbabf2-1644-e71f-2f94-e4fe13c648ac",
         links: [
           {
             type: "OPENSEARCH_LINK",
