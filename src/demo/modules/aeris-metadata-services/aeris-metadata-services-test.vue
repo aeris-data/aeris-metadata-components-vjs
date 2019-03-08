@@ -5,7 +5,6 @@
       lang="fr"
       service="https://sedoo.aeris-data.fr/catalogue/rest/metadatarecette/id"
       @metadata="updateMetadata"
-      @notification="updateNotification"
     >
       <div v-if="metadata !== null" class="metadatapanel">
         <aeris-metadata-description
@@ -91,12 +90,7 @@
         ></aeris-metadata-quicklook-gallery>
       </div>
 
-      <aeris-notifier
-        :delete-notif-uuid="uuid"
-        :new-notification="notification"
-        :theme="getThemeFromStore"
-        :language="getLanguageFromStore"
-      ></aeris-notifier>
+      <aeris-notifier :theme="getThemeFromStore" :language="getLanguageFromStore"></aeris-notifier>
       <aeris-language :theme="theme"></aeris-language>
       <aeris-theme></aeris-theme>
     </aeris-metadata-services>
@@ -159,8 +153,6 @@ export default {
   data() {
     return {
       metadata: null,
-      notification: null,
-      uuid: null,
       theme: {
         primaryColor: "#0b6bb3",
         secondaryColor: "#f39c12"
@@ -211,15 +203,6 @@ export default {
   methods: {
     updateMetadata(metadata) {
       this.metadata = metadata;
-    },
-    updateNotification(notification) {
-      if (notification.message) {
-        this.notification = notification;
-        this.uuid = null;
-      } else {
-        this.notification = null;
-        this.uuid = notification.uuid;
-      }
     }
   }
 };

@@ -50,13 +50,15 @@ import AerisMetadataInstrumentsTest from "./modules/aeris-metadata-blocks/submod
 import yearSelectDownloadModule from "../lib/modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/store/aeris-metadata-year-select-download-store";
 import languageModule from "aeris-commons-components-vjs/src/lib/modules/aeris-language/store/aeris-language-store";
 import themeModule from "aeris-commons-components-vjs/src/lib/modules/aeris-theme/store/aeris-theme-store";
+import notificationModule from "aeris-commons-components-vjs/src/lib/modules/aeris-notification/store/aeris-notification-store";
 
 const store = new Vuex.Store({
   namespaced: true,
   modules: {
     yearSelectDownloadModule,
     languageModule,
-    themeModule
+    themeModule,
+    notificationModule
   }
 });
 

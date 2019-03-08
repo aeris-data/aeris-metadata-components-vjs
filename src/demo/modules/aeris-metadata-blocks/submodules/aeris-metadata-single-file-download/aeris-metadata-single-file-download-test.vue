@@ -2,24 +2,22 @@
   <section>
     <aeris-metadata-single-file-download
       :metadata="metadata"
-      :is-in-cart="isInCart"
+      :is-in-cart="isInCart(metadata.id)"
       :theme="theme"
-      @notification="updateNotification"
       @addItemCart="addItemCart"
     ></aeris-metadata-single-file-download>
 
     <aeris-metadata-single-file-download
-      :metadata="metadata"
-      :is-in-cart="isInCart"
+      :metadata="metadata1"
+      :is-in-cart="isInCart(metadata1.id)"
       :theme="theme"
       language="fr"
-      @notification="updateNotification"
       @addItemCart="addItemCart"
     ></aeris-metadata-single-file-download>
 
     <aeris-metadata-single-file-download></aeris-metadata-single-file-download>
 
-    <aeris-notifier :delete-notif-uuid="uuid" :new-notification="notification"></aeris-notifier>
+    <aeris-notifier></aeris-notifier>
   </section>
 </template>
 
@@ -46,9 +44,22 @@ export default {
           }
         ]
       },
-      notification: null,
-      uuid: null,
-      isInCart: false,
+      metadata1: {
+        resourceTitle: {
+          en: "AERONET_CIMEL, SURF_FIXE",
+          fr: "AERONET_CIMEL, SURF_FIXE"
+        },
+        identifier: "97bbabf2-1644-e71f-2f94-e4fe13c648ad",
+        links: [
+          {
+            type: "OPENSEARCH_LINK",
+            url: "https://services.sedoo.fr/oldcamp-rest/rest/data",
+            name: "AERONET_CIMEL, SURF_FIXE, ESCOMPTE",
+            description: null
+          }
+        ]
+      },
+      cartList: [],
       theme: {
         primaryColor: "#0b6bb3",
         secondaryColor: "#f39c12"
@@ -56,19 +67,17 @@ export default {
     };
   },
 
+  computed: {
+    isInCart() {
+      return uuid => {
+        return this.cartList.includes(uuid)
+      };
+    }
+  },
   methods: {
-    updateNotification(notification) {
-      if (notification.message) {
-        this.notification = notification;
-        this.uuid = null;
-      } else {
-        this.notification = null;
-        this.uuid = notification.uuid;
-      }
-    },
     addItemCart(itemCart) {
+      this.cartList.push(itemCart.id);
       console.log(itemCart);
-      this.isInCart = itemCart.collectionId ? true : false;
     }
   }
 };

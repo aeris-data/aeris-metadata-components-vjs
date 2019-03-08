@@ -84,8 +84,7 @@ export default {
           type: "wait",
           uuid: uuid
         };
-
-        this.$emit("notification", notification);
+        this.$store.dispatch("addNewNotification", notification);
         this.$http.get(url).then(
           response => {
             this.handleSuccess(response, uuid);
@@ -98,12 +97,12 @@ export default {
     },
 
     handleSuccess(response, uuid) {
-      this.$emit("notification", { message: "", uuid: uuid });
+      this.$store.dispatch("deleteNotification", uuid);
       this.currentMetadata = response.data;
     },
 
     handleError(error, uuid) {
-      this.$emit("notification", { message: "", uuid: uuid });
+      this.$store.dispatch("deleteNotification", uuid);
       this.currentMetadata = null;
     }
   }

@@ -148,12 +148,12 @@ export default {
         };
 
         this.$emit("addItemCart", cartItem);
-        this.$emit("notification", { message: "", uuid: uuid });
+        this.$store.dispatch("deleteNotification", uuid);
       }
     },
 
     handleError(response, uuid) {
-      this.$emit("notification", { message: "", uuid: uuid });
+      this.$store.dispatch("deleteNotification", uuid);
     },
 
     addToCart() {
@@ -164,7 +164,7 @@ export default {
           type: "wait",
           uuid: uuid
         };
-        this.$emit("notification", notification);
+        this.$store.dispatch("addNewNotification", notification);
 
         if (this.service && this.identifier) {
           let url = null;
