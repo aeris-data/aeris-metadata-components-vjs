@@ -2,14 +2,14 @@
   <section>
     <aeris-metadata-single-file-download
       :metadata="metadata"
-      :is-in-cart="isInCart(metadata.id)"
+      :is-in-cart="isInCart(metadata.identifier)"
       :theme="theme"
       @addItemCart="addItemCart"
     ></aeris-metadata-single-file-download>
 
     <aeris-metadata-single-file-download
       :metadata="metadata1"
-      :is-in-cart="isInCart(metadata1.id)"
+      :is-in-cart="isInCart(metadata1.identifier)"
       :theme="theme"
       language="fr"
       @addItemCart="addItemCart"
@@ -70,13 +70,15 @@ export default {
   computed: {
     isInCart() {
       return uuid => {
-        return this.cartList.includes(uuid)
+        return this.cartList.includes(uuid);
       };
     }
   },
   methods: {
     addItemCart(itemCart) {
-      this.cartList.push(itemCart.id);
+      if (!this.cartList.includes(itemCart.identifier)) {
+        this.cartList.push(itemCart.identifier);
+      }
       console.log(itemCart);
     }
   }

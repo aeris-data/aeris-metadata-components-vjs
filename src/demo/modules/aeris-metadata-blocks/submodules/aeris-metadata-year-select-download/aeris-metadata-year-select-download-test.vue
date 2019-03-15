@@ -34,7 +34,6 @@ export default {
         dataLevel: "L2"
       },
       selectedItemCart: {
-        collectionId: "bcb74d91-d6ea-4f83-a897-f98f8edc044c",
         identifier: "bcb74d91-d6ea-4f83-a897-f98f8edc044c",
         collectionName: "collection name",
         url: "https://services.sedoo.fr/gmos-datacenter-rest/rest/data/",
