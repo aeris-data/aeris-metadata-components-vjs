@@ -131,56 +131,14 @@ export default {
       }
     },
 
-    handleSuccess(response, uuid) {
-      this.downloadEntries = response.data.entries;
-      if (this.downloadEntries.length > 0) {
-        this.downloadEntry = this.downloadEntries[0];
-        let url_download_service = this.service;
-        let cartItem = {
-          collectionName: this.collectionName,
-          url: url_download_service,
-          collectionId: this.identifier,
-          identifier: this.identifier,
-          data: "",
-          fileNumber: this.downloadEntry.fileNumber,
-          totalSize: this.downloadEntry.totalSize,
-          type: "nofilter"
-        };
-
-        this.$emit("addItemCart", cartItem);
-        this.$store.dispatch("deleteNotification", uuid);
-      }
-    },
-
-    handleError(response, uuid) {
-      this.$store.dispatch("deleteNotification", uuid);
-    },
-
     addToCart() {
       if (!this.isInCart) {
-        let uuid = this.identifier;
-        let notification = {
-          message: this.$i18n.t("addingToCart"),
-          type: "wait",
-          uuid: uuid
+        let metadataDownload = {
+          service: this.service,
+          collectionName: this.collectionName,
+          identifier: this.identifier
         };
-        this.$store.dispatch("addNewNotification", notification);
-
-        if (this.service && this.identifier) {
-          let url = null;
-          if (this.service.endsWith("/")) {
-            this.service = this.service.substring(0, this.service.length - 1);
-          }
-          url = this.service + "/request?collection=" + this.identifier;
-          this.$http.get(url).then(
-            response => {
-              this.handleSuccess(response, uuid);
-            },
-            response => {
-              this.handleError(response, uuid);
-            }
-          );
-        }
+        this.$emit("addItemCart", metadataDownload);
       }
       this.ensureTheme(this.theme);
     },

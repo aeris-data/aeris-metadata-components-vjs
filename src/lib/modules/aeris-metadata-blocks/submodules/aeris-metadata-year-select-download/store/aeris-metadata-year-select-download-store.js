@@ -10,7 +10,6 @@ export default {
   mutations: {
     setYearListCache(state, yearList) {
       state.yearListCache[yearList.key] = yearList.value;
-    },
-
+    }
   }
 };

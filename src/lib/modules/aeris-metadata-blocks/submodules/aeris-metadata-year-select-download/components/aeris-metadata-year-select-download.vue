@@ -123,7 +123,6 @@ export default {
       let cartItem = {
         collectionName: this.collectionName,
         url: url_download_service,
-        collectionId: this.identifier,
         identifier: this.identifier,
         data: "",
         fileNumber: item.fileNumber,
@@ -165,7 +164,7 @@ export default {
 
     updateItemSelectedState(selectedItemCart) {
       this.deselectAll();
-      if (selectedItemCart && selectedItemCart.collectionId === this.identifier) {
+      if (selectedItemCart && selectedItemCart.identifier === this.identifier) {
         let years = selectedItemCart.items.elements;
         for (let j = 0; j < years.length; j++) {
           this.selectYear(years[j]);
