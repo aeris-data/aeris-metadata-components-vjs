@@ -94,7 +94,7 @@ export default {
 
   methods: {
     localeDate() {
-      if (typeof this.items !== "undefined" && this.items.identifier) {
+      if (typeof this.items !== "undefined" && this.items.identifier && this.items.lastModification) {
         const localeDate = moment(this.items.lastModification.value);
         localeDate.locale(this.language);
         return this.formatDate(localeDate);
