@@ -33,7 +33,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('contacts')" :theme="theme" :style="applyTheme" icon="fa fa-users">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('contacts')" :theme="theme" :style="applyTheme" icon="fas fa-users">
     <div v-if="roles.length > 0">
       <div v-for="role in roles" :key="role">
         <h5 class="primaryTheme">{{ $t(role) }}</h5>

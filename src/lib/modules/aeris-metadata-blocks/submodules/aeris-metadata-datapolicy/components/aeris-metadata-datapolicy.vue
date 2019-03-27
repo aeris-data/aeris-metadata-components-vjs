@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('datapolicy')" :theme="theme" icon="fa fa-copyright">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('datapolicy')" :theme="theme" icon="fas fa-copyright">
     <aeris-metadata-international-field
       :html="markdown"
       :content="description"

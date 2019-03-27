@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('citationTitle')" :theme="theme" icon="fa fa-quote-left">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('citationTitle')" :theme="theme" icon="fas fa-quote-left">
     <aeris-metadata-citation
       v-for="identifier in identifiers"
       :doi="identifier.code"

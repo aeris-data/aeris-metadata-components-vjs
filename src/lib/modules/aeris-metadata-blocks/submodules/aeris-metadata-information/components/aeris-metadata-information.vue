@@ -18,7 +18,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('otherInformation')" :theme="theme" icon="fa fa-info">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('otherInformation')" :theme="theme" icon="fas fa-info">
     <aeris-metadata-list :items="localItems" :theme="theme"></aeris-metadata-list>
   </aeris-metadata-layout>
 </template>

@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('publications')" :theme="theme" icon="fa fa-bookmark-o">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('publications')" :theme="theme" icon="fas fa-bookmark">
     <aeris-metadata-publication
       v-for="publication in publications"
       :key="publication.title"

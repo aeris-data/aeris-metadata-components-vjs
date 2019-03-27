@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('informationLinks')" :theme="theme" icon="fa fa-link">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('informationLinks')" :theme="theme" icon="fas fa-link">
     <aeris-metadata-information-link
       v-for="link in informationLinks"
       :key="link.url"

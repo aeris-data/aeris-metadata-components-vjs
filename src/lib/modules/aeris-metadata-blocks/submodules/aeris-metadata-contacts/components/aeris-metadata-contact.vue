@@ -3,7 +3,7 @@
     <article>
       <div>
         <p class="metadata-contact-name">
-          <i class="fa fa-user" />{{ contact.name }}
+          <i class="fas fa-user" />{{ contact.name }}
           <span v-if="contact.organisation">({{ contact.organisation }})</span>
         </p>
       </div>

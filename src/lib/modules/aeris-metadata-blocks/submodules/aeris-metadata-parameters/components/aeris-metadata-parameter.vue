@@ -84,7 +84,7 @@ export default {
     },
     openIconClass: {
       type: String,
-      default: "fa fa-chevron-down"
+      default: "fas fa-chevron-down"
     }
   },
 

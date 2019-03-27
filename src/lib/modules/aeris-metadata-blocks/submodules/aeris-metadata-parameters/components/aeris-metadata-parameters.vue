@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('parameters')" :theme="theme" icon="fa fa-thermometer-half">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('parameters')" :theme="theme" icon="fas fa-thermometer-half">
     <div v-for="parameter in parameters" :key="parameter.name">
       <aeris-metadata-parameter :parameter="parameter" :language="language" :theme="theme"></aeris-metadata-parameter>
     </div>

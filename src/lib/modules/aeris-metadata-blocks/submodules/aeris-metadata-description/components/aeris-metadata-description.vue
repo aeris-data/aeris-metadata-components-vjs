@@ -15,7 +15,7 @@
     :title="$t('description')"
     :theme="theme"
     :show-title="showTitle"
-    icon="fa fa-comment-o"
+    icon="fas fa-comment"
   >
     <aeris-metadata-international-field
       :html="markdown"

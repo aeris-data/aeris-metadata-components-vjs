@@ -24,7 +24,7 @@
         <span>
           <h5 class="aeris-publication-header">{{ publication.title }}</h5>
         </span>
-        <i class="fa fa-chevron-down" />
+        <i class="fas fa-chevron-down" />
       </header>
       <article v-if="deployed">
         <div>
@@ -36,7 +36,7 @@
           <h5>{{ $t("authors") }}:</h5>
           <div>
             <p class="aeris-publication-authors">
-              <i class="fa fa-user" /> <span v-for="author in publication.authors" :key="author">{{ author }}</span>
+              <i class="fas fa-user" /> <span v-for="author in publication.authors" :key="author">{{ author }}</span>
             </p>
           </div>
         </div>

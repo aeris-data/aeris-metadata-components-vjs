@@ -16,7 +16,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('dataAccess')" :theme="theme" icon="fa fa-database">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('dataAccess')" :theme="theme" icon="fas fa-database">
     <section v-show="httpLinks.length > 0" class="aeris-link-category">
       <div class="link-category-header">
         <h5 class="aeris-metadata-emphasis-text">{{ $t("httpLinks") }}:</h5>

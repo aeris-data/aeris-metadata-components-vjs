@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('platforms')" :theme="theme" icon="fa fa-cubes">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('platforms')" :theme="theme" icon="fas fa-cubes">
     <aeris-metadata-platform
       v-for="platform in platforms"
       :key="platform.name"

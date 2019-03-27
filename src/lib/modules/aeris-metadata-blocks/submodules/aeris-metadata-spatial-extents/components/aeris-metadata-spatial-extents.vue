@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" :theme="theme" icon="fa fa-globe">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" :theme="theme" icon="fas fa-globe">
     <vl-map
       ref="map"
       :load-tiles-while-animating="true"

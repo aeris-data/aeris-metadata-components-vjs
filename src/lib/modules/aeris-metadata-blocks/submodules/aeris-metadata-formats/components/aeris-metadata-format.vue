@@ -21,7 +21,7 @@
         ><h5 class="format-name">{{ getFormat.name }}</h5>
           <span v-if="getFormat.version" class="metadata-format-header"> (v.{{ getFormat.version }})</span>
         </span>
-        <i v-if="hasMore" class="fa fa-chevron-down" @click="deployed = !deployed" />
+        <i v-if="hasMore" class="fas fa-chevron-down" @click="deployed = !deployed" />
       </header>
       <article v-if="hasMore">
         <div class="metadata-format-description">

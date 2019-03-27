@@ -20,7 +20,7 @@
 <template>
   <section v-show="isVisible" data-aeris-metadata-layout data-template="metadata-block">
     <header>
-      <h3><i name="download" class="fa fa-download" />{{ $t("download") }}</h3>
+      <h3><i name="download" class="fas fa-download" />{{ $t("download") }}</h3>
     </header>
     <article aeris-year-download-metadata-layout>
       <div v-if="isL0" style="text-align:justify">

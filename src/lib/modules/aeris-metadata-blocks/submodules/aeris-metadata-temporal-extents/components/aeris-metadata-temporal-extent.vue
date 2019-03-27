@@ -4,7 +4,7 @@
       <section class="tempExt">
         <article class="metadata-temporal">
           <div>
-            <span>{{ formatedBegin }}</span> <i class="fa fa-long-arrow-right" /> <span>{{ formatedEnd }}</span>
+            <span>{{ formatedBegin }}</span> <i class="fas fa-long-arrow-right" /> <span>{{ formatedEnd }}</span>
           </div>
           <div v-if="comment" class="metadata-temporal-description">
             <aeris-metadata-international-field

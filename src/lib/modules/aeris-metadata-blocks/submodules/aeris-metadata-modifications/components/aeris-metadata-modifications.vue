@@ -12,15 +12,15 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('modifications')" :theme="theme" icon="fa fa-history">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('modifications')" :theme="theme" icon="fas fa-history">
     <section v-for="modification in currentModifications" :key="modification.date">
       <article class="tempExt">
         <div class="metadata-temporal">
           <div>
-            <i class="fa fa-calendar" /><span> {{ format(modification.date) }}</span>
+            <i class="fas fa-calendar" /><span> {{ format(modification.date) }}</span>
           </div>
           <div class="metadata-author-description">
-            <i class="fa fa-user" /> : {{ modification.author }}
+            <i class="fas fa-user" /> : {{ modification.author }}
             <div v-if="modification.name">( {{ modification.name }} )</div>
           </div>
         </div>

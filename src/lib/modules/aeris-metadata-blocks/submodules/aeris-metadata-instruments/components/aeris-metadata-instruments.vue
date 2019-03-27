@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('instruments')" :theme="theme" icon="fa fa-calculator">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('instruments')" :theme="theme" icon="fas fa-calculator">
     <aeris-metadata-instrument
       v-for="instrument in instruments"
       :key="instrument.thesaurusConcat"

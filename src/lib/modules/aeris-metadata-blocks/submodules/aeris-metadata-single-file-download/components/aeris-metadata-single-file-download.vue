@@ -19,20 +19,20 @@
 <template>
   <section v-if="isVisible" :style="applyTheme" data-aeris-metadata-layout data-template="metadata-block">
     <header>
-      <h3><i name="download" class="fa fa-download primaryTheme" />{{ $t("download") }}</h3>
+      <h3><i name="download" class="fas fa-download primaryTheme" />{{ $t("download") }}</h3>
     </header>
     <article v-if="!isInCart">
       <p>{{ $t("explicationText") }}</p>
       <aeris-ui-icon-button
         :text="$t('addToCart')"
-        icon="fa fa-cart-arrow-down"
+        icon="fas fa-cart-arrow-down"
         type="button"
         @click="addToCart"
       ></aeris-ui-icon-button>
     </article>
     <article v-else>
       <p>{{ $t("explicationText") }}</p>
-      <div class="primaryTheme"><i :aria-hidden="true" class="fa fa-check" /> {{ $t("addedToCart") }}</div>
+      <div class="primaryTheme"><i :aria-hidden="true" class="fas fa-check" /> {{ $t("addedToCart") }}</div>
     </article>
   </section>
 </template>
