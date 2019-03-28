@@ -154,8 +154,34 @@ export default {
   }
 };
 </script>
+
 <style scoped>
 .primaryTheme {
   color: var(--primaryColor);
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  backface-visibility: hidden;
+}
+
+header i {
+  margin-left: 20px;
+  color: #999;
+  margin-right: 12px;
+}
+
+article {
+  margin-left: 20px;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin: 0;
 }
 </style>

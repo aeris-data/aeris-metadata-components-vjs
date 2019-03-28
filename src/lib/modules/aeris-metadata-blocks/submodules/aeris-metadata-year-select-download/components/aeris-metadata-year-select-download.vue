@@ -210,14 +210,14 @@ export default {
             }
             url = this.service + "/request?collection=" + this.identifier;
             this.loading = true;
-            this.$http.get(url).then(
-              response => {
+            this.$http
+              .get(url)
+              .then(response => {
                 this.handleSuccess(response);
-              },
-              response => {
-                this.handleError(response);
-              }
-            );
+              })
+              .catch(() => {
+                this.handleError();
+              });
           }
         }
       }
@@ -262,7 +262,7 @@ export default {
       }
     },
 
-    handleError(response) {
+    handleError() {
       this.loading = false;
       this.years = [];
     },
@@ -281,7 +281,7 @@ export default {
   flex-direction: column;
   border: none;
   background: #fafafa;
-  padding: 24px;
+  padding: 10px;
 }
 
 [aeris-year-download-metadata-layout] p {
@@ -329,5 +329,30 @@ export default {
   margin-bottom: 2px;
   letter-spacing: 0.7px;
   cursor: pointer;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+  backface-visibility: hidden;
+}
+
+header i {
+  margin-left: 20px;
+  color: #999;
+  margin-right: 12px;
+}
+
+article {
+  margin-left: 20px;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin: 0;
 }
 </style>

@@ -36,7 +36,7 @@ export default {
   computed: {
     applyTheme() {
       return {
-        "--primary": this.theme.primaryColor
+        "--primaryColor": this.theme.primaryColor
       };
     }
   }
@@ -55,7 +55,7 @@ export default {
 .data-aeris-metadata-layout header h3 i,
 .data-aeris-metadata-layout header h5,
 .data-aeris-metadata-layout header h6 {
-  color: var(--primary);
+  color: var(--primaryColor);
 }
 
 .data-aeris-metadata-layout header h3 {

@@ -40,7 +40,7 @@ export default {
     },
     applyTheme() {
       return {
-        "--primary": this.theme.primaryColor
+        "--primaryColor": this.theme.primaryColor
       };
     }
   }
@@ -68,7 +68,7 @@ export default {
   margin: 0 10px 0 0;
   font-weight: 400;
   font-size: 1rem;
-  color: var(--primary);
+  color: var(--primaryColor);
 }
 
 .data-aeris-metadata-list li p,
