@@ -17,7 +17,7 @@
 }
 </i18n>
 <template>
-  <section v-if="isVisible" :style="applyTheme" data-aeris-metadata-layout data-template="metadata-block">
+  <section v-if="isVisible" :style="applyTheme" aeris-metadata-single-file-download data-template="metadata-block">
     <header>
       <h3><i name="download" class="fas fa-download primaryTheme" />{{ $t("download") }}</h3>
     </header>
@@ -156,6 +156,12 @@ export default {
 </script>
 
 <style scoped>
+[aeris-metadata-single-file-download] {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  background: #fafafa;
+}
 .primaryTheme {
   color: var(--primaryColor);
 }
