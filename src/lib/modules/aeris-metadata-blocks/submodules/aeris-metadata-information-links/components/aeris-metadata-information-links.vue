@@ -12,8 +12,8 @@
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('informationLinks')" :theme="theme" icon="fas fa-link">
     <aeris-metadata-information-link
-      v-for="link in informationLinks"
-      :key="link.url"
+      v-for="(link, index) in informationLinks"
+      :key="link.url + index"
       :language="language"
       :link="link"
     ></aeris-metadata-information-link>

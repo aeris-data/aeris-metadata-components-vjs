@@ -33,14 +33,20 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('contacts')" :theme="theme" :style="applyTheme" icon="fas fa-users">
+  <aeris-metadata-layout
+    v-if="isVisible"
+    :title="$t('contacts')"
+    :theme="theme"
+    :style="applyTheme"
+    icon="fas fa-users"
+  >
     <div v-if="roles.length > 0">
       <div v-for="role in roles" :key="role">
         <h5 class="primaryTheme">{{ $t(role) }}</h5>
         <aeris-metadata-contact
-          v-for="contact in contacts"
+          v-for="(contact, index) in contacts"
           v-if="hasRole(contact, role)"
-          :key="contact.name"
+          :key="contact.name + index"
           :contact="contact"
           :language="language"
         ></aeris-metadata-contact>
@@ -48,8 +54,8 @@
     </div>
     <div v-else>
       <aeris-metadata-contact
-        v-for="contact in contacts"
-        :key="contact.name"
+        v-for="(contact, index) in contacts"
+        :key="contact.name + index"
         :contact="contact"
         :language="language"
       ></aeris-metadata-contact>
