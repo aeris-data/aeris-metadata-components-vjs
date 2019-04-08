@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-show="isVisible" :title="$t('gallery')" :theme="theme" icon="fas fa-image">
+  <aeris-metadata-layout v-if="isVisible" :title="$t('gallery')" :theme="theme" icon="fas fa-image">
     <aeris-gallery :images="quicklooks"></aeris-gallery>
   </aeris-metadata-layout>
 </template>
