@@ -48,7 +48,6 @@ export default {
   display: flex;
   flex-direction: column;
   border: none;
-  background: #fafafa;
   padding: 24px;
 }
 

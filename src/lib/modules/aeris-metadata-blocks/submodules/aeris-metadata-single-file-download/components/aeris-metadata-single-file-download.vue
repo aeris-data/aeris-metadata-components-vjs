@@ -162,7 +162,6 @@ export default {
   display: flex;
   flex-direction: column;
   border: none;
-  background: #fafafa;
 }
 .primaryTheme {
   color: var(--primaryColor);
