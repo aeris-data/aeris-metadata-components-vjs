@@ -106,7 +106,9 @@ export default {
       return "\uf041";
     },
     isVisible() {
-      return this.spatialExtents !== null && this.spatialExtents.length > 0;
+      let visible = this.spatialExtents !== null && this.spatialExtents.length > 0;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });    
+      return visible;
     }
   },
 

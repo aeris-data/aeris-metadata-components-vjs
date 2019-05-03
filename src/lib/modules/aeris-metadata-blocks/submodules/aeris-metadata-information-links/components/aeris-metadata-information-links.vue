@@ -54,6 +54,7 @@ export default {
   computed: {
     isVisible() {
       let visible = this.informationLinks.length > 0;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });    
       return visible;
     }
   },

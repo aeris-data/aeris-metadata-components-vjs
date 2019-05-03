@@ -94,11 +94,7 @@ export default {
     },
     isVisible() {
       let visible = this.contacts ? Object.keys(this.contacts).some(d => d != null) : false;
-      if (visible === true) {
-        this.$emit('visibility', { component: this.$options.name, isVisible: true });
-      } else {
-        this.$emit('visibility', { component: this.$options.name, isVisible: false });
-      }
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
       return visible;
     },
     applyTheme() {

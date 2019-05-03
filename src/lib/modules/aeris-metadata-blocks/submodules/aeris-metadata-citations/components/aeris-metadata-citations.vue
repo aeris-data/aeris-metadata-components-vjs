@@ -51,7 +51,9 @@ export default {
   },
   computed: {
     isVisible() {
-      return this.identifiers !== null && this.identifiers.length >= 1;
+      let visible = this.identifiers !== null && this.identifiers.length >= 1;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
+      return visible;
     }
   },
   created() {

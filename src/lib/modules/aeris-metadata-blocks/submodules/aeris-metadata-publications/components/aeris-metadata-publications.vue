@@ -49,7 +49,9 @@ export default {
 
   computed: {
     isVisible() {
-      return this.publications !== null && this.publications.length >= 1;
+      let visible = this.publications !== null && this.publications.length >= 1;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
+      return visible;
     }
   },
 

@@ -74,7 +74,9 @@ export default {
 
   computed: {
     isVisible() {
-      return this.service !== null;
+      let visible = this.service !== null;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });  
+      return visible;
     },
     applyTheme() {
       if (this.theme && this.theme.primaryColor) {

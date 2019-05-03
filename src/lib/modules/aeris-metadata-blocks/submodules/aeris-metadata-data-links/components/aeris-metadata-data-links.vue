@@ -80,6 +80,7 @@ export default {
   computed: {
     isVisible() {
       let visible = this.httpLinks.length > 0 || this.ftpLinks.length > 0 || this.orderLinks.length > 0;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });     
       return visible;
     }
   },

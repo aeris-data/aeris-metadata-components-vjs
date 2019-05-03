@@ -85,7 +85,9 @@ export default {
 
   computed: {
     isVisible() {
-      return this.years !== null && this.years.length > 0;
+      let visible = this.years !== null && this.years.length > 0;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
+      return visible;
     }
   },
 

@@ -57,7 +57,9 @@ export default {
 
   computed: {
     isVisible() {
-      return this.description !== null;
+      let visible = this.description !== null;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });   
+      return visible;
     }
   },
 

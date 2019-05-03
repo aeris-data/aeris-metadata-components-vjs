@@ -58,7 +58,9 @@ export default {
 
   computed: {
     isVisible() {
-      return this.temporalExtents !== null && this.temporalExtents.length > 0;
+      let visible = this.temporalExtents !== null && this.temporalExtents.length > 0;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
+      return visible;
     },
     getTemporalExtents() {
       let temporalExtents = [];

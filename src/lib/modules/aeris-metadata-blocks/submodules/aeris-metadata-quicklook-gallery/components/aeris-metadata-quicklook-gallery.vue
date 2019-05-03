@@ -43,11 +43,9 @@ export default {
 
   computed: {
     isVisible() {
-      if (this.quicklooks !== null && this.quicklooks.length > 0) {
-        return true;
-      } else {
-        return false;
-      }
+      let visible = this.quicklooks !== null && this.quicklooks.length > 0;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
+      return visible;
     }
   },
 

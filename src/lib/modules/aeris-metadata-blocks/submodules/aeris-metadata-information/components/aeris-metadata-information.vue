@@ -55,7 +55,9 @@ export default {
 
   computed: {
     isVisible() {
-      return Object.keys(this.items).length !== 0 ? true : false;
+      let visible = Object.keys(this.items).length !== 0 ? true : false;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
+      return visible;
     },
     localItems() {
       if (this.items.identifier === null) {

@@ -39,11 +39,9 @@ export default {
 
   computed: {
     isVisible() {
-      if (this.title && this.title !== null) {
-        return true;
-      } else {
-        return false;
-      }
+      let visible = this.title && this.title !== null;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });     
+      return visible;
     }
   },
 

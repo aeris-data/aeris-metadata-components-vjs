@@ -45,7 +45,9 @@ export default {
 
   computed: {
     isVisible() {
-      return this.formats !== null && this.formats.length > 0;
+      let visible = this.formats !== null && this.formats.length > 0;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
+      return visible;
     },
     getFormats() {
       let formats = [];

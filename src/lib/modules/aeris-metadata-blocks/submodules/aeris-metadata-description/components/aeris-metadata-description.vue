@@ -63,7 +63,9 @@ export default {
 
   computed: {
     isVisible() {
-      return this.getResourceAbstract ? true : false;
+      let visible = this.getResourceAbstract ? true : false;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
+      return visible;
     },
     getResourceAbstract() {
       let resourceAbstract = this.resourceAbstract;

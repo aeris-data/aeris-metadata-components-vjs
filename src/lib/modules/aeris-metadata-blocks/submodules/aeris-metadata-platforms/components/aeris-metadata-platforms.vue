@@ -50,7 +50,9 @@ export default {
 
   computed: {
     isVisible() {
-      return this.platforms !== null && this.platforms.length >= 1;
+      let visible = this.platforms !== null && this.platforms.length >= 1;
+      this.$emit("visibility", { name: this.$options.name, isVisible: visible });
+      return visible;
     }
   },
 
