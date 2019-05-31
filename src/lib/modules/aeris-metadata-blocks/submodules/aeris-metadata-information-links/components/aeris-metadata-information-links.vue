@@ -63,7 +63,6 @@ export default {
       this.$i18n.locale = value;
     },
     links(value) {
-      this.informationLinks = [];
       this.getLinks(value);
     }
   },
@@ -75,6 +74,7 @@ export default {
 
   methods: {
     getLinks(links) {
+      this.informationLinks = [];
       if (links && links.length > 0) {
         links.forEach(item => {
           if (item.type === "INFORMATION_LINK") {
