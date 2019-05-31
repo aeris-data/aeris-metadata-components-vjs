@@ -63,6 +63,7 @@ export default {
       this.$i18n.locale = value;
     },
     links(value) {
+      this.informationLinks = [];
       this.getLinks(value);
     }
   },
