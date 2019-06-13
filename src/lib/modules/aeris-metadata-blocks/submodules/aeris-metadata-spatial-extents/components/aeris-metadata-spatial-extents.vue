@@ -11,7 +11,10 @@
 
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" :theme="theme" icon="fas fa-globe">
-    <vl-map
+    <div id="mapMask" class="map-mask" />
+      <div id="map" class="map" tabindex="0" />
+      <div id="mapCoordinates" class="map-coordinates" />
+    <!-- <vl-map
       ref="map"
       :load-tiles-while-animating="true"
       :load-tiles-while-interacting="true"
@@ -63,13 +66,30 @@
           </vl-feature>
         </vl-source-vector>
       </vl-layer-vector>
-    </vl-map>
+    </vl-map> -->
   </aeris-metadata-layout>
 </template>
 
 <script>
 import { core as vlCore } from "vuelayers";
 import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
+
+const FADEIN_DURATION = 1000; //ms
+const DEFAULT_ZOOM = 2;
+
+import Feature from "ol/Feature";
+import * as Extent from "ol/extent.js";
+import Map from "ol/Map.js";
+import View from "ol/View.js";
+import Point from "ol/geom/Point";
+import Polygon from "ol/geom/Polygon";
+import XYZ from "ol/source/XYZ";
+import { transform, transformExtent } from "ol/proj";
+import { Draw } from "ol/interaction.js";
+import { createStringXY } from "ol/coordinate";
+import { defaults, MousePosition } from "ol/control.js";
+import { Tile, Vector as VectorLayer } from "ol/layer.js";
+import { Cluster, Vector as VectorSource } from "ol/source.js";
 
 export default {
   name: "aeris-metadata-spatial-extents",
@@ -90,6 +110,11 @@ export default {
     spatialExtents: {
       type: Array,
       default: null
+    },
+    url: {
+      type: String,
+      default:
+        "https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZnJhbmNvaXNhbmRyZSIsImEiOiJjaXVlMGE5b3QwMDBoMm9tZGQ1M2xubzVhIn0.FK8gRVJb4ADNnrO6cNlWUw"
     }
   },
 
@@ -121,9 +146,85 @@ export default {
   },
 
   mounted() {
-    this.$refs.view.$mountPromise.then(() => {
+    /*  this.$refs.view.$mountPromise.then(() => {
       return this.$refs.view.fit([-180, 70, 180, -70]);
+    }); */
+
+    if (this.map) {
+      return;
+    }
+
+    this.defaultCenter = transform([0, 0], "EPSG:4326", "EPSG:900913");
+    /* Map background */
+    let raster = new Tile({
+      source: new XYZ({
+        url: this.url
+      })
     });
+
+    if (this.hidemap) {
+      return;
+    }
+
+    /* Create map sources */
+    this.initialiseMainSource();
+    this.initialisePreviewSource();
+    this.map = new Map({
+      layers: [raster, this.vector, this.mainClusteredLayer],
+      target: this.$el.querySelector("#map"),
+      controls: defaults({
+        attribution: false
+      }),
+      view: new View({
+        center: this.defaultCenter,
+        zoom: DEFAULT_ZOOM,
+        maxZoom: 18,
+        minZoom: 0
+      })
+    });
+
+    let extent = transformExtent([-150, 70, 150, -50], "EPSG:4326", "EPSG:900913");
+    this.map.getView().fit(extent, this.map.getSize());
+
+    /* Add layers */
+    this.map.addLayer(this.previewLayer);
+    this.map.addLayer(this.previewClusteredLayer);
+
+    /* Hide map and fade in when loaded */
+    let mapViewport = this.$el.querySelector(".ol-viewport");
+    mapViewport.style.opacity = 0;
+
+    raster.getSource().on("tileloadend", () => {
+      let mapZoom = mapViewport.querySelector(".ol-zoom");
+      mapZoom.style.top = "auto";
+      mapZoom.style.bottom = "0.5em";
+
+      window.setTimeout(() => {
+        mapViewport.style.transition = FADEIN_DURATION / 1000 + "s";
+        mapViewport.style.opacity = 1;
+      }, 500);
+    //  this.handleAddSelectionEvent(this.coordinate);
+    });
+
+    //Ajout des coordonnees Lon/Lat du curseur en bas a droite
+    this.map.addControl(
+      new MousePosition({
+        projection: "EPSG:4326",
+        coordinateFormat: createStringXY(3),
+        className: "custom-mouse-position map-component",
+        target: document.getElementById("mapCoordinates"),
+        undefinedHTML: "&nbsp;"
+      })
+    );
+
+    this.draw = new Draw({
+      source: this.mainSource,
+      type: "LineString",
+      geometryFunction: this.drawGeometryFunction,
+      maxPoints: 2
+    });
+
+    this.draw.addEventListener("drawend", this.handleSelectionDrawEnd);
   },
 
   methods: {
@@ -207,6 +308,59 @@ export default {
         }
         return [style];
       };
+    },
+    initialiseMainSource() {
+      this.mainSource = new VectorSource({
+        wrapX: false,
+        noWrap: true
+      });
+
+      this.mainClusteredSource = new VectorSource({
+        wrapX: false,
+        noWrap: true
+      });
+
+      this.clusterMainClusteredSource = new Cluster({
+        distance: parseInt(30, 10),
+        source: this.mainClusteredSource
+      });
+
+      this.vector = new VectorLayer({
+        source: this.mainSource,
+        style: this.featuresStyle
+      });
+
+      this.mainClusteredLayer = new VectorLayer({
+        source: this.clusterMainClusteredSource,
+        style: this.featuresStyle
+      });
+    },
+
+    initialisePreviewSource() {
+      this.previewSource = new VectorSource({
+        wrapX: false,
+        noWrap: true
+      });
+
+      this.previewClusteredSource = new VectorSource({
+        wrapX: false,
+        noWrap: true
+      });
+
+      this.clusterPreviewClusteredSource = new Cluster({
+        distance: parseInt(30, 10),
+        source: this.previewClusteredSource
+      });
+
+      this.previewLayer = new VectorLayer({
+        source: this.previewSource,
+        style: this.featuresStyle
+      });
+
+      this.previewClusteredLayer = new VectorLayer({
+        source: this.clusterPreviewClusteredSource,
+        style: this.featuresStyle
+      });
     }
   }
 };
