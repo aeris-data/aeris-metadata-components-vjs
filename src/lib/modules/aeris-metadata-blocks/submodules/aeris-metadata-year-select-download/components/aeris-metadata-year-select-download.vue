@@ -18,9 +18,9 @@
 </i18n>
 
 <template>
-  <section v-show="isVisible" data-aeris-metadata-layout data-template="metadata-block">
+  <section v-show="isVisible" :style="applyTheme" data-aeris-metadata-layout data-template="metadata-block">
     <header>
-      <h3><i name="download" class="fas fa-download" />{{ $t("download") }}</h3>
+      <h3><i name="download" class="fas fa-download primaryTheme" />{{ $t("download") }}</h3>
     </header>
     <article aeris-year-download-metadata-layout>
       <div v-if="isL0" style="text-align:justify">
@@ -86,6 +86,15 @@ export default {
   computed: {
     isVisible() {
       return this.years !== null && this.years.length > 0;
+    },
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
+      } else {
+        return "";
+      }
     }
   },
 
@@ -299,7 +308,8 @@ export default {
 }
 
 [aeris-year-download-metadata-layout] .aeris-year.selected {
-  background: gainsboro;
+  background: var(--primaryColor);
+  color: #fff;
 }
 
 [aeris-year-download-metadata-layout] .loadingbar {
@@ -329,6 +339,10 @@ export default {
   margin-bottom: 2px;
   letter-spacing: 0.7px;
   cursor: pointer;
+}
+
+.primaryTheme {
+  color: var(--primaryColor);
 }
 
 header {
