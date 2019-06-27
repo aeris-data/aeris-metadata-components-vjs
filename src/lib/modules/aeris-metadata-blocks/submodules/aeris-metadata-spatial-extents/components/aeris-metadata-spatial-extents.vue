@@ -121,9 +121,11 @@ export default {
   },
 
   mounted() {
-    this.$refs.view.$mountPromise.then(() => {
-      return this.$refs.view.fit([-180, 70, 180, -70]);
-    });
+    if (this.$refs.view) {
+      this.$refs.view.$mountPromise.then(() => {
+        return this.$refs.view.fit([-180, 70, 180, -70]);
+      });
+    }
   },
 
   methods: {
