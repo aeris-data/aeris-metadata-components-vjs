@@ -46,6 +46,72 @@ export default {
             en: "English description",
             fr: "Description française."
           }
+        },
+        {
+          thesaurusConcat: "EARTH_OBSERVATION_SATELLITES.NASA_EARTH_SYSTEM_SCIENCE_PATHFINDER.CALIPSO",
+          thesaurusClass: {
+            code: "EARTH_OBSERVATION_SATELLITES",
+            name: {
+              en: "Earth Observation Satellites",
+              fr: "Satellites d'Observation"
+            },
+            thesaurusCode: {
+              code: "NASA_EARTH_SYSTEM_SCIENCE_PATHFINDER",
+              name: {
+                en: "NASA Earth System Science Pathfinder",
+                fr: "value"
+              },
+              thesaurusName: {
+                code: "CALIPSO",
+                name: {
+                  en: "CALIPSO",
+                  fr: "value"
+                },
+                longName: {
+                  en: "Cloud-Aerosol Lidar and Infrared Pathfinder Satellite Observations",
+                  fr: "value"
+                }
+              }
+            }
+          },
+          name: "Alpha",
+          description: {
+            en: "English description",
+            fr: "Description française."
+          }
+        },
+        {
+          thesaurusConcat: "EARTH_OBSERVATION_SATELLITES.NASA_EARTH_SYSTEM_SCIENCE_PATHFINDER.CALIPSO",
+          thesaurusClass: {
+            code: "EARTH_OBSERVATION_SATELLITES",
+            name: {
+              en: "Earth Observation Satellites",
+              fr: "Satellites d'Observation"
+            },
+            thesaurusCode: {
+              code: "NASA_EARTH_SYSTEM_SCIENCE_PATHFINDER",
+              name: {
+                en: "NASA Earth System Science Pathfinder",
+                fr: "value"
+              },
+              thesaurusName: {
+                code: "CALIPSO",
+                name: {
+                  en: "CALIPSO",
+                  fr: "value"
+                },
+                longName: {
+                  en: "Cloud-Aerosol Lidar and Infrared Pathfinder Satellite Observations",
+                  fr: "value"
+                }
+              }
+            }
+          },
+          name: "Sigma",
+          description: {
+            en: "English description",
+            fr: "Description française."
+          }
         }
       ],
       theme: {

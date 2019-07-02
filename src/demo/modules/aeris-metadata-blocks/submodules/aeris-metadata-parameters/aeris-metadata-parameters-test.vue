@@ -91,6 +91,47 @@ export default {
               }
             }
           }
+        },
+        {
+          shortName: "CO3",
+          longName: "alphamole_fraction_of_carbon_monoxide_in_air",
+          uom: "ppb",
+          comment: {
+            en: "Since 2001-12-01",
+            fr: "Depuis 2001-12-01"
+          },
+          type: "",
+          cfStandardName: "alphamole_fraction_of_carbon_monoxide_in_air",
+          thesaurusConcat: "ATMOSPHERIC_CHEMISTRY.CARBON_AND_HYDROCARBON_COMPOUNDS.CARBON_MONOXIDE.NULL",
+          thesaurusVariable: {
+            code: "ATMOSPHERIC_CHEMISTRY",
+            name: {
+              en: "Atmospheric chemistry",
+              fr: "Chimie atmosphérique"
+            },
+            thesaurusVariable: {
+              code: "CARBON_AND_HYDROCARBON_COMPOUNDS",
+              name: {
+                en: "Carbon and hydrocarbon compounds",
+                fr: "Composés carbonés"
+              },
+              thesaurusVariable: {
+                code: "CARBON_MONOXIDE",
+                name: {
+                  en: "Carbon monoxide",
+                  fr: ""
+                },
+                thesaurusVariable: {
+                  code: "NULL",
+                  name: {
+                    en: "",
+                    fr: ""
+                  },
+                  thesaurusVariable: null
+                }
+              }
+            }
+          }
         }
       ],
       theme: {
