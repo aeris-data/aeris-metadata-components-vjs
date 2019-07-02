@@ -57,11 +57,54 @@ export default {
   watch: {
     language(value) {
       this.$i18n.locale = value;
+    },
+    platforms: {
+      handler(newPlatforms, oldPlatforms) {
+        if (newPlatforms !== oldPlatforms) {
+          this.updatePlatforms();
+        }
+      },
+      deep: true
     }
   },
 
   created() {
     this.$i18n.locale = this.language;
+  },
+  methods: {
+    getClassName(platform, language) {
+      let className = "";
+      if (metadata.thesaurusClass.code != "" && metadata.thesaurusClass.code != "NULL") {
+        className =
+          language == "fr"
+            ? metadata.thesaurusClass.name.fr
+              ? metadata.thesaurusClass.name.fr
+              : metadata.thesaurusClass.name.en
+            : metadata.thesaurusClass.name.en;
+      }
+      return className;
+    },
+    updatePlatforms() {
+      var currentComponent = this;
+      function compare(platform1, platform2) {
+        let platform1Label = platform1.name
+          ? platform1.name
+          : currentComponent.getClassName(platform1, currentComponent.language);
+        let platform2Label = platform2.name
+          ? platform2.name
+          : currentComponent.getClassName(platform2, currentComponent.language);
+        if (platform1Label > platform2Label) {
+          return 1;
+        } else if (platform1Label < platform2Label) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }
+      if (this.platforms) {
+        this.platforms.sort(compare);
+      }
+    }
   }
 };
 </script>
