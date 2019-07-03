@@ -11,85 +11,33 @@
 
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" :theme="theme" icon="fas fa-globe">
+       <div ref="markersPopUp" :class="{ tooltip: activeTab }" :style="styleObject" >{{toolTipText}}</div>
     <div id="mapMask" class="map-mask" />
-      <div id="map" class="map" tabindex="0" />
+      <div ref="map" class="map" tabindex="0" />
       <div id="mapCoordinates" class="map-coordinates" />
-    <!-- <vl-map
-      ref="map"
-      :load-tiles-while-animating="true"
-      :load-tiles-while-interacting="true"
-      :controls="{ attribution: false, zoom: true }"
-      class="map"
-    >
-      <vl-view ref="view" :center="center" :zoom.sync="zoom" :rotation.sync="rotation"></vl-view>
-
-      <vl-layer-tile id="mapbox">
-        <vl-source-mapbox
-          map-id="mapbox.streets-satellite"
-          url="https://api.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={accessToken}"
-          attributions=""
-          access-token="pk.eyJ1IjoiZnJhbmNvaXNhbmRyZSIsImEiOiJjaXVlMGE5b3QwMDBoMm9tZGQ1M2xubzVhIn0.FK8gRVJb4ADNnrO6cNlWUw"
-        ></vl-source-mapbox>
-      </vl-layer-tile>
-
-      <vl-layer-vector v-if="onlyPoints">
-        <vl-source-cluster :distance="40">
-          <vl-source-vector>
-            <vl-feature
-              v-for="(extent, index) in spatialExtents"
-              :id="computeFeatureId(extent, index)"
-              :key="computeFeatureId(extent, index)"
-            >
-              <vl-geom-point
-                v-if="isPoint(extent)"
-                :coordinates="[extent.area.longitude, extent.area.latitude]"
-              ></vl-geom-point>
-            </vl-feature>
-          </vl-source-vector>
-
-          <vl-style-func :factory="clusterStyleFunc"></vl-style-func>
-        </vl-source-cluster>
-      </vl-layer-vector>
-
-      <vl-layer-vector v-if="onlyRectangles">
-        <vl-source-vector>
-          <vl-feature
-            v-for="(extent, index) in spatialExtents"
-            :id="computeFeatureId(extent, index)"
-            :key="computeFeatureId(extent, index)"
-          >
-            <vl-geom-polygon v-if="isRectangle(extent)" :coordinates="polygonCoords(extent)"></vl-geom-polygon>
-            <vl-style-box>
-              <vl-style-stroke :width="2" color="#9c2c04"></vl-style-stroke>
-              <vl-style-fill :color="[224, 64, 6, 0.3]"></vl-style-fill>
-            </vl-style-box>
-          </vl-feature>
-        </vl-source-vector>
-      </vl-layer-vector>
-    </vl-map> -->
+   
   </aeris-metadata-layout>
 </template>
 
 <script>
-import { core as vlCore } from "vuelayers";
 import AerisMetadataLayout from "../../../../aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
 
-const FADEIN_DURATION = 1000; //ms
-const DEFAULT_ZOOM = 2;
-
-import Feature from "ol/Feature";
-import * as Extent from "ol/extent.js";
+import Feature from "ol/Feature.js";
+import Polygon from "ol/geom/Polygon";
+import Select from "ol/interaction/Select.js";
+import Point from "ol/geom/Point.js";
 import Map from "ol/Map.js";
 import View from "ol/View.js";
-import Point from "ol/geom/Point";
-import Polygon from "ol/geom/Polygon";
+import Circle from "ol/geom/Circle.js";
 import XYZ from "ol/source/XYZ";
-import { transform, transformExtent } from "ol/proj";
-import { Draw } from "ol/interaction.js";
-import { createStringXY } from "ol/coordinate";
-import { defaults, MousePosition } from "ol/control.js";
-import { Tile, Vector as VectorLayer } from "ol/layer.js";
-import { Cluster, Vector as VectorSource } from "ol/source.js";
+import Style from "ol/style/Style";
+import Text from "ol/style/Text";
+import { click, pointerMove, altKeyOnly } from "ol/events/condition.js";
+import { transform } from "ol/proj";
+import { createEmpty, extend, isEmpty } from "ol/extent.js";
+import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer.js";
+import { Cluster, OSM, Vector as VectorSource } from "ol/source.js";
+import { Circle as CircleStyle, Fill, Stroke, RegularShape } from "ol/style.js";
 
 export default {
   name: "aeris-metadata-spatial-extents",
@@ -121,15 +69,36 @@ export default {
   data() {
     return {
       center: [0, 0],
-      zoom: 0,
-      rotation: 0
+      raster: null,
+      map: null,
+      layerArray: [],
+      pointLayer: null,
+      pointFeature: null,
+      pointSource: null,
+      pointStyle: null,
+      polygonLayer: null,
+      polygonSource: null,
+      polygonFeature: null,
+      polygonStyle: null,
+      selectPointerMove: null,
+      activeTab: null,
+      fontsize: 30,
+      rect: {
+        northLatitude: 83.0,
+        southLatitude: -44.0,
+        eastLongitude: 180.0,
+        westLongitude: -180.0
+      },
+      styleObject: {
+        top: 0,
+        left: 0,
+        display: "none"
+      },
+      toolTipText: ""
     };
   },
 
   computed: {
-    markerIcon() {
-      return "\uf041";
-    },
     isVisible() {
       return this.spatialExtents !== null && this.spatialExtents.length > 0;
     }
@@ -146,126 +115,32 @@ export default {
   },
 
   mounted() {
-    /*  this.$refs.view.$mountPromise.then(() => {
-      return this.$refs.view.fit([-180, 70, 180, -70]);
-    }); */
+    this.init();
+    this.styleInit();
 
-    if (this.map) {
-      return;
-    }
-
-    this.defaultCenter = transform([0, 0], "EPSG:4326", "EPSG:900913");
-    /* Map background */
-    let raster = new Tile({
-      source: new XYZ({
-        url: this.url
-      })
+    this.spatialExtents.forEach((element, index) => {
+      this.addPointFeature(element, index);
+      this.addPolygonFeature(element);
     });
 
-    if (this.hidemap) {
-      return;
-    }
-
-    /* Create map sources */
-    this.initialiseMainSource();
-    this.initialisePreviewSource();
+    this.layerInit();
     this.map = new Map({
-      layers: [raster, this.vector, this.mainClusteredLayer],
-      target: this.$el.querySelector("#map"),
-      controls: defaults({
-        attribution: false
-      }),
+      layers: this.layerArray,
+      target: this.$refs.map,
       view: new View({
-        center: this.defaultCenter,
-        zoom: DEFAULT_ZOOM,
-        maxZoom: 18,
-        minZoom: 0
+        center: this.center,
+        minZoom: 1,
+        maxZoom: 15
       })
     });
 
-    let extent = transformExtent([-150, 70, 150, -50], "EPSG:4326", "EPSG:900913");
-    this.map.getView().fit(extent, this.map.getSize());
-
-    /* Add layers */
-    this.map.addLayer(this.previewLayer);
-    this.map.addLayer(this.previewClusteredLayer);
-
-    /* Hide map and fade in when loaded */
-    let mapViewport = this.$el.querySelector(".ol-viewport");
-    mapViewport.style.opacity = 0;
-
-    raster.getSource().on("tileloadend", () => {
-      let mapZoom = mapViewport.querySelector(".ol-zoom");
-      mapZoom.style.top = "auto";
-      mapZoom.style.bottom = "0.5em";
-
-      window.setTimeout(() => {
-        mapViewport.style.transition = FADEIN_DURATION / 1000 + "s";
-        mapViewport.style.opacity = 1;
-      }, 500);
-    //  this.handleAddSelectionEvent(this.coordinate);
+    this.map.getView().fit(this.getSourceExtent().getExtent(), {
+      size: this.map.getSize()
     });
-
-    //Ajout des coordonnees Lon/Lat du curseur en bas a droite
-    this.map.addControl(
-      new MousePosition({
-        projection: "EPSG:4326",
-        coordinateFormat: createStringXY(3),
-        className: "custom-mouse-position map-component",
-        target: document.getElementById("mapCoordinates"),
-        undefinedHTML: "&nbsp;"
-      })
-    );
-
-    this.draw = new Draw({
-      source: this.mainSource,
-      type: "LineString",
-      geometryFunction: this.drawGeometryFunction,
-      maxPoints: 2
-    });
-
-    this.draw.addEventListener("drawend", this.handleSelectionDrawEnd);
+    this.interactionInit();
   },
 
   methods: {
-    polygonCoords(extent) {
-      let un = [extent.area.eastLongitude, extent.area.northLatitude];
-      let deux = [extent.area.eastLongitude, extent.area.southLatitude];
-      let trois = [extent.area.westLongitude, extent.area.southLatitude];
-      let quatre = [extent.area.westLongitude, extent.area.northLatitude];
-      return [[un, deux, trois, quatre, un]];
-    },
-
-    onlyPoints() {
-      for (let i = 0; i < this.spatialExtents.length; i++) {
-        if (this.isPoint(this.spatialExtents[i]) == false) {
-          return false;
-        }
-      }
-      return true;
-    },
-
-    onlyRectangles() {
-      for (let i = 0; i < this.spatialExtents.length; i++) {
-        if (this.isRectangle(this.spatialExtents[i]) == false) {
-          return false;
-        }
-      }
-      return true;
-    },
-
-    isPoint(extent) {
-      if (extent.area.type == "POINT_AREA") {
-        return true;
-      }
-    },
-
-    isRectangle(extent) {
-      if (extent.area.type == "RECTANGLE_AREA") {
-        return true;
-      }
-    },
-
     computeFeatureId(extent, id) {
       return (
         "Feature_" +
@@ -273,101 +148,230 @@ export default {
           .toString(36)
           .substring(7) +
         "_" +
-        extent.area.type +
+        extent +
         "_" +
         id
       );
     },
+    init() {
+      this.polygonSource = new VectorSource({ wrapX: false });
+      this.pointSource = new VectorSource({ wrapX: false });
+    },
+    layerInit() {
+      this.pointLayer = new VectorLayer({
+        source: new Cluster({
+          wrapX: false,
+          distance: 50,
+          source: this.pointSource,
+          minResolution: 2000,
+          maxResolution: 2000
+        }),
+        style: this.styleFunction
+      });
 
-    clusterStyleFunc() {
-      const cache = {};
+      this.polygonLayer = new VectorLayer({
+        source: this.polygonSource
+      });
 
-      return function __clusterStyleFunc(feature) {
-        const size = feature.get("features").length;
-        let style = cache[size];
+      this.raster = new TileLayer({
+        source: new XYZ({
+          url: this.url,
+          wrapX: true
+        }),
+        style: new Style({})
+      });
+      this.layerArray.push(this.raster, this.pointLayer, this.polygonLayer);
+    },
+    addPointFeature(element, index) {
+      if (element.area.type === "POINT_AREA") {
+        this.pointSource.addFeature(this.createPointFeature(element, index));
+      }
+    },
+    addPolygonFeature(element) {
+      if (element.area.type === "RECTANGLE_AREA") {
+        this.polygonSource.addFeature(this.createPolygonFeature(element));
+      }
+    },
+    getSourceExtent() {
+      if (!isEmpty(this.pointSource.getExtent())) {
+        return this.pointSource;
+      } else if (!isEmpty(this.polygonSource.getExtent())) {
+        return this.polygonSource;
+      }
+    },
+    styleInit() {
+      //style polygon
+      this.polygonStyle = new Style({
+        stroke: new Stroke({
+          color: "rgba(224, 64, 6,1)",
+          width: 2
+        }),
+        fill: new Fill({
+          color: "rgba(224, 64, 6,0.4)"
+        })
+      });
+      //style point
+      this.pointStyle = new Style({
+        text: new Text({
+          text: "\uf3c5",
+          font: `600 ${this.fontsize}px "Font Awesome 5 Free"`,
 
-        if (!style) {
-          if (size > 1) {
-            style = vlCore.styleHelper.style({
-              imageRadius: 10,
-              strokeColor: "#fff",
-              fillColor: "#E04006",
-              text: size.toString(),
-              textFillColor: "#fff",
-              textFont: "11px Arial"
-            });
-          } else {
-            style = vlCore.styleHelper.style({
-              strokeColor: "#fff",
-              fillColor: "#E04006",
-              textFont: "30px FontAwesome",
-              text: "\uf041"
-            });
-          }
-          cache[size] = style;
-        }
-        return [style];
+          offsetY: -(this.fontsize / 2) + 1,
+          fill: new Fill({
+            color: "#E04006"
+          }),
+          stroke: new Stroke({
+            color: "rgba(255, 255, 255, 1)",
+            width: 1
+          })
+        })
+      });
+    },
+    createPointFeature(element, index) {
+      let feature = new Feature({
+        geometry: new Point(
+          transform(
+            [element.area.longitude, element.area.latitude],
+            element.projection.split(" ").join(":"),
+            "EPSG:3857"
+          )
+        )
+      });
+      feature.attributes = {
+        name: element.name,
+        comment: element.comment,
+        description: element.description,
+        Country: element.additionalData.Country,
+        "IATA code": element.additionalData["IATA code"]
       };
+      feature.setId(this.computeFeatureId(element.area.type, index));
+      return feature;
     },
-    initialiseMainSource() {
-      this.mainSource = new VectorSource({
-        wrapX: false,
-        noWrap: true
+    createPolygonFeature(element) {
+      this.polygonFeature = new Feature({
+        geometry: new Polygon([
+          [
+            [element.area.westLongitude, element.area.southLatitude],
+            [element.area.westLongitude, element.area.northLatitude],
+            [element.area.eastLongitude, element.area.northLatitude],
+            [element.area.eastLongitude, element.area.southLatitude]
+          ]
+        ])
       });
 
-      this.mainClusteredSource = new VectorSource({
-        wrapX: false,
-        noWrap: true
+      this.polygonFeature.getGeometry().transform("EPSG:4326", "EPSG:3857");
+      this.polygonFeature.setStyle(this.polygonStyle);
+      this.polygonFeature.attributes = {
+        name: element.name
+      };
+      return this.polygonFeature;
+    },
+    interactionInit() {
+      this.selectPointerMove = new Select({
+        condition: pointerMove,
+        style: this.pointStyle,
+        filter: function(feature, layer) {
+          if (feature.getGeometry().getType() === "Point") {
+            if (feature.get("features").length === 1) return true;
+          }
+        }
       });
-
-      this.clusterMainClusteredSource = new Cluster({
-        distance: parseInt(30, 10),
-        source: this.mainClusteredSource
+      this.selectPointerMove.on("select", e => {
+        let markertooltip = this.$refs.markersPopUp;
+        let coord = e.mapBrowserEvent.originalEvent;
+        if (e.target.getFeatures().item(0)) {
+          let attribute = e.selected[0].values_.features[0].attributes;
+          this.activeTab = true;
+          this.styleObject.display = "inline";
+          this.styleObject.left = coord.pageX + "px";
+          this.styleObject.top = coord.pageY - 15 + "px";
+          markertooltip.innerHTML = `<ul style=" list-style: none; padding:0 5px">
+            <li>Country : ${attribute.Country}</li>
+            <li>${attribute.name}</li>
+        </ul>`;
+        } else {
+          this.activeTab = false;
+          this.styleObject.display = "none";
+        }
       });
-
-      this.vector = new VectorLayer({
-        source: this.mainSource,
-        style: this.featuresStyle
-      });
-
-      this.mainClusteredLayer = new VectorLayer({
-        source: this.clusterMainClusteredSource,
-        style: this.featuresStyle
-      });
+      this.map.addInteraction(this.selectPointerMove);
     },
 
-    initialisePreviewSource() {
-      this.previewSource = new VectorSource({
-        wrapX: false,
-        noWrap: true
-      });
+    styleFunction(feature, resolution) {
+      if (resolution != this.currentResolution) {
+        this.calculateClusterInfo(resolution);
+        this.currentResolution = resolution;
+      }
+      var style;
+      var size = feature.get("features").length;
+      if (size > 1) {
+        style = new Style({
+          image: new CircleStyle({
+            radius: feature.get("radius"),
+            fill: new Fill({
+              color: "#E04006"
+            }),
+            stroke: new Stroke({
+              color: "rgba(255, 255, 255, 1)",
+              width: 0.5
+            })
+          }),
+          text: new Text({
+            text: size.toString(),
+            font: "700 10px Arial",
+            fill: new Fill({
+              color: "#fff"
+            }),
+            stroke: new Stroke({
+              color: "rgba(128, 128, 128)",
+              width: 1
+            })
+          })
+        });
+      } else {
+        var originalFeature = feature.get("features")[0];
+        style = this.pointStyle;
+      }
+      return style;
+    },
+    calculateClusterInfo(resolution) {
+      var features = this.pointLayer.getSource().getFeatures();
+      var feature, radius;
+      for (var i = features.length - 1; i >= 0; --i) {
+        feature = features[i];
+        var originalFeatures = feature.get("features");
+        var extent = createEmpty();
+        var j = void 0,
+          jj = void 0;
+        for (j = 0, jj = originalFeatures.length; j < jj; ++j) {
+          extend(extent, originalFeatures[j].getGeometry().getExtent());
+        }
 
-      this.previewClusteredSource = new VectorSource({
-        wrapX: false,
-        noWrap: true
-      });
-
-      this.clusterPreviewClusteredSource = new Cluster({
-        distance: parseInt(30, 10),
-        source: this.previewClusteredSource
-      });
-
-      this.previewLayer = new VectorLayer({
-        source: this.previewSource,
-        style: this.featuresStyle
-      });
-
-      this.previewClusteredLayer = new VectorLayer({
-        source: this.clusterPreviewClusteredSource,
-        style: this.featuresStyle
-      });
+        radius = 14;
+        feature.set("radius", radius);
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.ol-attribution.ol-control {
+.tooltip {
   display: none;
+  background: #c8c8c8;
+  border: 2px solid #fff;
+  background-color: black;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 12px;
+  margin-left: 28px;
+  font-weight: bold;
+  position: absolute;
+  z-index: 1000;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
 }
 </style>
