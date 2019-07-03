@@ -58,26 +58,38 @@ export default {
   watch: {
     language(value) {
       this.$i18n.locale = value;
+    },
+    instruments: {
+      handler(newInstruments, oldInstruments) {
+        if (newInstruments !== oldInstruments) {
+          this.updateInstruments();
+        }
+      },
+      deep: true
     }
   },
 
   created() {
     this.$i18n.locale = this.language;
-
-    var currentComponent = this;
-    function compare(instrument1, instrument2) {
-      let instrument1Label = getTitle(instrument1, currentComponent.language);
-      let instrument2Label = getTitle(instrument2, currentComponent.language);
-      if (instrument1Label > instrument2Label) {
-        return 1;
-      } else if (instrument1Label < instrument2Label) {
-        return -1;
-      } else {
-        return 0;
+    this.updateInstruments();
+  },
+  methods: {
+    updateInstruments() {
+      var currentComponent = this;
+      function compare(instrument1, instrument2) {
+        let instrument1Label = getTitle(instrument1, currentComponent.language);
+        let instrument2Label = getTitle(instrument2, currentComponent.language);
+        if (instrument1Label > instrument2Label) {
+          return 1;
+        } else if (instrument1Label < instrument2Label) {
+          return -1;
+        } else {
+          return 0;
+        }
       }
-    }
-    if (this.instruments) {
-      this.instruments.sort(compare);
+      if (this.instruments) {
+        this.instruments.sort(compare);
+      }
     }
   }
 };
