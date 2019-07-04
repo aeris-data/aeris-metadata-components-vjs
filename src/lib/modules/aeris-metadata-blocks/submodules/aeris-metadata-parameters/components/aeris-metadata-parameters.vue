@@ -68,21 +68,23 @@ export default {
     this.$i18n.locale = this.language;
   },
 
-  updateParameters() {
-    var currentComponent = this;
-    function compare(parameter1, parameter2) {
-      let parameter1Label = getTitle(parameter1, currentComponent.language);
-      let parameter2Label = getTitle(parameter2, currentComponent.language);
-      if (parameter1Label > parameter2Label) {
-        return 1;
-      } else if (parameter1Label < parameter2Label) {
-        return -1;
-      } else {
-        return 0;
+  methods: {
+    updateParameters() {
+      var currentComponent = this;
+      function compare(parameter1, parameter2) {
+        let parameter1Label = getTitle(parameter1, currentComponent.language);
+        let parameter2Label = getTitle(parameter2, currentComponent.language);
+        if (parameter1Label > parameter2Label) {
+          return 1;
+        } else if (parameter1Label < parameter2Label) {
+          return -1;
+        } else {
+          return 0;
+        }
       }
-    }
-    if (this.parameters) {
-      this.parameters.sort(compare);
+      if (this.parameters) {
+        this.parameters.sort(compare);
+      }
     }
   }
 };
