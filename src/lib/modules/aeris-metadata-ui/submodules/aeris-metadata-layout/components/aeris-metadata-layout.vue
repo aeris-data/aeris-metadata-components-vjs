@@ -57,7 +57,6 @@ export default {
   font-weight: 400;
   color: #555;
   font-family: Arial, sans-serif;
-  font-size: 1rem;
   line-height: 1.7;
 }
 
