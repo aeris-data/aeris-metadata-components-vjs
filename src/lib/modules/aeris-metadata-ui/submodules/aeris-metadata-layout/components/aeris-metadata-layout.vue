@@ -43,7 +43,6 @@ export default {
   display: flex;
   flex-direction: column;
   border: none;
-  padding: 24px;
 }
 
 .data-aeris-metadata-layout header h5,
