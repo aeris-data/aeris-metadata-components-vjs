@@ -69,7 +69,7 @@ export default {
 .metadata-contact-container .metadata-contact-name {
   margin: 0;
 }
-.metadata-contact-container .metadata-contact-name .fa {
+.metadata-contact-container .metadata-contact-name .fas {
   display: inline-block;
   margin-right: 5px;
   width: 1em;

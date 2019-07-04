@@ -1,8 +1,7 @@
 <template>
   <div :style="applyTheme" class="data-aeris-metadata-layout" data-template="metadata-block">
     <header v-if="showTitle">
-      <h3><i :class="icon" /> {{ title }}</h3>
-      <div class="aeris-icon-group" />
+      <h3>{{ title }}</h3>
     </header>
     <section :class="{ main: showTitle }"><slot /></section>
   </div>
@@ -14,10 +13,6 @@ export default {
 
   props: {
     title: {
-      type: String,
-      required: true
-    },
-    icon: {
       type: String,
       required: true
     },
@@ -51,20 +46,19 @@ export default {
   padding: 24px;
 }
 
-.data-aeris-metadata-layout header h3 i,
 .data-aeris-metadata-layout header h5,
 .data-aeris-metadata-layout header h6 {
   color: var(--primaryColor);
 }
 
 .data-aeris-metadata-layout header h3 {
-  font-size: 1.5rem;
-  font-weight: 300;
-  margin: 0;
-}
-
-.data-aeris-metadata-layout header i {
-  margin-right: 12px;
+  border-bottom: 1px solid #CCC;
+  margin: 10px 0;
+  font-weight: 400;
+  color: #555;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 .data-aeris-metadata-layout .main {
