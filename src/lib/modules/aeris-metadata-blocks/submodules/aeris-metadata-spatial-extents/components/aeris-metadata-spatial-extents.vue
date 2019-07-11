@@ -38,7 +38,7 @@ import { createEmpty, extend, isEmpty } from "ol/extent.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer.js";
 import { Cluster, OSM, Vector as VectorSource } from "ol/source.js";
 import { Circle as CircleStyle, Fill, Stroke, RegularShape } from "ol/style.js";
-
+import _ from "lodash";
 export default {
   name: "aeris-metadata-spatial-extents",
 
@@ -115,29 +115,31 @@ export default {
   },
 
   mounted() {
-    this.init();
-    this.styleInit();
+    if (this.isVisible) {
+      this.init();
+      this.styleInit();
 
-    this.spatialExtents.forEach((element, index) => {
-      this.addPointFeature(element, index);
-      this.addPolygonFeature(element);
-    });
+      this.spatialExtents.forEach((element, index) => {
+        this.addPointFeature(element, index);
+        this.addPolygonFeature(element);
+      });
 
-    this.layerInit();
-    this.map = new Map({
-      layers: this.layerArray,
-      target: this.$refs.map,
-      view: new View({
-        center: this.center,
-        minZoom: 1,
-        maxZoom: 15
-      })
-    });
+      this.layerInit();
+      this.map = new Map({
+        layers: this.layerArray,
+        target: this.$refs.map,
+        view: new View({
+          center: this.center,
+          minZoom: 1,
+          maxZoom: 15
+        })
+      });
 
-    this.map.getView().fit(this.getSourceExtent().getExtent(), {
-      size: this.map.getSize()
-    });
-    this.interactionInit();
+      this.map.getView().fit(this.getSourceExtent().getExtent(), {
+        size: this.map.getSize()
+      });
+      this.interactionInit();
+    }
   },
 
   methods: {
@@ -232,17 +234,18 @@ export default {
         geometry: new Point(
           transform(
             [element.area.longitude, element.area.latitude],
-            element.projection.split(" ").join(":"),
+            element.hasOwnProperty("projection") ? element.projection.split(" ").join(":") : "EPSG:4326",
             "EPSG:3857"
           )
         )
       });
+
       feature.attributes = {
-        name: element.name,
-        comment: element.comment,
-        description: element.description,
-        Country: element.additionalData.Country,
-        "IATA code": element.additionalData["IATA code"]
+        name: _.get(element, "name") ? element.name : "",
+        comment: _.get(element, "comment") ? element.comment : "",
+        description: _.get(element, "description") ? element.description : "",
+        Country: _.get(element, "additionalData.Country") ? element.additionalData.Country : "",
+        "IATA code": _.get(element, 'element.additionalData."IATA code"') ? element.additionalData["IATA code"] : ""
       };
       feature.setId(this.computeFeatureId(element.area.type, index));
       return feature;
@@ -279,7 +282,11 @@ export default {
       this.selectPointerMove.on("select", e => {
         let markertooltip = this.$refs.markersPopUp;
         let coord = e.mapBrowserEvent.originalEvent;
-        if (e.target.getFeatures().item(0)) {
+        if (
+          e.target.getFeatures().item(0) &&
+          e.selected[0].values_.features[0].attributes.name &&
+          e.selected[0].values_.features[0].attributes.Country
+        ) {
           let attribute = e.selected[0].values_.features[0].attributes;
           this.activeTab = true;
           this.styleObject.display = "inline";

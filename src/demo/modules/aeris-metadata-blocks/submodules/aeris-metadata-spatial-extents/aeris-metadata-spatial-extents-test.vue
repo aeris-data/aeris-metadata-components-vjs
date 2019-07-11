@@ -1,13 +1,13 @@
 <template>
 <div>
-   <section class="map">
-    <aeris-metadata-spatial-extents :spatial-extents="spatialExtentsPoint" :theme="theme"></aeris-metadata-spatial-extents>
-  </section> 
   <section class="map" >
     <aeris-metadata-spatial-extents :spatial-extents="spatialExtents" :theme="theme"></aeris-metadata-spatial-extents>
   </section> 
    <section class="map">
     <aeris-metadata-spatial-extents :spatial-extents="spatialExtentsRect" :theme="theme"></aeris-metadata-spatial-extents>
+  </section> 
+   <section class="map">
+    <aeris-metadata-spatial-extents :spatial-extents="spatialExtentsPoint" :theme="theme"></aeris-metadata-spatial-extents>
   </section> 
   </div>
 </template>
