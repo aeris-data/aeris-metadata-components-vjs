@@ -116,7 +116,6 @@ export default {
     if (this.isVisible) {
       this.init();
       this.styleInit();
-
       this.spatialExtents.forEach((element, index) => {
         this.addPointFeature(element, index);
         this.addPolygonFeature(element);

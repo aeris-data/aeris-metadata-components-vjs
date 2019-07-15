@@ -137,83 +137,82 @@ export default {
 
   methods: {
     labelHandle(parameter) {
-      let metadata = parameter;
-      if (metadata.thesaurusVariable) {
+      if (parameter & parameter.thesaurusVariable) {
         if (
-          metadata.thesaurusVariable &&
-          metadata.thesaurusVariable.code != "" &&
-          metadata.thesaurusVariable.code != "NULL"
+          parameter.thesaurusVariable &&
+          parameter.thesaurusVariable.code != "" &&
+          parameter.thesaurusVariable.code != "NULL"
         ) {
           this.TermName =
             this.language == "fr"
-              ? metadata.thesaurusVariable.name.fr
-                ? metadata.thesaurusVariable.name.fr
-                : metadata.thesaurusVariable.name.en
-              : metadata.thesaurusVariable.name.en;
+              ? parameter.thesaurusVariable.name.fr
+                ? parameter.thesaurusVariable.name.fr
+                : parameter.thesaurusVariable.name.en
+              : parameter.thesaurusVariable.name.en;
         }
         if (
-          metadata.thesaurusVariable.thesaurusVariable &&
-          metadata.thesaurusVariable.thesaurusVariable.code != "" &&
-          metadata.thesaurusVariable.thesaurusVariable.code != "NULL"
+          parameter.thesaurusVariable.thesaurusVariable &&
+          parameter.thesaurusVariable.thesaurusVariable.code != "" &&
+          parameter.thesaurusVariable.thesaurusVariable.code != "NULL"
         ) {
           this.Variable1Name =
             this.language == "fr"
-              ? metadata.thesaurusVariable.thesaurusVariable.name.fr
-                ? metadata.thesaurusVariable.thesaurusVariable.name.fr
-                : metadata.thesaurusVariable.thesaurusVariable.name.en
-              : metadata.thesaurusVariable.thesaurusVariable.name.en;
+              ? parameter.thesaurusVariable.thesaurusVariable.name.fr
+                ? parameter.thesaurusVariable.thesaurusVariable.name.fr
+                : parameter.thesaurusVariable.thesaurusVariable.name.en
+              : parameter.thesaurusVariable.thesaurusVariable.name.en;
         }
         if (
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable &&
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "" &&
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "NULL"
+          parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable &&
+          parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "" &&
+          parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "NULL"
         ) {
           if (this.Variable1Name == "") {
             this.Variable1Name =
               this.language == "fr"
-                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
-                  ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
-                  : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
-                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
+                ? parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  ? parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  : parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
+                : parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
           } else {
             this.Variable2Name =
               this.language == "fr"
-                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
-                  ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
-                  : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
-                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
+                ? parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  ? parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  : parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
+                : parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
           }
         }
         if (
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable &&
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "" &&
-          metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "NULL"
+          parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable &&
+          parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "" &&
+          parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.code != "NULL"
         ) {
           if (this.Variable2Name == "") {
             this.Variable2Name =
               this.language == "fr"
-                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
-                  ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
-                  : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
-                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
+                ? parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  ? parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  : parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
+                : parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
           } else {
             this.Variable3Name =
               this.language == "fr"
-                ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
-                  ? metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
-                  : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
-                : metadata.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
+                ? parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  ? parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.fr
+                  : parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en
+                : parameter.thesaurusVariable.thesaurusVariable.thesaurusVariable.thesaurusVariable.name.en;
           }
         }
       }
 
-      this.title = metadata.longName
-        ? metadata.longName
-        : metadata.shortName
-        ? metadata.shortName
-        : metadata.cfStandardName
-        ? metadata.cfStandardName
-        : metadata.thesaurusVariable
+      this.title = parameter.longName
+        ? parameter.longName
+        : parameter.shortName
+        ? parameter.shortName
+        : parameter.cfStandardName
+        ? parameter.cfStandardName
+        : parameter.thesaurusVariable
         ? this.TermName
         : "ND";
     }

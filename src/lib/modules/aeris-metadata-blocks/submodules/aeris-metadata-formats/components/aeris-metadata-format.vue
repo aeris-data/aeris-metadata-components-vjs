@@ -118,7 +118,6 @@ export default {
 <style scoped>
 .aeris-metadata-format-host {
   display: block;
-  margin: 10px 0;
   transition: 0.6s;
 }
 
@@ -135,7 +134,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   flex-flow: nowrap row;
-  padding: 10px;
 }
 
 .metadata-format-container header .format-name {
