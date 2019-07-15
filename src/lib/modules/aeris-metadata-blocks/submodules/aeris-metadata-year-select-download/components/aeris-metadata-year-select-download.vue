@@ -4,33 +4,28 @@
   	"download": "Download",
   	"explicationText": "To download the data files, add them to your downloads by clicking on each year.",
   	"year": "year",
-  	"loading": "Loading...",
     "l0instructions": "Only level-2 files can be downloaded directly. If you are interested in getting level-0 data, please contact the investigators"
   },
   "fr": {
   	"download": "Téléchargement",
   	"explicationText": "Pour télécharger les fichiers de données, ajoutez-les à vos téléchargements en cliquant sur les différentes années.",
   	"year": "ann.",
-  	"loading": "Chargement...",
   	"l0instructions": "Seuls les fichiers de niveau 2 peuvent être téléchargés directement. Si vous êtes intéressés par les fichier de niveau 0, contactez les responsables."
   }
 }
 </i18n>
 
 <template>
-  <section v-show="isVisible" data-aeris-metadata-layout data-template="metadata-block">
+  <section v-show="isVisible" :style="applyTheme" aeris-year-download-metadata-layout data-template="metadata-block">
     <header>
-      <h3><i name="download" class="fas fa-download" />{{ $t("download") }}</h3>
+      <h3><i name="download" class="fas fa-download primaryTheme" />{{ $t("download") }}</h3>
     </header>
-    <article aeris-year-download-metadata-layout>
+    <article>
       <div v-if="isL0" style="text-align:justify">
         <span class="explication">{{ $t("l0instructions") }}</span>
       </div>
       <div v-else style="text-align:justify">
         <span class="explication">{{ $t("explicationText") }}</span>
-        <div v-if="loading" class="loadingbar">
-          <i class="fa fa-circle-o-notch fa-spin fa-fw" /> <span>{{ $t("loading") }}</span>
-        </div>
         <div v-show="years" class="year-container">
           <div
             v-for="item in years"
@@ -49,7 +44,6 @@
 </template>
 
 <script>
-import moment from "moment";
 export default {
   name: "aeris-metadata-year-select-download",
 
@@ -66,19 +60,17 @@ export default {
       type: Object,
       default: null
     },
-    selectedItemCart: {
-      type: Object,
-      default: null
+    years: {
+      type: Array,
+      default: () => []
     }
   },
 
   data() {
     return {
-      years: [],
       service: null,
       identifier: null,
       collectionName: null,
-      loading: false,
       isL0: false
     };
   },
@@ -86,6 +78,15 @@ export default {
   computed: {
     isVisible() {
       return this.years !== null && this.years.length > 0;
+    },
+    applyTheme() {
+      if (this.theme && this.theme.primaryColor) {
+        return {
+          "--primaryColor": this.theme.primaryColor
+        };
+      } else {
+        return "";
+      }
     }
   },
 
@@ -98,16 +99,6 @@ export default {
     },
     metadata(metadata) {
       this.updateMetadataDownload(metadata);
-    },
-    years(years, oldYears) {
-      if (years !== oldYears && this.selectedItemCart) {
-        this.updateItemSelectedState(this.selectedItemCart);
-      }
-    },
-    selectedItemCart(selectedItemCart, oldSelectedItemCart) {
-      if (selectedItemCart !== oldSelectedItemCart) {
-        this.updateItemSelectedState(selectedItemCart);
-      }
     }
   },
 
@@ -119,10 +110,9 @@ export default {
 
   methods: {
     toggleYear(item) {
-      let url_download_service = this.service;
       let cartItem = {
         collectionName: this.collectionName,
-        url: url_download_service,
+        url: this.service,
         identifier: this.identifier,
         data: "",
         fileNumber: item.fileNumber,
@@ -138,39 +128,6 @@ export default {
         this.$emit("addItemCart", cartItem);
       } else {
         this.$emit("removeItemCart", cartItem);
-      }
-    },
-
-    selectYear(year) {
-      if (this.years) {
-        for (let i = 0; i < this.years.length; i++) {
-          if (this.years[i].year == year) {
-            let year = this.years[i];
-            year.selected = true;
-            this.$set(this.years, i, year);
-            break;
-          }
-        }
-      }
-    },
-
-    deselectAll() {
-      if (this.years) {
-        for (let i = 0; i < this.years.length; i++) {
-          let year = this.years[i];
-          year.selected = false;
-          this.$set(this.years, i, year);
-        }
-      }
-    },
-
-    updateItemSelectedState(selectedItemCart) {
-      this.deselectAll();
-      if (selectedItemCart && selectedItemCart.identifier === this.identifier) {
-        let years = selectedItemCart.items.elements;
-        for (let j = 0; j < years.length; j++) {
-          this.selectYear(years[j]);
-        }
       }
     },
 
@@ -195,76 +152,7 @@ export default {
             break;
           }
         }
-
-        if (this.service && this.identifier) {
-          let cached = this.getFromCache(this.getYearCacheKey());
-          if (cached) {
-            this.years = cached;
-            if (this.years.length > 0) {
-              this.visible = true;
-            }
-          } else {
-            let url = null;
-            if (this.service.endsWith("/")) {
-              this.service = this.service.substring(0, this.service.length - 1);
-            }
-            url = this.service + "/request?collection=" + this.identifier;
-            this.loading = true;
-            this.$http
-              .get(url)
-              .then(response => {
-                this.handleSuccess(response);
-              })
-              .catch(() => {
-                this.handleError();
-              });
-          }
-        }
       }
-    },
-
-    handleSuccess(response) {
-      let entries = response.data.entries;
-      this.loading = false;
-      this.years = [];
-      if (entries) {
-        for (let i = 0; i < entries.length; i++) {
-          let date = moment(entries[i].date);
-          let item = {};
-          item.year = date.year();
-          item.selected = false;
-          item.totalSize = entries[i].totalSize;
-          item.fileNumber = entries[i].fileNumber;
-          this.years.push(item);
-        }
-        this.addToCache(this.getYearCacheKey(), this.years);
-      }
-      if (entries.length > 0) {
-        this.visible = true;
-      }
-    },
-
-    getYearCacheKey() {
-      return this.identifier + "-years";
-    },
-
-    getFromCache(key) {
-      if (this.$store && this.$store.getters.getYearListCache) {
-        return this.$store.getters.getYearListCache[key];
-      } else {
-        return null;
-      }
-    },
-
-    addToCache(key, value) {
-      if (this.$store && this.$store.getters.getYearListCache) {
-        this.$store.commit("setYearListCache", { key, value });
-      }
-    },
-
-    handleError() {
-      this.loading = false;
-      this.years = [];
     },
 
     ensureTheme(theme) {
@@ -281,7 +169,6 @@ export default {
   flex-direction: column;
   border: none;
   background: #fafafa;
-  padding: 10px;
 }
 
 [aeris-year-download-metadata-layout] p {
@@ -299,7 +186,8 @@ export default {
 }
 
 [aeris-year-download-metadata-layout] .aeris-year.selected {
-  background: gainsboro;
+  background: var(--primaryColor);
+  color: #fff;
 }
 
 [aeris-year-download-metadata-layout] .loadingbar {
@@ -331,12 +219,16 @@ export default {
   cursor: pointer;
 }
 
+.primaryTheme {
+  color: var(--primaryColor);
+}
+
 header {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 0;
+  padding: 20px 0;
   backface-visibility: hidden;
 }
 
