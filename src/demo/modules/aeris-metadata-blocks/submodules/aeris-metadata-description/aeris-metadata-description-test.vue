@@ -1,5 +1,7 @@
 <template>
-  <section><aeris-metadata-description :resource-abstract="resourceAbstract" :theme="theme"></aeris-metadata-description></section>
+  <section>
+    <aeris-metadata-description :resource-abstract="resourceAbstract" :theme="theme"></aeris-metadata-description>
+  </section>
 </template>
 
 <script>

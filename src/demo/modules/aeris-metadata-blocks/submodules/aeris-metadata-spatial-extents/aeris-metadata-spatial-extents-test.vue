@@ -1,7 +1,21 @@
 <template>
-  <section>
-    <aeris-metadata-spatial-extents :spatial-extents="spatialExtents" :theme="theme"></aeris-metadata-spatial-extents>
-  </section>
+  <div>
+    <section class="map">
+      <aeris-metadata-spatial-extents :spatial-extents="spatialExtents" :theme="theme"></aeris-metadata-spatial-extents>
+    </section>
+    <section class="map">
+      <aeris-metadata-spatial-extents
+        :spatial-extents="spatialExtentsRect"
+        :theme="theme"
+      ></aeris-metadata-spatial-extents>
+    </section>
+    <section class="map">
+      <aeris-metadata-spatial-extents
+        :spatial-extents="spatialExtentsPoint"
+        :theme="theme"
+      ></aeris-metadata-spatial-extents>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -11,6 +25,44 @@ export default {
   components: { AerisMetadataSpatialExtents },
   data() {
     return {
+      spatialExtentsRect: [
+        {
+          area: {
+            type: "RECTANGLE_AREA",
+            northLatitude: -17.0,
+            southLatitude: -56.0,
+            eastLongitude: -65.0,
+            westLongitude: -77.0
+          },
+          name: "Chile",
+          description: "",
+          additionalData: null,
+          comment: "",
+          projection: "EPSG 4326",
+          spatialRepresentation: null,
+          orbit: null
+        }
+      ],
+      spatialExtentsPoint: [
+        {
+          area: {
+            type: "POINT_AREA",
+            latitude: 30.3711109161377,
+            longitude: 48.2283325195312,
+            altitude: null
+          },
+          name: "Airport: Abadan",
+          description: "",
+          additionalData: {
+            Country: "Iran",
+            "IATA code": "ABD"
+          },
+          comment: "",
+          projection: "EPSG 4326",
+          spatialRepresentation: null,
+          orbit: null
+        }
+      ],
       spatialExtents: [
         {
           area: {
@@ -5881,6 +5933,7 @@ export default {
           orbit: null
         }
       ],
+
       theme: {
         primaryColor: "#0b6bb3",
         secondaryColor: "#f39c12"
@@ -5890,4 +5943,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.map {
+  width: 600px;
+  height: 400px;
+  margin: 30px auto;
+}
+data-template[metadata-block] {
+  background-color: rebeccapurple;
+}
+</style>

@@ -1,6 +1,8 @@
 <template>
-  <section><aeris-metadata-instruments :instruments="instruments" :theme="theme"></aeris-metadata-instruments>
-    <aeris-metadata-instruments :instruments="instruments" :theme="theme" language="fr"></aeris-metadata-instruments></section>
+  <section>
+    <aeris-metadata-instruments :instruments="instruments" :theme="theme"></aeris-metadata-instruments>
+    <aeris-metadata-instruments :instruments="instruments" :theme="theme" language="fr"></aeris-metadata-instruments>
+  </section>
 </template>
 
 <script>
