@@ -105,6 +105,9 @@ export default {
   watch: {
     language(value) {
       this.$i18n.locale = value;
+    },
+    spatialExtents() {
+      this.createMap();
     }
   },
 
@@ -113,34 +116,37 @@ export default {
   },
 
   mounted() {
-    if (this.isVisible) {
-      this.init();
-      this.styleInit();
-
-      this.spatialExtents.forEach((element, index) => {
-        this.addPointFeature(element, index);
-        this.addPolygonFeature(element);
-      });
-
-      this.layerInit();
-      this.map = new Map({
-        layers: this.layerArray,
-        target: this.$refs.map,
-        view: new View({
-          center: this.center,
-          minZoom: 1,
-          maxZoom: 15
-        })
-      });
-
-      this.map.getView().fit(this.getSourceExtent().getExtent(), {
-        size: this.map.getSize()
-      });
-      this.interactionInit();
-    }
+    this.createMap();
   },
 
   methods: {
+    createMap() {
+      if (this.isVisible) {
+        this.init();
+        this.styleInit();
+
+        this.spatialExtents.forEach((element, index) => {
+          this.addPointFeature(element, index);
+          this.addPolygonFeature(element);
+        });
+
+        this.layerInit();
+        this.map = new Map({
+          layers: this.layerArray,
+          target: this.$refs.map,
+          view: new View({
+            center: this.center,
+            minZoom: 1,
+            maxZoom: 15
+          })
+        });
+
+        this.map.getView().fit(this.getSourceExtent().getExtent(), {
+          size: this.map.getSize()
+        });
+        this.interactionInit();
+      }
+    },
     computeFeatureId(extent, id) {
       return (
         "Feature_" +
