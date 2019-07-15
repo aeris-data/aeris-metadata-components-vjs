@@ -185,12 +185,12 @@ export default {
       this.layerArray.push(this.raster, this.pointLayer, this.polygonLayer);
     },
     addPointFeature(element, index) {
-      if (element.area.type === "POINT_AREA") {
+      if (element.area.type === "POINT_AREA" && this.isPoint(element)) {
         this.pointSource.addFeature(this.createPointFeature(element, index));
       }
     },
     addPolygonFeature(element) {
-      if (element.area.type === "RECTANGLE_AREA") {
+      if (element.area.type === "RECTANGLE_AREA" && this.isRectangle(element)) {
         this.polygonSource.addFeature(this.createPolygonFeature(element));
       }
     },
@@ -229,6 +229,7 @@ export default {
         })
       });
     },
+
     createPointFeature(element, index) {
       let feature = new Feature({
         geometry: new Point(
@@ -268,6 +269,18 @@ export default {
         name: element.name
       };
       return this.polygonFeature;
+    },
+
+    isPoint(element) {
+      return element.area.longitude && element.area.latitude;
+    },
+    isRectangle(element) {
+      return (
+        element.area.westLongitude &&
+        element.area.southLatitude &&
+        element.area.northLatitude &&
+        element.area.eastLongitude
+      );
     },
     interactionInit() {
       this.selectPointerMove = new Select({
