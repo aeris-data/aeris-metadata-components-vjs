@@ -1,6 +1,9 @@
 <template>
   <section>
-    <aeris-metadata-datapolicy :distribution-information="distributionInformation" :theme="theme"></aeris-metadata-datapolicy>
+    <aeris-metadata-datapolicy
+      :distribution-information="distributionInformation"
+      :theme="theme"
+    ></aeris-metadata-datapolicy>
   </section>
 </template>
 

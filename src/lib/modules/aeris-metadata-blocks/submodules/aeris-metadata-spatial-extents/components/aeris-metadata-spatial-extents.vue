@@ -11,11 +11,10 @@
 
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" :theme="theme" icon="fas fa-globe">
-       <div ref="markersPopUp" :class="{ tooltip: activeTab }" :style="styleObject" >{{toolTipText}}</div>
+    <div ref="markersPopUp" :class="{ tooltip: activeTab }" :style="styleObject">{{ toolTipText }}</div>
     <div id="mapMask" class="map-mask" />
-      <div ref="map" class="map" tabindex="0" />
-      <div id="mapCoordinates" class="map-coordinates" />
-   
+    <div ref="map" class="map" tabindex="0" />
+    <div id="mapCoordinates" class="map-coordinates" />
   </aeris-metadata-layout>
 </template>
 
@@ -28,16 +27,15 @@ import Select from "ol/interaction/Select.js";
 import Point from "ol/geom/Point.js";
 import Map from "ol/Map.js";
 import View from "ol/View.js";
-import Circle from "ol/geom/Circle.js";
 import XYZ from "ol/source/XYZ";
 import Style from "ol/style/Style";
 import Text from "ol/style/Text";
-import { click, pointerMove, altKeyOnly } from "ol/events/condition.js";
+import { pointerMove } from "ol/events/condition.js";
 import { transform } from "ol/proj";
-import { createEmpty, extend, isEmpty } from "ol/extent.js";
+import { isEmpty } from "ol/extent.js";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer.js";
-import { Cluster, OSM, Vector as VectorSource } from "ol/source.js";
-import { Circle as CircleStyle, Fill, Stroke, RegularShape } from "ol/style.js";
+import { Cluster, Vector as VectorSource } from "ol/source.js";
+import { Circle as CircleStyle, Fill, Stroke } from "ol/style.js";
 import _ from "lodash";
 export default {
   name: "aeris-metadata-spatial-extents",
@@ -286,7 +284,7 @@ export default {
       this.selectPointerMove = new Select({
         condition: pointerMove,
         style: this.pointStyle,
-        filter: function(feature, layer) {
+        filter: function(feature) {
           if (feature.getGeometry().getType() === "Point") {
             if (feature.get("features").length === 1) return true;
           }
@@ -322,8 +320,8 @@ export default {
         this.calculateClusterInfo(resolution);
         this.currentResolution = resolution;
       }
-      var style;
-      var size = feature.get("features").length;
+      let style;
+      let size = feature.get("features").length;
       if (size > 1) {
         style = new Style({
           image: new CircleStyle({
@@ -349,24 +347,15 @@ export default {
           })
         });
       } else {
-        var originalFeature = feature.get("features")[0];
         style = this.pointStyle;
       }
       return style;
     },
-    calculateClusterInfo(resolution) {
-      var features = this.pointLayer.getSource().getFeatures();
-      var feature, radius;
-      for (var i = features.length - 1; i >= 0; --i) {
+    calculateClusterInfo() {
+      let features = this.pointLayer.getSource().getFeatures();
+      let feature, radius;
+      for (let i = features.length - 1; i >= 0; --i) {
         feature = features[i];
-        var originalFeatures = feature.get("features");
-        var extent = createEmpty();
-        var j = void 0,
-          jj = void 0;
-        for (j = 0, jj = originalFeatures.length; j < jj; ++j) {
-          extend(extent, originalFeatures[j].getGeometry().getExtent());
-        }
-
         radius = 14;
         feature.set("radius", radius);
       }
