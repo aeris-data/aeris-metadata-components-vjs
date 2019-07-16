@@ -107,7 +107,13 @@ export default {
       this.$i18n.locale = value;
     },
     spatialExtents() {
-      this.createMap();
+      value.forEach((element, index) => {
+        this.addPointFeature(element, index);
+        this.addPolygonFeature(element);
+      });
+      this.layerInit();
+      this.pointLayer.redraw();
+      this.polygonLayer.redraw();
     }
   },
 
