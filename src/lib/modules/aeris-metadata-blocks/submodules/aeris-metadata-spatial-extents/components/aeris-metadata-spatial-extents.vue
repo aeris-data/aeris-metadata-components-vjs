@@ -107,13 +107,17 @@ export default {
       this.$i18n.locale = value;
     },
     spatialExtents(value) {
+      this.layerArray.forEach(element => {
+        this.map.removeLayer(element);
+      });
       value.forEach((element, index) => {
         this.addPointFeature(element, index);
         this.addPolygonFeature(element);
       });
       this.layerInit();
-      this.pointLayer.redraw();
-      this.polygonLayer.redraw();
+      this.layerArray.forEach(element => {
+        this.map.addLayer(element);
+      });
     }
   },
 
