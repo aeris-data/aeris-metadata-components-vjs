@@ -106,7 +106,7 @@ export default {
     language(value) {
       this.$i18n.locale = value;
     },
-    spatialExtents() {
+    spatialExtents(value) {
       value.forEach((element, index) => {
         this.addPointFeature(element, index);
         this.addPolygonFeature(element);
