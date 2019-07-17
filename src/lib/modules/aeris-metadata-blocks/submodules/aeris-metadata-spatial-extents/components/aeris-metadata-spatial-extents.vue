@@ -74,6 +74,7 @@ export default {
       pointFeature: null,
       pointSource: null,
       pointStyle: null,
+      cluster: null,
       polygonLayer: null,
       polygonSource: null,
       polygonFeature: null,
@@ -81,12 +82,7 @@ export default {
       selectPointerMove: null,
       activeTab: null,
       fontsize: 30,
-      rect: {
-        northLatitude: 83.0,
-        southLatitude: -44.0,
-        eastLongitude: 180.0,
-        westLongitude: -180.0
-      },
+
       styleObject: {
         top: 0,
         left: 0,
@@ -106,17 +102,23 @@ export default {
     language(value) {
       this.$i18n.locale = value;
     },
-    spatialExtents(value) {
+    spatialExtents() {
       this.layerArray.forEach(element => {
         this.map.removeLayer(element);
       });
-      value.forEach((element, index) => {
+      this.init();
+      this.styleInit();
+
+      this.spatialExtents.forEach((element, index) => {
         this.addPointFeature(element, index);
         this.addPolygonFeature(element);
       });
       this.layerInit();
       this.layerArray.forEach(element => {
         this.map.addLayer(element);
+      });
+      this.map.getView().fit(this.getSourceExtent().getExtent(), {
+        size: this.map.getSize()
       });
     }
   },
@@ -154,7 +156,7 @@ export default {
         this.map.getView().fit(this.getSourceExtent().getExtent(), {
           size: this.map.getSize()
         });
-        this.interactionInit();
+        //this.interactionInit(); // mouse over point and display information
       }
     },
     computeFeatureId(extent, id) {
@@ -174,14 +176,15 @@ export default {
       this.pointSource = new VectorSource({ wrapX: false });
     },
     layerInit() {
+      this.cluster = new Cluster({
+        wrapX: false,
+        distance: 50,
+        source: this.pointSource,
+        minResolution: 2000,
+        maxResolution: 2000
+      });
       this.pointLayer = new VectorLayer({
-        source: new Cluster({
-          wrapX: false,
-          distance: 50,
-          source: this.pointSource,
-          minResolution: 2000,
-          maxResolution: 2000
-        }),
+        source: this.cluster,
         style: this.styleFunction
       });
 
@@ -306,6 +309,7 @@ export default {
           }
         }
       });
+      //
       this.selectPointerMove.on("select", e => {
         let markertooltip = this.$refs.markersPopUp;
         let coord = e.mapBrowserEvent.originalEvent;
@@ -317,8 +321,10 @@ export default {
           let attribute = e.selected[0].values_.features[0].attributes;
           this.activeTab = true;
           this.styleObject.display = "inline";
-          this.styleObject.left = coord.pageX + "px";
-          this.styleObject.top = coord.pageY - 15 + "px";
+          console.log("this.$refs = ", this.$refs);
+          console.log("coord = ", e.mapBrowserEvent);
+          this.styleObject.left = coord.clientX - this.$refs.map.offsetLeft + "px";
+          this.styleObject.top = coord.clientY - this.$refs.map.offsetTop + "px";
           markertooltip.innerHTML = `<ul style=" list-style: none; padding:0 5px">
             <li>Country : ${attribute.Country}</li>
             <li>${attribute.name}</li>
@@ -332,14 +338,18 @@ export default {
     },
 
     styleFunction(feature, resolution) {
+      console.log("style fonction", feature);
       if (resolution != this.currentResolution) {
         this.calculateClusterInfo(resolution);
         this.currentResolution = resolution;
+      } else {
+        this.calculateClusterInfo(resolution);
       }
-      let style;
+
       let size = feature.get("features").length;
       if (size > 1) {
-        style = new Style({
+        console.log("size > 1");
+        var style = new Style({
           image: new CircleStyle({
             radius: feature.get("radius"),
             fill: new Fill({
@@ -362,6 +372,7 @@ export default {
             })
           })
         });
+        console.log("style = ", style);
       } else {
         style = this.pointStyle;
       }
