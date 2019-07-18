@@ -43,7 +43,6 @@ export default {
   display: flex;
   flex-direction: column;
   border: none;
-  background: #fafafa;
   padding: 24px;
   margin-bottom: 10px;
   break-inside: avoid;
