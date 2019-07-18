@@ -43,6 +43,51 @@ export default {
   display: flex;
   flex-direction: column;
   border: none;
+  background: #fafafa;
+  padding: 24px;
+  margin-bottom: 10px;
+  break-inside: avoid;
+  border-radius: 2px;
+}
+
+.data-aeris-metadata-layout header h3 i {
+  color: var(--primaryColor);
+}
+
+.data-aeris-metadata-layout header h3 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin: 0;
+}
+
+.data-aeris-metadata-layout header i {
+  margin-right: 12px;
+}
+
+.data-aeris-metadata-layout .main {
+  padding: 16px 0 0 0px;
+}
+
+.data-aeris-metadata-layout >>> h5 {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.data-aeris-metadata-layout >>> h6 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.data-aeris-metadata-layout >>> header~article {
+  margin-left: 10px;
+}
+</style>
+.data-aeris-metadata-layout {
+  display: flex;
+  flex-direction: column;
+  border: none;
 }
 
 .data-aeris-metadata-layout header h5,
