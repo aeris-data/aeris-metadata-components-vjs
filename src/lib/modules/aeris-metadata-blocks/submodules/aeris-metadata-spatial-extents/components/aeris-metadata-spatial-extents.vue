@@ -103,23 +103,25 @@ export default {
       this.$i18n.locale = value;
     },
     spatialExtents() {
-      this.layerArray.forEach(element => {
-        this.map.removeLayer(element);
-      });
-      this.init();
-      this.styleInit();
+      if (this.isVisible) {
+        this.layerArray.forEach(element => {
+          this.map.removeLayer(element);
+        });
+        this.init();
+        this.styleInit();
 
-      this.spatialExtents.forEach((element, index) => {
-        this.addPointFeature(element, index);
-        this.addPolygonFeature(element);
-      });
-      this.layerInit();
-      this.layerArray.forEach(element => {
-        this.map.addLayer(element);
-      });
-      this.map.getView().fit(this.getSourceExtent().getExtent(), {
-        size: this.map.getSize()
-      });
+        this.spatialExtents.forEach((element, index) => {
+          this.addPointFeature(element, index);
+          this.addPolygonFeature(element);
+        });
+        this.layerInit();
+        this.layerArray.forEach(element => {
+          this.map.addLayer(element);
+        });
+        this.map.getView().fit(this.getSourceExtent().getExtent(), {
+          size: this.map.getSize()
+        });
+      }
     }
   },
 
@@ -156,7 +158,6 @@ export default {
         this.map.getView().fit(this.getSourceExtent().getExtent(), {
           size: this.map.getSize()
         });
-        //this.interactionInit(); // mouse over point and display information
       }
     },
     computeFeatureId(extent, id) {
@@ -321,8 +322,6 @@ export default {
           let attribute = e.selected[0].values_.features[0].attributes;
           this.activeTab = true;
           this.styleObject.display = "inline";
-          console.log("this.$refs = ", this.$refs);
-          console.log("coord = ", e.mapBrowserEvent);
           this.styleObject.left = coord.clientX - this.$refs.map.offsetLeft + "px";
           this.styleObject.top = coord.clientY - this.$refs.map.offsetTop + "px";
           markertooltip.innerHTML = `<ul style=" list-style: none; padding:0 5px">
@@ -338,7 +337,6 @@ export default {
     },
 
     styleFunction(feature, resolution) {
-      console.log("style fonction", feature);
       if (resolution != this.currentResolution) {
         this.calculateClusterInfo(resolution);
         this.currentResolution = resolution;
@@ -348,7 +346,6 @@ export default {
 
       let size = feature.get("features").length;
       if (size > 1) {
-        console.log("size > 1");
         var style = new Style({
           image: new CircleStyle({
             radius: feature.get("radius"),
@@ -372,7 +369,6 @@ export default {
             })
           })
         });
-        console.log("style = ", style);
       } else {
         style = this.pointStyle;
       }
