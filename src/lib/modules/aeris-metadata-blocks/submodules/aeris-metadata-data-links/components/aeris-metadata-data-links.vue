@@ -21,24 +21,24 @@
       <div class="link-category-header">
         <h5 class="aeris-metadata-emphasis-text">{{ $t("httpLinks") }}:</h5>
       </div>
-      <div v-for="link in httpLinks" :key="link.type + '_' + link.url">
-        <aeris-metadata-information-link :language="language" :link="link"></aeris-metadata-information-link>
+      <div v-for="(link, index) in httpLinks" :key="link.type + '_' + link.url">
+        <aeris-metadata-information-link :language="language" :link="link + index"></aeris-metadata-information-link>
       </div>
     </section>
     <section v-show="ftpLinks.length > 0" class="aeris-link-category">
       <div class="link-category-header">
         <h5 class="aeris-metadata-emphasis-text">{{ $t("ftpLinks") }}:</h5>
       </div>
-      <div v-for="link in ftpLinks" :key="link.type + '_' + link.url">
-        <aeris-metadata-information-link :language="language" :link="link"></aeris-metadata-information-link>
+      <div v-for="(link, index) in ftpLinks" :key="link.type + '_' + link.url">
+        <aeris-metadata-information-link :language="language" :link="link + index"></aeris-metadata-information-link>
       </div>
     </section>
     <section v-show="orderLinks.length > 0" class="aeris-link-category">
       <div class="link-category-header">
         <h5 class="aeris-metadata-emphasis-text">{{ $t("orderLinks") }}:</h5>
       </div>
-      <div v-for="link in orderLinks" :key="link.type + '_' + link.url">
-        <aeris-metadata-information-link :language="language" :link="link"></aeris-metadata-information-link>
+      <div v-for="(link, index) in orderLinks" :key="link.type + '_' + link.url">
+        <aeris-metadata-information-link :language="language" :link="link + index"></aeris-metadata-information-link>
       </div>
     </section>
   </aeris-metadata-layout>

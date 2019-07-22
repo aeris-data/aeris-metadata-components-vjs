@@ -11,7 +11,7 @@
 
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('temporalExtents')" :theme="theme" icon="fas fa-clock">
-    <div v-for="temporalExtent in getTemporalExtents" :key="temporalExtent.beginDate">
+    <div v-for="(temporalExtent, index) in getTemporalExtents" :key="temporalExtent.beginDate + index">
       <aeris-metadata-temporal-extent
         v-if="temporalExtent.comment"
         :begin="temporalExtent.beginDate"

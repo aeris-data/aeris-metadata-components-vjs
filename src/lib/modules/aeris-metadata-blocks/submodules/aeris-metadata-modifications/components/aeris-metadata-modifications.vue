@@ -13,7 +13,7 @@
 
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('modifications')" :theme="theme" icon="fas fa-history">
-    <section v-for="modification in currentModifications" :key="modification.date">
+    <section v-for="(modification, index) in currentModifications" :key="modification.date + index">
       <article class="tempExt">
         <div class="metadata-temporal">
           <div>

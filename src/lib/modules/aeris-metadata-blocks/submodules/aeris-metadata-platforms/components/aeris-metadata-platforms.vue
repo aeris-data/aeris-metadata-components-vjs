@@ -12,8 +12,8 @@
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('platforms')" :theme="theme" icon="fas fa-cubes">
     <aeris-metadata-platform
-      v-for="platform in platforms"
-      :key="platform.name"
+      v-for="(platform, index) in platforms"
+      :key="platform.name + index"
       :platform="platform"
       :language="language"
       :theme="theme"

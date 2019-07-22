@@ -12,9 +12,9 @@
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('citationTitle')" :theme="theme" icon="fas fa-quote-left">
     <aeris-metadata-citation
-      v-for="identifier in identifiers"
+      v-for="(identifier, index) in identifiers"
       :doi="identifier.code"
-      :key="identifier.code"
+      :key="identifier.code + index"
     ></aeris-metadata-citation>
   </aeris-metadata-layout>
 </template>

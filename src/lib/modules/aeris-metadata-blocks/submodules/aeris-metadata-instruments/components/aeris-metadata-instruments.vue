@@ -12,8 +12,8 @@
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('instruments')" :theme="theme" icon="fas fa-calculator">
     <aeris-metadata-instrument
-      v-for="instrument in instruments"
-      :key="instrument.thesaurusConcat"
+      v-for="(instrument, index) in instruments"
+      :key="instrument.thesaurusConcat + index"
       :instrument="instrument"
       :language="language"
       :theme="theme"

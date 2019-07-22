@@ -12,8 +12,8 @@
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('publications')" :theme="theme" icon="fas fa-bookmark">
     <aeris-metadata-publication
-      v-for="publication in publications"
-      :key="publication.title"
+      v-for="(publication, index) in publications"
+      :key="publication.title + index"
       :publication="publication"
       :language="language"
       :theme="theme"

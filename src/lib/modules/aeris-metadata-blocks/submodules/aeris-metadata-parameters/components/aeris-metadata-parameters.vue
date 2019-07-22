@@ -11,7 +11,7 @@
 
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('parameters')" :theme="theme" icon="fas fa-thermometer-half">
-    <div v-for="parameter in parameters" :key="parameter.name">
+    <div v-for="(parameter, index) in parameters" :key="parameter.name + index">
       <aeris-metadata-parameter :parameter="parameter" :language="language" :theme="theme"></aeris-metadata-parameter>
     </div>
   </aeris-metadata-layout>
