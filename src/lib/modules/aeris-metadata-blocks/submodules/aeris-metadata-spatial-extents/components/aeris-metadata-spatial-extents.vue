@@ -158,7 +158,7 @@ export default {
           })
         });
 
-        if(this.getSourceExtent()){
+        if (this.getSourceExtent()) {
           this.map.getView().fit(this.getSourceExtent().getExtent(), {
             size: this.map.getSize()
           });
