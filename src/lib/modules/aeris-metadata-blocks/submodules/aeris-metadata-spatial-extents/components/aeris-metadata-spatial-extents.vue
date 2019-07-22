@@ -10,7 +10,7 @@
 </i18n>
 
 <template>
-  <aeris-metadata-layout v-if="isVisible" :title="$t('spatialextents')" :theme="theme" icon="fas fa-globe">
+  <aeris-metadata-layout v-show="isVisible" :title="$t('spatialextents')" :theme="theme" icon="fas fa-globe">
     <div ref="markersPopUp" :class="{ tooltip: activeTab }" :style="styleObject">{{ toolTipText }}</div>
     <div id="mapMask" class="map-mask" />
     <div ref="map" class="map" tabindex="0" />
@@ -102,26 +102,29 @@ export default {
     language(value) {
       this.$i18n.locale = value;
     },
-    spatialExtents() {
-      if (this.isVisible) {
-        this.layerArray.forEach(element => {
-          this.map.removeLayer(element);
-        });
-        this.init();
-        this.styleInit();
+    spatialExtents: {
+      handler() {
+        if (this.isVisible) {
+          this.layerArray.forEach(element => {
+            this.map.removeLayer(element);
+          });
+          this.init();
+          this.styleInit();
 
-        this.spatialExtents.forEach((element, index) => {
-          this.addPointFeature(element, index);
-          this.addPolygonFeature(element);
-        });
-        this.layerInit();
-        this.layerArray.forEach(element => {
-          this.map.addLayer(element);
-        });
-        this.map.getView().fit(this.getSourceExtent().getExtent(), {
-          size: this.map.getSize()
-        });
-      }
+          this.spatialExtents.forEach((element, index) => {
+            this.addPointFeature(element, index);
+            this.addPolygonFeature(element);
+          });
+          this.layerInit();
+          this.layerArray.forEach(element => {
+            this.map.addLayer(element);
+          });
+          this.map.getView().fit(this.getSourceExtent().getExtent(), {
+            size: this.map.getSize()
+          });
+        }
+      },
+      deep: true
     }
   },
 
