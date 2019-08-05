@@ -30,7 +30,7 @@
           <div
             v-for="item in years"
             :key="item.year"
-            :class="{ selected: item.selected }"
+            :class="{ selected: selection.includes(item) }"
             class="aeris-year"
             @click="toggleYear(item)"
           >
@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 export default {
   name: "aeris-metadata-year-select-download",
 
@@ -62,7 +63,11 @@ export default {
     },
     years: {
       type: Array,
-      default: () => []
+      required: true
+    },
+    isInCart: {
+      type: Boolean,
+      required: true
     }
   },
 
@@ -71,7 +76,8 @@ export default {
       service: null,
       identifier: null,
       collectionName: null,
-      isL0: false
+      isL0: false,
+      selection: []
     };
   },
 
@@ -99,6 +105,30 @@ export default {
     },
     metadata(metadata) {
       this.updateMetadataDownload(metadata);
+    },
+    isInCart(isInCart) {
+      !isInCart ? (this.selection = []) : null;
+    },
+    selection(selection) {
+      selection.length > 0
+        ? this.$emit("addItemCart", {
+            type: "GET",
+            metadataTitle: this.collectionName,
+            metadataIdentifier: this.identifier,
+            url: encodeURI(
+              `${this.service.replace(/\/$/, "")}/download?collectionId=${this.identifier}&filter=${selection
+                .map(item => item.year)
+                .join(",")}`
+            ),
+            fileNumber: _.reduce(selection, (acc, item) => acc + item.fileNumber, 0),
+            fileSize: _.reduce(selection, (acc, item) => acc + item.totalSize, 0),
+            filterDescription: `Years: ${_.reduce(
+              selection,
+              (acc, item) => (acc ? `${acc}, ${item.year}` : item.year),
+              ""
+            )}`
+          })
+        : this.$emit("removeItemCart", this.identifier);
     }
   },
 
@@ -110,25 +140,8 @@ export default {
 
   methods: {
     toggleYear(item) {
-      let cartItem = {
-        collectionName: this.collectionName,
-        url: this.service,
-        identifier: this.identifier,
-        data: "",
-        fileNumber: item.fileNumber,
-        totalSize: item.totalSize,
-        items: {
-          type: "yearfilter",
-          elements: [item.year]
-        }
-      };
-
-      item.selected = !item.selected;
-      if (item.selected) {
-        this.$emit("addItemCart", cartItem);
-      } else {
-        this.$emit("removeItemCart", cartItem);
-      }
+      const index = this.selection.findIndex(i => i === item);
+      index != -1 ? this.selection.splice(index, 1) : this.selection.push(item);
     },
 
     updateMetadataDownload(metadata) {

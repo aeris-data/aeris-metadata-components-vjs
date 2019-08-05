@@ -60,6 +60,14 @@ export default {
     isInCart: {
       type: Boolean,
       default: false
+    },
+    totalSize: {
+      type: Number,
+      required: true
+    },
+    fileNumber: {
+      type: Number,
+      required: true
     }
   },
 
@@ -133,12 +141,14 @@ export default {
 
     addToCart() {
       if (!this.isInCart) {
-        let metadataDownload = {
-          service: this.service,
-          collectionName: this.collectionName,
-          identifier: this.identifier
-        };
-        this.$emit("addItemCart", metadataDownload);
+        this.$emit("addItemCart", {
+          type: "GET",
+          metadataTitle: this.collectionName,
+          metadataIdentifier: this.identifier,
+          url: `${this.service.replace(/\/$/, "")}/download?collectionId=${this.identifier}`,
+          fileNumber: this.fileNumber,
+          fileSize: this.totalSize
+        });
       }
       this.ensureTheme(this.theme);
     },
