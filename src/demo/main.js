@@ -11,8 +11,10 @@ Vue.use(VueRouter);
 
 import axios from "axios";
 import VueAxios from "vue-axios";
-
 Vue.use(VueAxios, axios);
+
+import Vuetify from "vuetify";
+Vue.use(Vuetify);
 
 import { VueColorPlugin, VueAerisLanguagePlugin } from "aeris-mixins";
 Vue.use(VueColorPlugin);
