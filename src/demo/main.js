@@ -38,6 +38,7 @@ import AerisMetadataSpatialExtentsTest from "./modules/aeris-metadata-blocks/sub
 import AerisMetadataParametersTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-parameters/aeris-metadata-parameters-test";
 import AerisMetadataUiTableTest from "./modules/aeris-metadata-ui/submodules/aeris-metadata-ui-table/aeris-metadata-ui-table-test";
 import AerisMetadataYearSelectDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/aeris-metadata-year-select-download-test";
+import AerisMetadataTreeViewDownloadTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-tree-view-download/aeris-metadata-tree-view-download-test";
 import AerisMetadataCitationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-citations/aeris-metadata-citations-test";
 import AerisMetadataPublicationsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-publications/aeris-metadata-publications-test";
 import AerisMetadataPlatformsTest from "./modules/aeris-metadata-blocks/submodules/aeris-metadata-platforms/aeris-metadata-platforms-test";
@@ -117,6 +118,10 @@ const router = new VueRouter({
     {
       path: "/year-select-download",
       component: AerisMetadataYearSelectDownloadTest
+    },
+    {
+      path: "/tree-view-download",
+      component: AerisMetadataTreeViewDownloadTest
     },
     {
       path: "/instruments",

@@ -17,6 +17,7 @@ import AerisMetadataSpatialExtents from "./aeris-metadata-blocks/submodules/aeri
 import AerisMetadataTemporalExtents from "./aeris-metadata-blocks/submodules/aeris-metadata-temporal-extents/components/aeris-metadata-temporal-extents";
 import AerisMetadataTitle from "./aeris-metadata-blocks/submodules/aeris-metadata-title/components/aeris-metadata-title";
 import AerisMetadataYearSelectDownload from "./aeris-metadata-blocks/submodules/aeris-metadata-year-select-download/components/aeris-metadata-year-select-download";
+import AerisMetadataTreeViewDownload from "./aeris-metadata-blocks/submodules/aeris-metadata-tree-view-download/components/aeris-metadata-tree-view-download";
 import AerisMetadataInternationalField from "./aeris-metadata-international-field/components/aeris-metadata-international-field";
 import AerisMetadataServices from "./aeris-metadata-services/components/aeris-metadata-services";
 import AerisMetadataLayout from "./aeris-metadata-ui/submodules/aeris-metadata-layout/components/aeris-metadata-layout";
@@ -44,6 +45,7 @@ export {
   AerisMetadataTemporalExtents,
   AerisMetadataTitle,
   AerisMetadataYearSelectDownload,
+  AerisMetadataTreeViewDownload,
   AerisMetadataInternationalField,
   AerisMetadataServices,
   AerisMetadataLayout,
