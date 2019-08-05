@@ -3,34 +3,29 @@
   "en": {
   	"download": "Download",
   	"explicationText": "To download the data files, add them to your downloads by clicking on each year.",
-  	"year": "year",
-    "l0instructions": "Only level-2 files can be downloaded directly. If you are interested in getting level-0 data, please contact the investigators"
+  	"year": "year"
   },
   "fr": {
   	"download": "Téléchargement",
   	"explicationText": "Pour télécharger les fichiers de données, ajoutez-les à vos téléchargements en cliquant sur les différentes années.",
-  	"year": "ann.",
-  	"l0instructions": "Seuls les fichiers de niveau 2 peuvent être téléchargés directement. Si vous êtes intéressés par les fichier de niveau 0, contactez les responsables."
+  	"year": "ann."
   }
 }
 </i18n>
 
 <template>
-  <section v-show="isVisible" :style="applyTheme" aeris-year-download-metadata-layout data-template="metadata-block">
+  <section :style="applyTheme" aeris-year-download-metadata-layout data-template="metadata-block">
     <header>
       <h3><i name="download" class="fas fa-download primaryTheme" />{{ $t("download") }}</h3>
     </header>
     <article>
-      <div v-if="isL0" style="text-align:justify">
-        <span class="explication">{{ $t("l0instructions") }}</span>
-      </div>
-      <div v-else style="text-align:justify">
+      <div style="text-align:justify">
         <span class="explication">{{ $t("explicationText") }}</span>
         <div v-show="years" class="year-container">
           <div
             v-for="item in years"
             :key="item.year"
-            :class="{ selected: item.selected }"
+            :class="{ selected: selection.find(i => i.year == item.year) != null }"
             class="aeris-year"
             @click="toggleYear(item)"
           >
@@ -44,6 +39,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 export default {
   name: "aeris-metadata-year-select-download",
 
@@ -56,29 +52,36 @@ export default {
       type: Object,
       default: null
     },
-    metadata: {
+    metadataTitle: {
       type: Object,
-      default: null
+      default: null,
+      required: true
+    },
+    metadataIdentifier: {
+      type: String,
+      required: true
+    },
+    url: {
+      type: String,
+      required: true
     },
     years: {
       type: Array,
-      default: () => []
+      required: true
+    },
+    yearsInCart: {
+      type: Array,
+      required: true
     }
   },
 
   data() {
     return {
-      service: null,
-      identifier: null,
-      collectionName: null,
-      isL0: false
+      selection: []
     };
   },
 
   computed: {
-    isVisible() {
-      return this.years !== null && this.years.length > 0;
-    },
     applyTheme() {
       if (this.theme && this.theme.primaryColor) {
         return {
@@ -97,62 +100,53 @@ export default {
     theme(theme) {
       this.ensureTheme(theme);
     },
-    metadata(metadata) {
-      this.updateMetadataDownload(metadata);
+    yearsInCart(yearsInCart) {
+      this.updateSelection(yearsInCart);
     }
   },
 
   created() {
     this.$i18n.locale = this.language;
     this.ensureTheme(this.theme);
-    this.updateMetadataDownload(this.metadata);
+    this.updateSelection(this.yearsInCart);
   },
 
   methods: {
     toggleYear(item) {
-      let cartItem = {
-        collectionName: this.collectionName,
-        url: this.service,
-        identifier: this.identifier,
-        data: "",
-        fileNumber: item.fileNumber,
-        totalSize: item.totalSize,
-        items: {
-          type: "yearfilter",
-          elements: [item.year]
-        }
-      };
-
-      item.selected = !item.selected;
-      if (item.selected) {
-        this.$emit("addItemCart", cartItem);
-      } else {
-        this.$emit("removeItemCart", cartItem);
-      }
+      const index = this.selection.findIndex(i => _.isEqual(i, item));
+      index != -1 ? this.selection.splice(index, 1) : this.selection.push(item);
+      this.updateCart();
     },
 
-    updateMetadataDownload(metadata) {
-      let links = metadata ? metadata.links : "";
-      if (links && metadata.identifier && metadata.resourceTitle && metadata.dataLevel) {
-        this.visible = false;
-        this.identifier = metadata.identifier;
-        this.collectionName = metadata.resourceTitle;
+    updateSelection(selection) {
+      !_.isEqual(this.selection, selection) ? (this.selection = selection) : null;
+    },
 
-        if (metadata.dataLevel.toLowerCase() == "l0") {
-          this.isL0 = true;
-          return;
-        } else {
-          this.isL0 = false;
-        }
+    updateCart() {
+      this.selection.length > 0
+        ? this.$emit("addItemCart", this.createItemCart())
+        : this.$emit("removeItemCart", this.metadataIdentifier);
+    },
 
-        for (let i = 0; i < links.length; i++) {
-          let link = links[i];
-          if (link.type == "OPENSEARCH_LINK") {
-            this.service = link.url;
-            break;
-          }
-        }
-      }
+    createItemCart() {
+      return {
+        type: "GET",
+        metadataTitle: this.metadataTitle,
+        metadataIdentifier: this.metadataIdentifier,
+        url: encodeURI(
+          `${this.url.replace(/\/$/, "")}/download?collectionId=${this.metadataIdentifier}&filter=${this.selection
+            .map(item => item.year)
+            .join(",")}`
+        ),
+        fileNumber: _.reduce(this.selection, (acc, item) => acc + item.fileNumber, 0),
+        fileSize: _.reduce(this.selection, (acc, item) => acc + item.totalSize, 0),
+        years: this.selection.map(item => item),
+        filterDescription: `Years: ${_.reduce(
+          this.selection,
+          (acc, item) => (acc ? `${acc}, ${item.year}` : item.year),
+          ""
+        )}`
+      };
     },
 
     ensureTheme(theme) {

@@ -17,7 +17,7 @@
 }
 </i18n>
 <template>
-  <section v-if="isVisible" :style="applyTheme" aeris-metadata-single-file-download data-template="metadata-block">
+  <section :style="applyTheme" aeris-metadata-single-file-download data-template="metadata-block">
     <header>
       <h3><i name="download" class="fas fa-download primaryTheme" />{{ $t("download") }}</h3>
     </header>
@@ -53,29 +53,34 @@ export default {
       type: Object,
       default: null
     },
-    metadata: {
+    metadataTitle: {
       type: Object,
-      default: null
+      default: null,
+      required: true
+    },
+    metadataIdentifier: {
+      type: String,
+      required: true
+    },
+    url: {
+      type: String,
+      required: true
     },
     isInCart: {
       type: Boolean,
       default: false
+    },
+    totalSize: {
+      type: Number,
+      required: true
+    },
+    fileNumber: {
+      type: Number,
+      required: true
     }
   },
 
-  data() {
-    return {
-      downloadEntry: {},
-      service: null,
-      identifier: null,
-      collectionName: null
-    };
-  },
-
   computed: {
-    isVisible() {
-      return this.service !== null;
-    },
     applyTheme() {
       if (this.theme && this.theme.primaryColor) {
         return {
@@ -94,9 +99,6 @@ export default {
     theme(theme) {
       this.ensureTheme(theme);
     },
-    metadata(metadata) {
-      this.updateMetadataDownload(metadata);
-    },
     isInCart() {
       this.$nextTick(() => {
         this.ensureTheme(this.theme);
@@ -107,38 +109,19 @@ export default {
   created() {
     this.$i18n.locale = this.language;
     this.ensureTheme(this.theme);
-    this.updateMetadataDownload(this.metadata);
   },
 
   methods: {
-    updateMetadataDownload(metadata) {
-      let links = metadata ? metadata.links : "";
-      if (links && metadata.identifier && metadata.resourceTitle) {
-        this.identifier = metadata.identifier;
-        this.collectionName = metadata.resourceTitle;
-
-        let links = metadata.links;
-        if (links && links.length > 0) {
-          for (let i = 0; i < links.length; i++) {
-            let link = links[i];
-            if (link.type == "OPENSEARCH_LINK") {
-              this.service = link.url;
-              break;
-            }
-          }
-        }
-        this.ensureTheme(this.theme);
-      }
-    },
-
     addToCart() {
       if (!this.isInCart) {
-        let metadataDownload = {
-          service: this.service,
-          collectionName: this.collectionName,
-          identifier: this.identifier
-        };
-        this.$emit("addItemCart", metadataDownload);
+        this.$emit("addItemCart", {
+          type: "GET",
+          metadataTitle: this.metadataTitle,
+          metadataIdentifier: this.metadataIdentifier,
+          url: `${this.url.replace(/\/$/, "")}/download?collectionId=${this.metadataIdentifier}`,
+          fileNumber: this.fileNumber,
+          fileSize: this.totalSize
+        });
       }
       this.ensureTheme(this.theme);
     },
