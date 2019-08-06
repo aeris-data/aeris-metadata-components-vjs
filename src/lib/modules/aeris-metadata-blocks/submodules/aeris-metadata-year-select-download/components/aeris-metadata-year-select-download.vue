@@ -18,9 +18,17 @@
 </i18n>
 
 <template>
-  <section v-show="isVisible" data-aeris-metadata-layout data-template="metadata-block">
+  <section
+    v-show="isVisible"
+    data-aeris-metadata-layout
+    data-template="metadata-block"
+    :style="applyTheme"
+  >
     <header>
-      <h3><i name="download" class="fas fa-download" />{{ $t("download") }}</h3>
+      <h3>
+        <i name="download" class="fas fa-download" />
+        {{ $t("download") }}
+      </h3>
     </header>
     <article aeris-year-download-metadata-layout>
       <div v-if="isL0" style="text-align:justify">
@@ -29,7 +37,8 @@
       <div v-else style="text-align:justify">
         <span class="explication">{{ $t("explicationText") }}</span>
         <div v-if="loading" class="loadingbar">
-          <i class="fa fa-circle-o-notch fa-spin fa-fw" /> <span>{{ $t("loading") }}</span>
+          <i class="fa fa-circle-o-notch fa-spin fa-fw" />
+          <span>{{ $t("loading") }}</span>
         </div>
         <div v-show="years" class="year-container">
           <div
@@ -88,15 +97,15 @@ export default {
       let visible = this.years !== null && this.years.length > 0;
       this.$emit("visibility", { name: this.$options.name, isVisible: visible });
       return visible;
+    },
+    applyTheme() {
+      return this.theme && this.theme.primaryColor ? { "--primaryColor": this.theme.primaryColor } : "";
     }
   },
 
   watch: {
     language(language) {
       this.$i18n.locale = language;
-    },
-    theme(theme) {
-      this.ensureTheme(theme);
     },
     metadata(metadata) {
       this.updateMetadataDownload(metadata);
@@ -115,7 +124,6 @@ export default {
 
   created() {
     this.$i18n.locale = this.language;
-    this.ensureTheme(this.theme);
     this.updateMetadataDownload(this.metadata);
   },
 
@@ -267,16 +275,11 @@ export default {
     handleError() {
       this.loading = false;
       this.years = [];
-    },
-
-    ensureTheme(theme) {
-      if (theme && this.$el && this.$el.querySelector("header h3 i")) {
-        this.$el.querySelector("header h3 i").style.color = theme.primaryColor;
-      }
     }
   }
 };
 </script>
+
 <style scoped>
 [aeris-year-download-metadata-layout] {
   display: flex;
@@ -290,7 +293,7 @@ export default {
 }
 
 [aeris-year-download-metadata-layout] .aeris-year:hover {
-  background: gainsboro;
+  color: var(--primaryColor);
 }
 
 [aeris-year-download-metadata-layout] .aeris-year {
@@ -300,7 +303,8 @@ export default {
 }
 
 [aeris-year-download-metadata-layout] .aeris-year.selected {
-  background: gainsboro;
+  border-bottom: 4px solid var(--primaryColor);
+  color: var(--primaryColor);
 }
 
 [aeris-year-download-metadata-layout] .loadingbar {
@@ -317,7 +321,6 @@ export default {
   display: block;
   width: 40px;
   text-align: center;
-  vertical-align: top;
   cursor: pointer;
   position: relative;
 }
@@ -343,7 +346,7 @@ header {
 
 header i {
   margin-left: 20px;
-  color: #999;
+  color: var(--primaryColor);
   margin-right: 12px;
 }
 
