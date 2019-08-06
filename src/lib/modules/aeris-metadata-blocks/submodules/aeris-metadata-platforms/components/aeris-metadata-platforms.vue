@@ -70,6 +70,7 @@ export default {
 
   created() {
     this.$i18n.locale = this.language;
+    this.updatePlatforms();
   },
   methods: {
     getClassName(platform, language) {
