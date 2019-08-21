@@ -18,12 +18,14 @@
         :end="temporalExtent.endDate"
         :comment="temporalExtent.comment"
         :language="language"
+        :theme="theme"
       ></aeris-metadata-temporal-extent>
       <aeris-metadata-temporal-extent
         v-else
         :begin="temporalExtent.beginDate"
         :end="temporalExtent.endDate"
         :language="language"
+        :theme="theme"
       ></aeris-metadata-temporal-extent>
     </div>
   </aeris-metadata-layout>

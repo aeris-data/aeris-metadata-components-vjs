@@ -16,7 +16,7 @@
           :resource-abstract="metadata.resourceAbstract"
           :theme="theme"
           :language="language"
-          markdown="true"
+          :markdown="true"
         ></aeris-metadata-description>
         <aeris-metadata-temporal-extents
           :temporal-extents="metadata.temporalExtents"

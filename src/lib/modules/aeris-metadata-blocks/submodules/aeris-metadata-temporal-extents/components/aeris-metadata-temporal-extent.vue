@@ -1,10 +1,10 @@
 <template>
-  <section class="aeris-metadata-temporal-extent-host">
+  <section :style="getTheme" class="aeris-metadata-temporal-extent-host">
     <article class="metadata-temporal-container">
       <section class="tempExt">
         <article class="metadata-temporal">
           <div>
-            <span>{{ formatedBegin }}</span> <i class="fas fa-long-arrow-right" /> <span>{{ formatedEnd }}</span>
+            <span>{{ formatedBegin }}</span> <i class="fas fa-long-arrow-alt-right"></i> <span>{{ formatedEnd }}</span>
           </div>
           <div v-if="comment" class="metadata-temporal-description">
             <aeris-metadata-international-field
@@ -44,10 +44,18 @@ export default {
     comment: {
       type: Object,
       default: null
+    },
+    theme: {
+      type: Object,
+      default: () => {}
     }
   },
 
   computed: {
+    getTheme() {
+      return this.theme ? { "--primaryColor": this.theme.primaryColor } : "";
+    },
+
     formatedBegin() {
       return this.formatDate(this.begin);
     },
@@ -88,7 +96,7 @@ export default {
 
 .metadata-temporal-container i {
   margin: 0 2px;
-  color: var(--main-color, #4765a0);
+  color: var(--primaryColor, #4765a0);
 }
 
 .metadata-temporal-container paper-input {

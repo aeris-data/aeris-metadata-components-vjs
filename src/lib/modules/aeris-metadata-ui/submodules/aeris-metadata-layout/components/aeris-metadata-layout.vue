@@ -48,8 +48,11 @@ export default {
   display: flex;
   flex-direction: column;
   border: none;
-  background: #fafafa;
   padding: 24px;
+  margin-bottom: 10px;
+  break-inside: avoid;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
 .data-aeris-metadata-layout header h3 i,
@@ -86,5 +89,6 @@ export default {
 
 .data-aeris-metadata-layout article {
   margin-left: 10px;
+  margin-bottom: 10px;
 }
 </style>

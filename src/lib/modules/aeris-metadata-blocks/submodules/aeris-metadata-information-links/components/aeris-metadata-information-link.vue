@@ -78,10 +78,6 @@ aeris-metadata-information-link-host {
   padding-left: 10px;
 }
 
-.metadata-link-container a {
-  color: #3498db;
-}
-
 .metadata-link-container .metadata-link-desc aeris-metadata-international-field,
 .metadata-link-container .metadata-link-desc p {
   margin: 5px 0;

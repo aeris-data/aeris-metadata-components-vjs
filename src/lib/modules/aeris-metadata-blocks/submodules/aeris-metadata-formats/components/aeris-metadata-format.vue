@@ -53,6 +53,7 @@
             :comment="getFormat.readingInformation.comment"
             :language="language"
             no-delete
+            :theme="theme"
           ></aeris-metadata-temporal-extent>
         </div>
       </article>
@@ -77,6 +78,10 @@ export default {
     format: {
       type: Object,
       default: null
+    },
+    theme: {
+      type: Object,
+      default: () => {}
     }
   },
 

@@ -12,7 +12,7 @@
 <template>
   <aeris-metadata-layout v-if="isVisible" :title="$t('formats')" :theme="theme" icon="fas fa-list-ul">
     <div v-for="format in getFormats" :key="format.version + format.description">
-      <aeris-metadata-format :format="format" :language="language"></aeris-metadata-format>
+      <aeris-metadata-format :format="format" :language="language" :theme="theme"></aeris-metadata-format>
     </div>
   </aeris-metadata-layout>
 </template>
