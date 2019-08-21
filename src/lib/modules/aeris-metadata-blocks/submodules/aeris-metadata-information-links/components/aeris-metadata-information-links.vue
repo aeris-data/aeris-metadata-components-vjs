@@ -74,6 +74,7 @@ export default {
 
   methods: {
     getLinks(links) {
+      this.informationLinks = [];
       if (links && links.length > 0) {
         links.forEach(item => {
           if (item.type === "INFORMATION_LINK") {

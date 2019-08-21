@@ -37,7 +37,7 @@ export default {
 
   methods: {
     truncate(str) {
-      return str.length > 50 ? str.substr(0, 47) + "..." : str;
+      return str && str.length > 50 ? str.substr(0, 47) + "..." : str;
     }
   }
 };

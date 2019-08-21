@@ -31,10 +31,7 @@
         <i :class="openIconClass" class="chevron" />
       </header>
       <article class="instrument-collapsable-part">
-        <span>{{ thesaurusLabel }}</span>
-        <span v-if="getInternationalFieldValue(getThesaurusLongName)"
-        >({{ getInternationalFieldValue(getThesaurusLongName) }})</span
-        >
+        <span>{{ thesaurusLabel }}</span> <span v-if="thesaurusLongName">({{ thesaurusLongName }})</span>
         <ul class="metadata-format-description">
           <li>
             <h6 v-if="instrument.manufacturer" class="primaryTheme">{{ $t("manufacturer") }}:</h6>
@@ -76,6 +73,12 @@
 
 <script>
 import AerisMetadataInternationalField from "../../../../aeris-metadata-international-field/components/aeris-metadata-international-field.vue";
+import {
+  getInternationalFieldValue,
+  getThesaurusLongName,
+  getManufacturerAndModel,
+  getLastLevelOfThesaurusValue
+} from "../utils/utils";
 export default {
   name: "aeris-metadata-instrument",
 
@@ -126,6 +129,13 @@ export default {
           : "")
       );
     },
+    thesaurusLongName() {
+      let longName = "";
+      if (this.instrument) {
+        longName = getInternationalFieldValue(getThesaurusLongName(this.instrument), this.language);
+      }
+      return longName;
+    },
     applyTheme() {
       if (this.theme && this.theme.primaryColor) {
         return {
@@ -134,44 +144,6 @@ export default {
       } else {
         return "";
       }
-    },
-    isThesaurusNameExist() {
-      return this.instrument.thesaurusClass.thesaurusCode.thesaurusName.code.localeCompare("NULL") !== 0;
-    },
-    isThesaurusCodeExist() {
-      return this.instrument.thesaurusClass.thesaurusCode.code.localeCompare("NULL") !== 0;
-    },
-    isThesaurusClassExist() {
-      return this.instrument.thesaurusClass.code.localeCompare("NULL") !== 0;
-    },
-    getThesaurusName() {
-      return this.instrument.thesaurusClass.thesaurusCode.thesaurusName.name;
-    },
-    getThesaurusLongName() {
-      return this.instrument.thesaurusClass.thesaurusCode.thesaurusName.longName;
-    },
-    getThesaurusCodeName() {
-      return this.instrument.thesaurusClass.thesaurusCode.name;
-    },
-    getThesaurusClassName() {
-      return this.instrument.thesaurusClass.name;
-    },
-    getManufacturerAndModel() {
-      if (this.instrument.manufacturer && this.instrument.model) {
-        return this.instrument.manufacturer + "/" + this.instrument.model;
-      } else {
-        return "";
-      }
-    },
-    getLastLevelOfThesaurusValue() {
-      if (this.isThesaurusNameExist && this.getInternationalFieldValue(this.getThesaurusName)) {
-        return this.getInternationalFieldValue(this.getThesaurusName);
-      } else if (this.isThesaurusCodeExist) {
-        return this.getInternationalFieldValue(this.getThesaurusCodeName);
-      } else if (this.isThesaurusClassExist) {
-        return this.getInternationalFieldValue(this.getThesaurusClassName);
-      }
-      return "";
     }
   },
 
@@ -183,75 +155,62 @@ export default {
 
   created() {
     this.$i18n.locale = this.language;
-    this.updateLabel();
+    this.updateLabel(this.instrument);
   },
 
   methods: {
-    updateLabel() {
-      if (this.instrument && (this.instrument.thesaurusClass || this.instrument.displayName)) {
-        let metadata = this.instrument;
-        if (metadata.thesaurusClass.code != "" && metadata.thesaurusClass.code != "NULL") {
+    updateLabel(instrument) {
+      if (instrument && (instrument.thesaurusClass || instrument.displayName)) {
+        if (instrument.thesaurusClass.code != "" && instrument.thesaurusClass.code != "NULL") {
           this.className =
             this.language == "fr"
-              ? metadata.thesaurusClass.name.fr
-                ? metadata.thesaurusClass.name.fr
-                : metadata.thesaurusClass.name.en
-              : metadata.thesaurusClass.name.en;
-        }
-        if (metadata.thesaurusClass.thesaurusCode.code != "" && metadata.thesaurusClass.thesaurusCode.code != "NULL") {
-          this.codeName =
-            this.language == "fr"
-              ? metadata.thesaurusClass.thesaurusCode.name.fr
-                ? metadata.thesaurusClass.thesaurusCode.name.fr
-                : metadata.thesaurusClass.thesaurusCode.name.en
-              : metadata.thesaurusClass.thesaurusCode.name.en;
+              ? instrument.thesaurusClass.name.fr
+                ? instrument.thesaurusClass.name.fr
+                : instrument.thesaurusClass.name.en
+              : instrument.thesaurusClass.name.en;
         }
         if (
-          metadata.thesaurusClass.thesaurusCode.thesaurusName.code != "" &&
-          metadata.thesaurusClass.thesaurusCode.thesaurusName.code != "NULL"
+          instrument.thesaurusClass.thesaurusCode.code != "" &&
+          instrument.thesaurusClass.thesaurusCode.code != "NULL"
+        ) {
+          this.codeName =
+            this.language == "fr"
+              ? instrument.thesaurusClass.thesaurusCode.name.fr
+                ? instrument.thesaurusClass.thesaurusCode.name.fr
+                : instrument.thesaurusClass.thesaurusCode.name.en
+              : instrument.thesaurusClass.thesaurusCode.name.en;
+        }
+        if (
+          instrument.thesaurusClass.thesaurusCode.thesaurusName.code != "" &&
+          instrument.thesaurusClass.thesaurusCode.thesaurusName.code != "NULL"
         ) {
           if (this.codeName == "") {
             this.codeName =
               this.language == "fr"
-                ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
-                  ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
-                  : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en
-                : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
+                ? instrument.thesaurusClass.thesaurusCode.thesaurusName.name.fr
+                  ? instrument.thesaurusClass.thesaurusCode.thesaurusName.name.fr
+                  : instrument.thesaurusClass.thesaurusCode.thesaurusName.name.en
+                : instrument.thesaurusClass.thesaurusCode.thesaurusName.name.en;
           } else {
             this.nameName =
               this.language == "fr"
-                ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
-                  ? metadata.thesaurusClass.thesaurusCode.thesaurusName.name.fr
-                  : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en
-                : metadata.thesaurusClass.thesaurusCode.thesaurusName.name.en;
+                ? instrument.thesaurusClass.thesaurusCode.thesaurusName.name.fr
+                  ? instrument.thesaurusClass.thesaurusCode.thesaurusName.name.fr
+                  : instrument.thesaurusClass.thesaurusCode.thesaurusName.name.en
+                : instrument.thesaurusClass.thesaurusCode.thesaurusName.name.en;
           }
         }
 
-        if (metadata.displayName && metadata.displayName.localeCompare("null") !== 0) {
-          this.title = metadata.displayName;
-        } else if (this.getManufacturerAndModel) {
-          this.title = this.getManufacturerAndModel;
+        if (instrument.displayName && instrument.displayName.localeCompare("null") !== 0) {
+          this.title = instrument.displayName;
+        } else if (getManufacturerAndModel(instrument)) {
+          this.title = getManufacturerAndModel(instrument);
         } else {
-          this.title = this.getLastLevelOfThesaurusValue;
+          this.title = getLastLevelOfThesaurusValue(instrument, this.language);
         }
 
-        if (metadata.resolution) {
-          this.resolutionDisplay = metadata.resolution.resolutionValue + " " + metadata.resolution.resolutionUnit;
-        }
-      }
-    },
-    getInternationalFieldValue(field) {
-      if (!field || field == "null") {
-        return "";
-      } else if (!this.language) {
-        return field;
-      } else {
-        if (field[this.language]) {
-          return field[this.language];
-        } else if (field["DEFAULT_VALUE_KEY"]) {
-          return field["DEFAULT_VALUE_KEY"];
-        } else {
-          return "";
+        if (instrument.resolution) {
+          this.resolutionDisplay = instrument.resolution.resolutionValue + " " + instrument.resolution.resolutionUnit;
         }
       }
     }

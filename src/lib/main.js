@@ -11,9 +11,6 @@ import VueAxios from "vue-axios";
 
 Vue.use(VueAxios, axios);
 
-import VueLayers from "vuelayers";
-Vue.use(VueLayers);
-
 import { VueColorPlugin, VueAerisLanguagePlugin } from "aeris-mixins";
 Vue.use(VueColorPlugin);
 Vue.use(VueAerisLanguagePlugin);

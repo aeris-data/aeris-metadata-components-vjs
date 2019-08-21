@@ -6,22 +6,39 @@
   "private": false,
   "main": "src/lib/modules/aeris-metadata-components.js",
   "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "e2e": "./node_modules/gherkin-testcafe/main.js --steps test/e2e/features/step_definitions/*.js --specs test/e2e/features/*.feature --browsers chrome",
+    "lint": "vue-cli-service lint",
+    "cucumber": "cucumber-js .",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.dev.conf --progress",
-    "build": "node build/build.js"
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
+    "format": "eslint --fix \"src/**/*.*(js|vue)\" && stylelint --fix \"src/**/*.vue\"",
+    "lint-staged": "lint-staged"
   },
+  "eslintIgnore": [
+    "*.min.js"
+  ],
+  "lint-staged": {
+    "src/**/*.{vue,js}": "node_modules/.bin/eslint"
+  },
+  "pre-commit": "lint-staged",
   "dependencies": {
     "aeris-commons-components-vjs": "git+https://git@github.com/aeris-data/aeris-commons-components-vjs.git#refactoring",
     "aeris-mixins": "latest",
     "axios": "^0.18.0",
+    "lodash": "^4.17.14",
     "marked": "^0.3.9",
     "moment": "^2.22.1",
+    "n": "^4.1.0",
+    "ol": "^5.3.0",
+    "ol-tilecache": "^3.0.2",
     "rxjs": "^5.4.3",
     "vue": "^2.3.4",
     "vue-axios": "^2.1.4",
     "vue-custom-element": "^3.2.6",
     "vue-i18n": "7.0.5",
     "vue-rx": "^4.0.1",
-    "vuelayers": "^0.7.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

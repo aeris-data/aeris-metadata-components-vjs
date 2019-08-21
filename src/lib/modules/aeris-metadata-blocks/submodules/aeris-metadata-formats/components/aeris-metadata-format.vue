@@ -17,8 +17,8 @@
   <section class="aeris-metadata-format-host">
     <article :class="{ showBody: deployed }" class="metadata-format-container">
       <header class="format-header">
-        <span
-        ><h5 class="format-name">{{ getFormat.name }}</h5>
+        <span>
+          <h5 class="format-name">{{ getFormat.name }}</h5>
           <span v-if="getFormat.version" class="metadata-format-header"> (v.{{ getFormat.version }})</span>
         </span>
         <i v-if="hasMore" class="fas fa-chevron-down" @click="deployed = !deployed" />
@@ -52,8 +52,8 @@
             :end="getFormat.readingInformation.endDate"
             :comment="getFormat.readingInformation.comment"
             :language="language"
-            no-delete
             :theme="theme"
+            no-delete
           ></aeris-metadata-temporal-extent>
         </div>
       </article>
@@ -123,7 +123,6 @@ export default {
 <style scoped>
 .aeris-metadata-format-host {
   display: block;
-  margin: 10px 0;
   transition: 0.6s;
 }
 
@@ -140,7 +139,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   flex-flow: nowrap row;
-  padding: 10px;
 }
 
 .metadata-format-container header .format-name {

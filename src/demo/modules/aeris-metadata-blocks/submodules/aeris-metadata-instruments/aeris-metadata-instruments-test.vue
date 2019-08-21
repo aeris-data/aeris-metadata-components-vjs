@@ -1,6 +1,8 @@
 <template>
-  <section><aeris-metadata-instruments :instruments="instruments" :theme="theme"></aeris-metadata-instruments>
-    <aeris-metadata-instruments :instruments="instruments" :theme="theme" language="fr"></aeris-metadata-instruments></section>
+  <section>
+    <aeris-metadata-instruments :instruments="instruments" :theme="theme"></aeris-metadata-instruments>
+    <aeris-metadata-instruments :instruments="instruments" :theme="theme" language="fr"></aeris-metadata-instruments>
+  </section>
 </template>
 
 <script>
@@ -40,6 +42,76 @@ export default {
           },
           manufacturer: "MAGEE Scientific",
           model: "AE31",
+          serialNumber: "",
+          calibration: "",
+          resolution: null,
+          displayName: "",
+          description: null
+        },
+        {
+          thesaurusConcat: "CHEMICAL_METERS_ANALYZERS.NULL.AETHALOMETER.B",
+          thesaurusClass: {
+            code: "CHEMICAL_METERS_ANALYZERS",
+            name: {
+              en: "Chemical Meters/Analyzers",
+              fr: "Analyseurs chimiques"
+            },
+            thesaurusCode: {
+              code: "NULL",
+              name: {
+                en: "",
+                fr: ""
+              },
+              thesaurusName: {
+                code: "AETHALOMETER",
+                name: {
+                  en: "Aethalometer",
+                  fr: "Aethalomètre"
+                },
+                longName: {
+                  en: "",
+                  fr: ""
+                }
+              }
+            }
+          },
+          manufacturer: "AMAGEE Scientific",
+          model: "AE33",
+          serialNumber: "",
+          calibration: "",
+          resolution: null,
+          displayName: "",
+          description: null
+        },
+        {
+          thesaurusConcat: "CHEMICAL_METERS_ANALYZERS.NULL.AETHALOMETER.C",
+          thesaurusClass: {
+            code: "CHEMICAL_METERS_ANALYZERS",
+            name: {
+              en: "Chemical Meters/Analyzers",
+              fr: "Analyseurs chimiques"
+            },
+            thesaurusCode: {
+              code: "NULL",
+              name: {
+                en: "",
+                fr: ""
+              },
+              thesaurusName: {
+                code: "AETHALOMETER",
+                name: {
+                  en: "Aethalometer",
+                  fr: "Aethalomètre"
+                },
+                longName: {
+                  en: "",
+                  fr: ""
+                }
+              }
+            }
+          },
+          manufacturer: "Beta Scientific Instrument",
+          model: "BC445",
           serialNumber: "",
           calibration: "",
           resolution: null,
