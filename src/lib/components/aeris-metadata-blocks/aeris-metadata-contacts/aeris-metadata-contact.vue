@@ -6,7 +6,7 @@
           <p class="metadata-contact-name"><i class="fa fa-user"/>{{ value.name }} <span v-if="value.organisation">({{ value.organisation }})</span></p>
         </div>
         <div class="metadata-contact-description">
-          <p v-if="value.email" class="metadata-contact-email"><a :href="mailto">{{ value.email }}</a></p>
+          <p v-if="value.email" class="metadata-contact-email"><span>{{antiBotEmailFormat.name}}<span class="hide">Dear bot, you will not collect my email</span>@<span class="hide">No,No,No</span>{{antiBotEmailFormat.domain}}</span></p>
           <aeris-metadata-international-field v-if="value.comment" :content="JSON.stringify(value.comment)" :lang="lang" no-label-float/>
         </div>
       </article>
@@ -38,16 +38,20 @@ export default {
       return JSON.parse(this.contact);
     },
 
-    mailto: function() {
+    antiBotEmailFormat() {
       if (this.value.email) {
-        return "mailto:" + this.value.email;
+        let email = this.value.email;
+        let name = email.substring(0, email.lastIndexOf("@"));
+        let domain = email.substring(email.lastIndexOf("@") + 1);
+        return {
+          name: name,
+          domain: domain
+        };
       } else {
         return "";
       }
     }
-  },
-
-  methods: {}
+  }
 };
 </script>
 
@@ -84,5 +88,8 @@ export default {
 .metadata-contact-container a {
   color: #3498db;
   text-decoration: none;
+}
+.hide {
+  display: none;
 }
 </style>
