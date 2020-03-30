@@ -59,7 +59,7 @@ export default {
       if (!data || !data.detail) {
         return;
       }
-
+    console.log("data = ", data)
       if (data.detail.identifiers[0].code) {
         this.visible = true;
         this.dois = data.detail.identifiers;

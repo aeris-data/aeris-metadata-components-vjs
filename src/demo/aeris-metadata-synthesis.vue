@@ -1,3 +1,3 @@
 <template>
-	<aeris-metadata-synthesis identifier="61e54760-86ba-4b69-804b-06a7793f9104" lang="en"/>
+	<aeris-metadata-synthesis identifier="5829bd3d-4593-4e66-bce2-c8c6311360af" lang="en"/>
 </template>

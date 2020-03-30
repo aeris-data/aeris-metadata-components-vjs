@@ -26,7 +26,8 @@ export default {
   methods: {
     getCitation() {
       let url =
-        "https://data.datacite.org/text/x-bibliography;style=apa/" + this.doi;
+        "https://data.crosscite.org/text/x-bibliography/" + this.doi;
+        console.log("url = ", url)
       this.$http.get(url).then(
         response => {
           this.handleSuccess(response);
